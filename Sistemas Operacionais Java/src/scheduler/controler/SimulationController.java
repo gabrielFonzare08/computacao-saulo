@@ -8,7 +8,7 @@ public class SimulationController implements Runnable {
 	private boolean toBlock, endSimulation, withoutProcess;
 	int executionTime, totalExecutionTime;
 	
-	public Algorithm createdProcess = new ArrayList<Process>;
+	public Algorithm algorithm;
 	
 	
 	@Override
