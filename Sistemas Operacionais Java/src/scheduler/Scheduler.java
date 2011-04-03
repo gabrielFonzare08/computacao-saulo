@@ -3,9 +3,11 @@ package scheduler;
 public class Scheduler {
 
 	private Algorithm algorithm;
-
-	public Scheduler(Algorithm algorithm) {
+	private int timeSlice;
+	
+	public Scheduler(Algorithm algorithm, int timeSlice) {
 		this.algorithm = algorithm;
+		this.setTimeSlice(timeSlice);
 	}
 
 	public Algorithm getAlgorithm() {
@@ -14,5 +16,13 @@ public class Scheduler {
 
 	public void setAlgorithm(Algorithm algorithm) {
 		this.algorithm = algorithm;
+	}
+
+	public void setTimeSlice(int timeSlice) {
+		this.timeSlice = timeSlice;
+	}
+
+	public int getTimeSlice() {
+		return timeSlice;
 	}
 }
