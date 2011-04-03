@@ -56,10 +56,10 @@ public class SimulationScreen extends JFrame {
 		textField1.setEnabled(false);
 
 		label2.setBounds(308, 8, 100, 20);
-		label2.setText("Blocked:");
+		label2.setText("Blocked(s):");
 
 		label3.setBounds(472, 8, 100, 20);
-		label3.setText("Ready:");
+		label3.setText("Ready(s):");
 
 		scrollPane1.setBounds(270, 40, 140, 380);
 		scrollPane2.setBounds(430, 40, 140, 380);

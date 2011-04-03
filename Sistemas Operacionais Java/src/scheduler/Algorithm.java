@@ -39,6 +39,5 @@ public abstract class Algorithm implements Runnable {
 			return new Preemptive();
 		}
 	}
-
 }
 
