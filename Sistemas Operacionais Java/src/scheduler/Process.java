@@ -1,5 +1,7 @@
 package scheduler;
 
+import java.util.Arrays;
+
 public class Process {
 
 	private int pid;
@@ -78,12 +80,17 @@ public class Process {
 		return state == ProcessState.BLOCKED;
 	}
 	
+	@Override
+	public String toString() {
+		return "Process [pid=" + pid + ", priority=" + priority + ", state="
+				+ state + ", computingTime=" + computingTime + ", IOrate="
+				+ IOrate + ", IOrateTime=" + IOrateTime+  "]";
+	}
+
 	public boolean isTerminated() {
 		return state == ProcessState.TERMINATED;
 	}
+
 	
-	@Override
-	public String toString() {
-		return computingTime + "";
-	}
+	
 }

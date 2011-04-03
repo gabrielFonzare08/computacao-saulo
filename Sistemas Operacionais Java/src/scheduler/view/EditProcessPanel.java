@@ -1,13 +1,17 @@
 package scheduler.view;
 
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
+import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import scheduler.ProcessState;
+import scheduler.controler.ProcessController;
 
 
 public class EditProcessPanel extends JPanel {
@@ -15,12 +19,19 @@ public class EditProcessPanel extends JPanel {
 	private static final long serialVersionUID = 1641314035135498303L;
 	
 	private JTextField priority;
-	//private JComboBox processState;
 	private JTextField computingTime;
 	private JTextField ioRate;
 	private JTextField ioRateTime;
+	
+	private JButton add;
+	private JButton remove;
+	private JButton simulate;
+	
+	
+	private Janela janela;
 
-	public EditProcessPanel() {
+	public EditProcessPanel(Janela janela) {
+		this.janela = janela;
 		initComponents();
 		addEvents();
 	}
@@ -29,11 +40,13 @@ public class EditProcessPanel extends JPanel {
 		setPreferredSize(new Dimension(300, 400));
 		priority = new JTextField();
 		
-		//processState = new JComboBox(ProcessState.values());
-		//add(processState);
 		computingTime = new JTextField();
 		ioRate = new JTextField();
 		ioRateTime = new JTextField();
+		
+		add = new JButton("Add process");
+		remove = new JButton("Delete selected process");
+		simulate = new JButton("Simulate");
 		
 		JTextField [] textFields = {
 			priority, computingTime, ioRate, ioRateTime
@@ -55,9 +68,50 @@ public class EditProcessPanel extends JPanel {
 			textFields[i].setPreferredSize(dimension);
 		}
 		
+		add(add);
+		add(remove);
+		add(simulate);
+		
+	}
+	
+	public String getPriority() {
+		return priority.getText();
+	}
+	
+	public String getComputingTime() {
+		return computingTime.getText();
+	}
+	
+	public String getIoRate() {
+		return ioRate.getText();
+	}
+	
+	public String getIoRateTime() {
+		return ioRateTime.getText();
 	}
 
 	private void addEvents() {
-
+		add.addActionListener(new ActionListener() {			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				ProcessController.getInstance(janela.getProcessPanel(), janela.getList()).add();
+			}
+		});
+		
+		remove.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				ProcessController.getInstance(janela.getProcessPanel(), janela.getList()).remove();
+			}
+		});
+		
+		simulate.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				ProcessController.getInstance(janela.getProcessPanel(), janela.getList()).simulate();
+			}
+		});
 	}
 }
