@@ -1,4 +1,4 @@
-package escalonador;
+package scheduler;
 
 import java.util.Iterator;
 

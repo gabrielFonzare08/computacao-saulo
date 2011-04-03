@@ -1,4 +1,4 @@
-package escalonador.controler;
+package scheduler.controler;
 
 public class SchedulerController {
 

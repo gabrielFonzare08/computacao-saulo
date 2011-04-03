@@ -1,4 +1,4 @@
-package escalonador;
+package scheduler;
 
 public class Scheduler {
 

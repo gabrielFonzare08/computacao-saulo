@@ -1,4 +1,4 @@
-package escalonador.view;
+package scheduler.view;
 
 import java.awt.FlowLayout;
 
