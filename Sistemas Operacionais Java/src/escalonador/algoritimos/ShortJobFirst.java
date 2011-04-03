@@ -40,7 +40,7 @@ public class ShortJobFirst extends Algorithm {
 		Collections.sort(processes, new ProcessComparator());
 		int terminatedProcess = 0;
 		
-		main: while(true) {
+		while(true) {
 			
 			for(Process process: processes) {
 				if(process.isTerminated()) {
@@ -49,13 +49,10 @@ public class ShortJobFirst extends Algorithm {
 			}
 			
 			if(terminatedProcess == processes.size()) {
-				break main;
+				break;
 			}
 			
+			terminatedProcess = 0;			
 		}
-	}
-	
-	public static void main(String[] args) {
-		
 	}
 }
