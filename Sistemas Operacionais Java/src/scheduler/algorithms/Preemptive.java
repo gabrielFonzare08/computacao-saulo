@@ -1,6 +1,6 @@
-package escalonador.algoritimos;
+package scheduler.algorithms;
 
-import escalonador.Algorithm;
+import scheduler.Algorithm;
 
 public class Preemptive extends Algorithm {
 

@@ -1,4 +1,4 @@
-package escalonador.view;
+package scheduler.view;
 
 import java.awt.Dimension;
 
@@ -7,7 +7,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import escalonador.ProcessState;
+import scheduler.ProcessState;
+
 
 public class EditProcessPanel extends JPanel {
 

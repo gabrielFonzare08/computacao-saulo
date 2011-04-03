@@ -1,11 +1,12 @@
-package escalonador.algoritimos;
+package scheduler.algorithms;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
-import escalonador.Algorithm;
-import escalonador.Process;
+import scheduler.Algorithm;
+import scheduler.Process;
+
 
 /**
  * Implementação da classe {@link Comparator} para tratar com processos.
