@@ -3,7 +3,7 @@ package escalonador;
 import java.util.Iterator;
 
 /**
- * Algoritm class fp algoritmo
+ * Algoritm class fp algoritmo jardas
  * */
 public abstract class Algorithm implements Runnable {
 	
