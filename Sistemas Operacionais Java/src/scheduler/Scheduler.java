@@ -5,7 +5,7 @@ public class Scheduler {
 	private Algorithm algorithm;
 	private int timeSlice;
 	
-	public Scheduler(Algorithm algorithm, int timeSlice) {
+	public Scheduler(Algorithm algorithm) {
 		this.algorithm = algorithm;
 		this.setTimeSlice(timeSlice);
 	}
