@@ -11,7 +11,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.border.Border;
 
-public class ReportScreen extends JFrame {
+public class SimulationScreen extends JFrame {
 	/**
 	 * 
 	 */
@@ -20,14 +20,13 @@ public class ReportScreen extends JFrame {
 	private JLabel label2;
 	private JLabel label3;
 	private JTextField textField1;
-	private JTextField textField2;
-	private JTextField textField3;
 	private JScrollPane scrollPane1;
+	private JScrollPane scrollPane2;
 	private JList dataList1;
-
+	private JList dataList2;
 	private JPanel panel1;
 
-	public ReportScreen() {
+	public SimulationScreen() {
 		setSize(600, 480);
 		setTitle("Report");
 		setResizable(false);
@@ -44,35 +43,28 @@ public class ReportScreen extends JFrame {
 		label2 = new JLabel();
 		label3 = new JLabel();
 		textField1 = new JTextField();
-		textField2 = new JTextField();
-		textField3 = new JTextField();
-
 		dataList1 = new JList();
+		dataList2 = new JList();
 		scrollPane1 = new JScrollPane(dataList1);
-
+		scrollPane2 = new JScrollPane(dataList2);
 		panel1 = new JPanel();
 
-		label1.setBounds(40, 30, 100, 100);
-		label1.setText("Running time:");
+		label1.setBounds(20, 30, 120, 100);
+		label1.setText("Process in CPU:");
 
 		textField1.setBounds(160, 72, 40, 20);
 		textField1.setEnabled(false);
 
-		label2.setBounds(40, 80, 100, 100);
-		label2.setText("Blocked Time:");
+		label2.setBounds(308, 8, 100, 20);
+		label2.setText("Blocked:");
 
-		textField2.setBounds(160, 122, 40, 20);
-		textField2.setEnabled(false);
+		label3.setBounds(472, 8, 100, 20);
+		label3.setText("Ready:");
 
-		label3.setBounds(40, 130, 100, 100);
-		label3.setText("Ready Time:");
+		scrollPane1.setBounds(270, 40, 140, 380);
+		scrollPane2.setBounds(430, 40, 140, 380);
 
-		textField3.setBounds(160, 172, 40, 20);
-		textField3.setEnabled(false);
-
-		scrollPane1.setBounds(400, 40, 140, 380);
-
-		panel1.setBounds(20, 40, 220, 200);
+		panel1.setBounds(10, 60, 200, 44);
 		panel1.setBorder(BorderFactory.createLineBorder(Color.GRAY));
 		panel1.setLayout(null);
 
@@ -80,11 +72,8 @@ public class ReportScreen extends JFrame {
 		add(label2);
 		add(label3);
 		add(textField1);
-		add(textField2);
-		add(textField3);
-
 		add(scrollPane1);
-
+		add(scrollPane2);
 		add(panel1);
 	}
 }
