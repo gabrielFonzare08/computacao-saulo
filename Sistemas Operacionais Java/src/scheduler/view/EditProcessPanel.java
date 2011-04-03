@@ -26,6 +26,7 @@ public class EditProcessPanel extends JPanel {
 	private JButton add;
 	private JButton remove;
 	private JButton simulate;
+	private JComboBox algorithms; 
 	
 	
 	private Janela janela;
@@ -47,6 +48,10 @@ public class EditProcessPanel extends JPanel {
 		add = new JButton("Add process");
 		remove = new JButton("Delete selected process");
 		simulate = new JButton("Simulate");
+		
+		algorithms = new JComboBox(new String[] {
+			"Round Robin", "Short Job First", "Preemptive"
+		});
 		
 		JTextField [] textFields = {
 			priority, computingTime, ioRate, ioRateTime
@@ -70,8 +75,14 @@ public class EditProcessPanel extends JPanel {
 		
 		add(add);
 		add(remove);
+		
+		add(algorithms);
 		add(simulate);
 		
+	}
+	
+	public String getAlgorithm() {
+		return algorithms.getSelectedItem().toString();
 	}
 	
 	public String getPriority() {

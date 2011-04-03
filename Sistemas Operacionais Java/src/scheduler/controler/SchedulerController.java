@@ -1,19 +1,25 @@
 package scheduler.controler;
 
-import java.util.Iterator;
-
+import scheduler.Algorithm;
 import scheduler.Scheduler;
 
 public class SchedulerController {
 	private Scheduler scheduler;
-	private Iterator<Process> processCreated;
+	
+	private static SchedulerController instance;
 	
 	
-	public SchedulerController(Iterator<Process> processCreated){
-		this.processCreated = processCreated;
+	public SchedulerController(Algorithm algorithm){
+		scheduler = new Scheduler(algorithm);
 		
 	}
 	
+	public static SchedulerController getInstance(Algorithm algorithm) {
+		if(instance == null) {
+			instance = new SchedulerController(algorithm);
+		}
+		return instance;
+	}
 	
 	
 }

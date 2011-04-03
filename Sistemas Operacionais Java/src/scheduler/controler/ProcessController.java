@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import scheduler.view.EditProcessPanel;
 import scheduler.view.ProcessList;
+import scheduler.Algorithm;
 import scheduler.Process;
 import scheduler.ProcessState;
 
@@ -75,6 +76,6 @@ public class ProcessController {
 	}
 	
 	public void simulate() {
-		System.out.println("simulate");
+		SchedulerController.getInstance(Algorithm.getAlgorithmByName(editProcessPanel.getAlgorithm()));
 	}
 }
