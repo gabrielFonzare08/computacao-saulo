@@ -60,7 +60,7 @@ public class ShortJobFirst extends Algoritmo {
 			executando.setEstado(EstadoProcesso.TERMINADO); // termina!
 			
 			for(Processo p : prontos) {
-				p.tempos.pronto += (System.currentTimeMillis() - agora); // incrementar tempo de pronto; 
+				p.tempos.pronto += 1; // incrementar tempo de pronto em um ciclo; 
 			}
 		}
 	}
