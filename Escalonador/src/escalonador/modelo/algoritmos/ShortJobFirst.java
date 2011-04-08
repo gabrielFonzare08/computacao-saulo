@@ -45,7 +45,6 @@ public class ShortJobFirst extends Algoritmo {
 		Collections.sort(prontos, comparator); // reorganiza-os
 		
 		while(!prontos.isEmpty()) {
-			long agora = System.currentTimeMillis();			
 			
 			executando = prontos.remove(0); // pega o proximo processo pronto
 			executando.setEstado(EstadoProcesso.EXECUTANDO);
