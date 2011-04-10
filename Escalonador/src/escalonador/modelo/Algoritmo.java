@@ -91,5 +91,11 @@ public abstract class Algoritmo implements Runnable {
 	
 	public List<Processo> getProcessos() {
 		return processos;
-	}	
+	}
+	
+	public List<Processo> getTerminados() {
+		return terminados;
+	}
+	
+	
 }

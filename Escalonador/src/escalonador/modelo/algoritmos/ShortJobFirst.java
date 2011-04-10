@@ -57,7 +57,7 @@ public class ShortJobFirst extends Algoritmo {
 			
 			executando.tempos.executando += executando.getTempoComputacao(); // somar tempo de executando.
 			executando.setEstado(EstadoProcesso.TERMINADO); // termina!
-			
+			terminados.add(executando);
 			for(Processo p : prontos) {
 				p.tempos.pronto += 1; // incrementar tempo de pronto em um ciclo; 
 			}
