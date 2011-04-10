@@ -35,28 +35,31 @@ public class Preemptivo extends Algoritmo {
 			if (executando.vaiFazerES()) { // vai fazer es?
 				executando.setEstado(EstadoProcesso.BLOQUEADO);
 				executando.tempos.bloqueado += executando.getTempoES(); // incrementar
-																		// de
-																		// bloqueado
-				
-				executando.setEstado(EstadoProcesso.PRONTO);  // recoloca o processo na lista de prontos
+				// de
+				// bloqueado
+
+				executando.setEstado(EstadoProcesso.PRONTO); // recoloca o
+				// processo
+				// na lista
+				// de
+				// prontos
 				prontos.add(executando);
-				
-				
-				continue;	//coloca o próximo processo da fila como executando enquanto o atual está bloqueado
+
+				continue; // coloca o próximo processo da fila como
+				// executando enquanto o atual está bloqueado
 
 			}
 
-			executando.tempos.executando += executando.getTempoComputacao(); // somar
-																				// tempo
-																				// de
-																				// executando.
+			// tempo
+			// de
+			// executando.
 			executando.setEstado(EstadoProcesso.TERMINADO); // termina!
 			terminados.add(executando);
-			
-			for (Processo p : prontos) {
-				p.tempos.pronto += 1;   // incrementar tempo de pronto em um
-										// ciclo;
-			}
+
+		}
+		terminados.get(0).tempos.pronto = 0;
+		for (int i = 1; i < processos.size(); i++) {
+			terminados.get(i).tempos.pronto = terminados.get(i - 1).getTempoComputacao() + terminados.get(i-1).tempos.pronto;
 		}
 	}
 }
