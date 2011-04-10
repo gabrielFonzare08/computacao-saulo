@@ -2,6 +2,8 @@ package escalonador.controle;
 
 import java.util.ArrayList;
 
+import javax.swing.JOptionPane;
+
 import escalonador.modelo.EstadoProcesso;
 import escalonador.modelo.Processo;
 import escalonador.visao.paineis.PainelCriacaoProcesso;
@@ -31,12 +33,13 @@ public class ControladorPainelCriacaoProcesso {
 		
 		try {		
 			
+			
 			processo.setPid(++pid);
 			processo.setEstado(EstadoProcesso.PRONTO);
 			
 			int prioridade = Integer.parseInt(painel.getPrioridadeProcesso());
 			processo.setPrioridade(prioridade);
-			
+
 			int tempoComputacao = Integer.parseInt(painel.getTempoComputacaoProcesso());
 			processo.setTempoComputacao(tempoComputacao);
 			
@@ -47,6 +50,8 @@ public class ControladorPainelCriacaoProcesso {
 			processo.setTempoES(tempoES);
 			
 		} catch (Exception e) {
+			//e.printStackTrace();
+			JOptionPane.showMessageDialog(null, e.toString(), "Erro ao adicionar novo processo", JOptionPane.ERROR_MESSAGE);
 			return;
 		}
 		
