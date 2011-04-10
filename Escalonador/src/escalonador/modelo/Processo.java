@@ -43,7 +43,7 @@ public class Processo {
 	 * @return boolean indicando se vai ou n&atilde;o realizar ES.
 	 * */
 	public boolean vaiFazerES() {
-		return random.nextInt(100) >= (solicitacaoES * 100);
+		return Math.random() >= solicitacaoES;
 	}
 	
 	public int getQuantum() {
@@ -118,6 +118,7 @@ public class Processo {
 	public String toString() {
 		return "Processo [pid=" + pid + ", prioridade=" + prioridade
 				+ ", estado=" + estado + ", tempoComputacao=" + tempoComputacao
+				+ ", quantum=" + quantum
 				+ ", solicitacaoES=" + solicitacaoES + ", tempoES=" + tempoES
 				+ ", tempos=" + tempos + "]";
 	}
