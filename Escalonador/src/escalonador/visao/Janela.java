@@ -19,7 +19,7 @@ public class Janela extends JFrame {
 
 	public Janela() {
 		super("Simulador de Escalonador de Processos");
-		setSize(640, 480);
+		setSize(640, 500);
 		setResizable(false);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);

@@ -22,6 +22,7 @@ public class PainelCriacaoProcesso extends Painel {
 	
 	private JTextField prioridade;
 	private JTextField tempoComputacao;
+	private JTextField quantum;
 	private JTextField taxaES;
 	private JTextField tempoES;
 	
@@ -44,6 +45,7 @@ public class PainelCriacaoProcesso extends Painel {
 		
 		prioridade		= new JTextField();
 		tempoComputacao	= new JTextField();
+		quantum			= new JTextField();
 		taxaES			= new JTextField();
 		tempoES			= new JTextField();
 		
@@ -63,11 +65,11 @@ public class PainelCriacaoProcesso extends Painel {
 		algoritmos = new JComboBox(nomeAlgoritmos);
 		
 		JTextField [] campos = {
-			prioridade, tempoComputacao, taxaES, tempoES
+			prioridade, tempoComputacao, quantum, taxaES, tempoES
 		};
 		
 		String [] rotulos = {
-			"Prioridade", "Tempo de Computação", "Taxa de E/S", "Tempo de E/S"	
+			"Prioridade", "Tempo de Computação", "Quantum*", "Taxa de E/S", "Tempo de E/S"	
 		};
 		
 		Dimension dimensaoCampoTexto = new Dimension(250, 32);
@@ -90,11 +92,11 @@ public class PainelCriacaoProcesso extends Painel {
 		
 		JLabel escolha = new JLabel("Escolha um algortimo: ");
 		escolha.setPreferredSize(dimensaoRotulo);
+		
 		add(escolha);
 		add(algoritmos);
 		add(simular);
 		
-		prioridade.setText("sasa");
 	}
 	
 	@Override
@@ -128,12 +130,15 @@ public class PainelCriacaoProcesso extends Painel {
 	}
 	
 	public String getPrioridadeProcesso() {
-		System.out.println(prioridade.getText());;
 		return prioridade.getText();
 	}
 	
 	public String getTempoComputacaoProcesso() {
 		return tempoComputacao.getText();
+	}
+	
+	public String getQuantumProcesso() {
+		return quantum.getText();
 	}
 	
 	public String getTaxaESProcesso() {

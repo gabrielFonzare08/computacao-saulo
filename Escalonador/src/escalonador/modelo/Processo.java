@@ -10,11 +10,10 @@ public class Processo {
 	private int prioridade;
 	private EstadoProcesso estado;
 	private int tempoComputacao;
+	private int quantum;
 	private float solicitacaoES;
 	private int tempoES;
 	public Tempos tempos;
-	
-	private int ciclo; // para quantum
 	
 	public Processo() {
 		tempos = new Tempos();
@@ -46,9 +45,13 @@ public class Processo {
 	public boolean vaiFazerES() {
 		return random.nextInt(100) >= (solicitacaoES * 100);
 	}
-		
+	
 	public int getQuantum() {
-		return 1;
+		return quantum;
+	}
+	
+	public void setQuantum(int quantum) {
+		this.quantum = quantum;
 	}
 
 	public int getPid() {
