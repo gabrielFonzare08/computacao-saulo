@@ -2,8 +2,10 @@ import java.util.ArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import escalonador.modelo.Algoritmo;
 import escalonador.modelo.Escalonador;
 import escalonador.modelo.Processo;
+import escalonador.modelo.algoritmos.Preemptivo;
 import escalonador.modelo.algoritmos.ShortJobFirst;
 import escalonador.visao.Janela;
 
@@ -11,7 +13,7 @@ import escalonador.visao.Janela;
 public class TesteSJF {
 
 	public static void main(String[] args) {
-		new Janela();
+		//new Janela();
 		
 		ArrayList<Processo> processos = new ArrayList<Processo>();
 		
@@ -20,6 +22,7 @@ public class TesteSJF {
 		p.setSolicitacaoES(.09f);
 		p.setTempoComputacao(10);
 		p.setTempoES(1);
+		p.setPrioridade(3);
 		
 		processos.add(p);
 		
@@ -28,6 +31,7 @@ public class TesteSJF {
 		p.setSolicitacaoES(.59f);
 		p.setTempoComputacao(4);
 		p.setTempoES(2);		
+		p.setPrioridade(5);
 		
 		processos.add(p);
 		
@@ -36,6 +40,7 @@ public class TesteSJF {
 		p.setSolicitacaoES(.3f);
 		p.setTempoComputacao(5);
 		p.setTempoES(7);
+		p.setPrioridade(0);
 		
 		processos.add(p);
 		
@@ -44,21 +49,22 @@ public class TesteSJF {
 		p.setSolicitacaoES(1f);
 		p.setTempoComputacao(1);
 		p.setTempoES(1);
+		p.setPrioridade(1);
 		
 		processos.add(p);
 		
-		ShortJobFirst shortJobFirst = new ShortJobFirst(processos);
+		Preemptivo preemptivo = new Preemptivo(processos);
 		
 		
 		
 		ExecutorService service = Executors.newFixedThreadPool(1);
-		service.execute(new Escalonador(shortJobFirst));
+		service.execute(new Escalonador(preemptivo));
 		
-		while(!shortJobFirst.getProntos().isEmpty()) {
-			synchronized (shortJobFirst) {
-				shortJobFirst.notify();
+		while(!preemptivo.getProntos().isEmpty()) {
+			synchronized (preemptivo) {
+				preemptivo.notify();
 				try {
-					shortJobFirst.wait(200);
+					preemptivo.wait(200);
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -67,7 +73,8 @@ public class TesteSJF {
 		}
 		
 		
-		for(Processo p_ : processos) {
+		
+		for(Processo p_ : preemptivo.getTerminados()) {
 			System.out.println(p_);
 		}
 		
