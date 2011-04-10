@@ -53,13 +53,14 @@ public class ShortJobFirst extends Algoritmo {
 				executando.setEstado(EstadoProcesso.BLOQUEADO);				
 				executando.tempos.bloqueado += executando.getTempoES(); // incrementar tempo de bloqueado
 				
-			} 
+			}
 			
 			executando.tempos.executando += executando.getTempoComputacao(); // somar tempo de executando.
 			executando.setEstado(EstadoProcesso.TERMINADO); // termina!
 			terminados.add(executando);
+			
 			for(Processo p : prontos) {
-				p.tempos.pronto += 1; // incrementar tempo de pronto em um ciclo; 
+				p.tempos.pronto += executando.getTempoComputacao() + executando.tempos.bloqueado; // incrementar tempo de pronto em um ciclo; 
 			}
 		}
 	}

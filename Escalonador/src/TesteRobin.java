@@ -4,16 +4,14 @@ import java.util.concurrent.Executors;
 
 import escalonador.modelo.Escalonador;
 import escalonador.modelo.Processo;
+import escalonador.modelo.algoritmos.RoundRobin;
 import escalonador.modelo.algoritmos.ShortJobFirst;
-import escalonador.visao.Janela;
 
 
-public class TesteSJF {
-
+public class TesteRobin {
+	
 	public static void main(String[] args) {
-		
-		
-		ArrayList<Processo> processos = new ArrayList<Processo>();
+ArrayList<Processo> processos = new ArrayList<Processo>();
 		
 		Processo p = new Processo();
 		p.setPid(1);
@@ -47,18 +45,16 @@ public class TesteSJF {
 		
 		processos.add(p);
 		
-		ShortJobFirst shortJobFirst = new ShortJobFirst(processos);
-		
-		
+		RoundRobin roundRobin = new RoundRobin(processos);
 		
 		ExecutorService service = Executors.newFixedThreadPool(1);
-		service.execute(new Escalonador(shortJobFirst));
+		service.execute(new Escalonador(roundRobin));
 		
-		while(!shortJobFirst.getProntos().isEmpty()) {
-			synchronized (shortJobFirst) {
-				shortJobFirst.notify();
+		while(!roundRobin.getProntos().isEmpty()) {
+			synchronized (roundRobin) {
+				roundRobin.notify();
 				try {
-					shortJobFirst.wait(200);
+					roundRobin.wait(200);
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -66,12 +62,11 @@ public class TesteSJF {
 			}
 		}
 		
+		service.shutdown();	
 		
-		for(Processo p_ : shortJobFirst.getTerminados()) {
+		for(Processo p_ : roundRobin.getTerminados()) {
 			System.out.println(p_);
 		}
-		
-		service.shutdown();
-		//System.out.println(processos);
 	}
+
 }

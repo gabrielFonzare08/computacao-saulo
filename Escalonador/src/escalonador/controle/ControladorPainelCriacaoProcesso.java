@@ -43,6 +43,9 @@ public class ControladorPainelCriacaoProcesso {
 			int tempoComputacao = Integer.parseInt(painel.getTempoComputacaoProcesso());
 			processo.setTempoComputacao(tempoComputacao);
 			
+			int quantum = Integer.parseInt(painel.getQuantumProcesso());
+			processo.setQuantum(quantum);
+			
 			float taxaES = Float.parseFloat(painel.getTaxaESProcesso());
 			processo.setSolicitacaoES(taxaES);
 			

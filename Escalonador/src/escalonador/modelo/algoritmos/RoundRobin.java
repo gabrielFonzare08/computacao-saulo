@@ -60,6 +60,10 @@ public class RoundRobin extends Algoritmo {
 				executando.setEstado(EstadoProcesso.PRONTO);
 				prontos.add(executando);
 			}
+			
+			for(Processo p : prontos) {
+				p.tempos.pronto += executando.getQuantum();
+			}
 		}
 	}	
 }
