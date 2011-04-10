@@ -43,7 +43,7 @@ public class Processo {
 	 * @return boolean indicando se vai ou n&atilde;o realizar ES.
 	 * */
 	public boolean vaiFazerES() {
-		return Math.random() >= solicitacaoES;
+		return random.nextInt(100) >= (solicitacaoES * 100);
 	}
 	
 	public int getQuantum() {
