@@ -1,62 +1,84 @@
-
-
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
+import java.util.ArrayList;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import escalonador.modelo.Algoritmo;
-import escalonador.modelo.EstadoProcesso;
+import escalonador.modelo.Escalonador;
 import escalonador.modelo.Processo;
+import escalonador.modelo.algoritmos.Preemptivo;
+import escalonador.modelo.algoritmos.ShortJobFirst;
+import escalonador.visao.Janela;
 
-public class TestePreemptivo extends Algoritmo {
 
-	public TestePreemptivo(List<Processo> processos) {
-		super(processos);
-		// TODO Auto-generated constructor stub
-	}
+public class TestePreemptivo {
 
-	class ProcessComparator implements Comparator<Processo> {
-		@Override
-		public int compare(Processo p1, Processo p2) {
-			return p2.getPrioridade() - p1.getPrioridade();
-		}
-	}
-
-	@Override
-	public void escalonar() {
-
-		ProcessComparator comparator = new ProcessComparator();
-		while (!prontos.isEmpty()) {
-			Collections.sort(prontos, comparator);
-
-			executando = prontos.remove(0); // pega o proximo processo pronto
-			executando.setEstado(EstadoProcesso.EXECUTANDO);
-
-			if (executando.vaiFazerES()) { // vai fazer es?
-				executando.setEstado(EstadoProcesso.BLOQUEADO);
-				executando.tempos.bloqueado += executando.getTempoES(); // incrementar
-																		// de
-																		// bloqueado
-				
-				executando.setEstado(EstadoProcesso.PRONTO);  // recoloca o processo na lista de prontos
-				prontos.add(executando);
-				
-				
-				continue;	//coloca o próximo processo da fila como executando enquanto o atual está bloqueado
-
+	public static void main(String[] args) {
+		//new Janela();
+		
+		ArrayList<Processo> processos = new ArrayList<Processo>();
+		
+		Processo p = new Processo();
+		p.setPid(1);
+		p.setSolicitacaoES(.09f);
+		p.setTempoComputacao(10);
+		p.setTempoES(1);
+		p.setPrioridade(3);
+		
+		processos.add(p);
+		
+		p = new Processo();
+		p.setPid(2);
+		p.setSolicitacaoES(.59f);
+		p.setTempoComputacao(4);
+		p.setTempoES(2);		
+		p.setPrioridade(5);
+		
+		processos.add(p);
+		
+		p = new Processo();
+		p.setPid(3);
+		p.setSolicitacaoES(.3f);
+		p.setTempoComputacao(5);
+		p.setTempoES(7);
+		p.setPrioridade(0);
+		
+		processos.add(p);
+		
+		p = new Processo();
+		p.setPid(4);
+		p.setSolicitacaoES(1f);
+		p.setTempoComputacao(1);
+		p.setTempoES(1);
+		p.setPrioridade(1);
+		
+		processos.add(p);
+		
+		Preemptivo preemptivo = new Preemptivo(processos);
+		
+		
+		
+		ExecutorService service = Executors.newFixedThreadPool(1);
+		service.execute(new Escalonador(preemptivo));
+		
+		while(!preemptivo.getProntos().isEmpty()) {
+			synchronized (preemptivo) {
+				preemptivo.notify();
+				try {
+					preemptivo.wait(200);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
-
-			executando.tempos.executando += executando.getTempoComputacao(); // somar
-																				// tempo
-																				// de
-																				// executando.
-			executando.setEstado(EstadoProcesso.TERMINADO); // termina!
-			terminados.add(executando);
-			
-			for (Processo p : prontos) {
-				p.tempos.pronto += 1;   // incrementar tempo de pronto em um
-										// ciclo;
-			}
 		}
+		
+		
+		
+		for(Processo p_ : preemptivo.getTerminados()) {
+			System.out.println(p_);
+		}
+		
+		service.shutdown();
+		//System.out.println(processos);
 	}
 }
