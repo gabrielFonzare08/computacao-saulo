@@ -1,5 +1,6 @@
 package escalonador.modelo.algoritmos;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import escalonador.modelo.Algoritmo;
@@ -37,22 +38,27 @@ public class RoundRobin extends Algoritmo {
 				executando.tempos.bloqueado += executando.getTempoES();
 				
 				// voltar pro fim da lista de prontos
-				executando.setEstado(EstadoProcesso.PRONTO);
-				prontos.add(executando);
-				continue; // preempta			
+				executando.setEstado(EstadoProcesso.PRONTO); // #1
+				prontos.add(executando); 
 			}
 			
-			// atualizar quantum
+			for(Processo processo : prontos) {
+				processo.tempos.pronto++;
+			}
 			
-			// verificar se vai voltar para lista de prontos ou 
-			if(executando.getQuantum() >= executando.getTempoComputacao()) {
+			if(executando.isPronto()) { // quer dizer q foi bloqueado #1
+				executando.tempos.pronto--;
+			}
+						
+			// verificar se vai voltar para lista de prontos ou
+			// ja percorreu tantos ciclos de tempo, logo pode ser terminado.
+			if((executando.getQuantum() * executando.tempos.pronto) >= executando.getTempoComputacao()) {
 				executando.tempos.executando += executando.getTempoComputacao(); // somar tempo de executando.
 				executando.setEstado(EstadoProcesso.TERMINADO); // termina!
+			} else { // nao terminou de computar
+				executando.setEstado(EstadoProcesso.PRONTO);
+				prontos.add(executando);
 			}
-			
-			
-			
-		}		
-	}
-
+		}
+	}	
 }
