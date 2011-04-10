@@ -67,7 +67,4 @@ public class ControladorPainelCriacaoProcesso {
 			atualizarLista(indice -1);
 		}
 	}
-	
-	
-
 }
