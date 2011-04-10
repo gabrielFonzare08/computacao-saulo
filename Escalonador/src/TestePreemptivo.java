@@ -1,4 +1,4 @@
-package escalonador.modelo.algoritmos;
+
 
 import java.util.Collections;
 import java.util.Comparator;
@@ -8,9 +8,9 @@ import escalonador.modelo.Algoritmo;
 import escalonador.modelo.EstadoProcesso;
 import escalonador.modelo.Processo;
 
-public class Preemptivo extends Algoritmo {
+public class TestePreemptivo extends Algoritmo {
 
-	public Preemptivo(List<Processo> processos) {
+	public TestePreemptivo(List<Processo> processos) {
 		super(processos);
 		// TODO Auto-generated constructor stub
 	}
