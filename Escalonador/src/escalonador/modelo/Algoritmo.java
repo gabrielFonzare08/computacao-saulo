@@ -50,6 +50,7 @@ public abstract class Algoritmo implements Runnable {
 		this.processos = new ArrayList<Processo>();	
 		this.prontos = new ArrayList<Processo>();
 		this.bloqueados = new ArrayList<Processo>();
+		this.terminados = new ArrayList<Processo>();
 		
 		for(Processo processo : processos) {
 			processo.setEstado(EstadoProcesso.EXECUTANDO);
