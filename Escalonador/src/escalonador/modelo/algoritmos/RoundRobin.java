@@ -27,42 +27,36 @@ public class RoundRobin extends Algoritmo {
 
 	@Override
 	public void escalonar() {
-	
+
 		while(!prontos.isEmpty()) {
 			executando = prontos.remove(0);
 			executando.setEstado(EstadoProcesso.EXECUTANDO);
 			
 			// testar ES
-			if(executando.vaiFazerES()) {
+			if(executando.vaiFazerES()) {				
 				executando.setEstado(EstadoProcesso.BLOQUEADO);
 				executando.tempos.bloqueado += executando.getTempoES();
 				
 				// voltar pro fim da lista de prontos
 				executando.setEstado(EstadoProcesso.PRONTO); // #1
-				prontos.add(executando); 
+				prontos.add(executando);
+				continue;
 			}
+							
+			executando.tempos.executando += executando.getQuantum();
 			
-			for(Processo processo : prontos) {
-				processo.tempos.pronto++;
-			}
-			
-			if(executando.isPronto()) { // quer dizer q foi bloqueado #1
-				executando.tempos.pronto--;
-			}
-						
-			// verificar se vai voltar para lista de prontos ou
-			// ja percorreu tantos ciclos de tempo, logo pode ser terminado.
-			if((executando.getQuantum() * executando.tempos.pronto) >= executando.getTempoComputacao()) {
-				executando.tempos.executando += executando.getTempoComputacao(); // somar tempo de executando.
+			if(executando.tempos.executando >= executando.getTempoComputacao()) {
 				executando.setEstado(EstadoProcesso.TERMINADO); // termina!
 				terminados.add(executando);
-			} else { // nao terminou de computar
-				executando.setEstado(EstadoProcesso.PRONTO);
-				prontos.add(executando);
+			}
+				
+			for(Processo processo : prontos) {
+				processo.tempos.pronto += executando.getQuantum();
 			}
 			
-			for(Processo p : prontos) {
-				p.tempos.pronto += executando.getQuantum();
+			if(!executando.isTerminado()) {
+				executando.setEstado(EstadoProcesso.PRONTO);
+				prontos.add(executando);
 			}
 		}
 	}	
