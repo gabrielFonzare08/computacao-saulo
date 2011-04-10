@@ -40,9 +40,11 @@ public class Janela extends JFrame {
 		
 		setLayout(new FlowLayout(FlowLayout.CENTER));
 		
-		add(new PainelCriacaoProcesso(this));
-		add(new PainelCriacaoProcesso(this));
+		add(new PainelCriacaoProcesso(this));		
 	}
+	
+	GETpAIN
+	
 	
 	private void addEvents() {
 		getJMenuBar().getMenu(0).getItem(0).addActionListener(new ActionListener() {
