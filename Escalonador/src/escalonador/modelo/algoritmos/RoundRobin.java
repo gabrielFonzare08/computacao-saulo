@@ -55,6 +55,7 @@ public class RoundRobin extends Algoritmo {
 			if((executando.getQuantum() * executando.tempos.pronto) >= executando.getTempoComputacao()) {
 				executando.tempos.executando += executando.getTempoComputacao(); // somar tempo de executando.
 				executando.setEstado(EstadoProcesso.TERMINADO); // termina!
+				terminados.add(executando);
 			} else { // nao terminou de computar
 				executando.setEstado(EstadoProcesso.PRONTO);
 				prontos.add(executando);
