@@ -15,6 +15,7 @@ import escalonador.visao.paineis.PainelCriacaoProcesso;
 public class Janela extends JFrame {
 	
 	private static final long serialVersionUID = 6259000253167182868L;
+	private PainelCriacaoProcesso painelCriacaoProcesso;
 
 	public Janela() {
 		super("Simulador de Escalonador de Processos");
@@ -40,11 +41,13 @@ public class Janela extends JFrame {
 		
 		setLayout(new FlowLayout(FlowLayout.CENTER));
 		
-		add(new PainelCriacaoProcesso(this));		
+		painelCriacaoProcesso = new PainelCriacaoProcesso(this);
+		add(painelCriacaoProcesso);
 	}
 	
-	GETpAIN
-	
+	public PainelCriacaoProcesso getPainelCriacaoProcesso() {
+		return painelCriacaoProcesso;
+	}	
 	
 	private void addEvents() {
 		getJMenuBar().getMenu(0).getItem(0).addActionListener(new ActionListener() {

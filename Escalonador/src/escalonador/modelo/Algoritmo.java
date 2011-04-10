@@ -33,10 +33,17 @@ public abstract class Algoritmo implements Runnable {
 	protected List<Processo> bloqueados;
 	
 	/**
+	 * Lista que cont&eacute;m somente os processos no estado {@link EstadoProcesso#TERMINADO}.
+	 * */
+	protected List<Processo> terminados;
+	
+	/**
 	 * Vari&aacute;vel que cont&eacute;m o processo no estado {@link EstadoProcesso#EXECUTANDO} 
 	 * na CPU.
 	 * */
 	protected Processo executando;
+	
+	
 	
 	
 	public Algoritmo(List<Processo> processos) {

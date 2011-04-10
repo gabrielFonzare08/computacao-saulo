@@ -92,7 +92,9 @@ public class PainelCriacaoProcesso extends Painel {
 		escolha.setPreferredSize(dimensaoRotulo);
 		add(escolha);
 		add(algoritmos);
-		add(simular);		
+		add(simular);
+		
+		prioridade.setText("sasa");
 	}
 	
 	@Override
@@ -104,6 +106,7 @@ public class PainelCriacaoProcesso extends Painel {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				System.out.println("w");
 				controlador.adicionarNovoProcesso();
 			}
 		});
@@ -125,6 +128,7 @@ public class PainelCriacaoProcesso extends Painel {
 	}
 	
 	public String getPrioridadeProcesso() {
+		System.out.println(prioridade.getText());;
 		return prioridade.getText();
 	}
 	
@@ -143,6 +147,4 @@ public class PainelCriacaoProcesso extends Painel {
 	public String getAlgoritmo() {
 		return algoritmos.getSelectedItem().toString();
 	}
-
 }
-
