@@ -10,6 +10,14 @@ import escalonador.modelo.Processo;
 
 public class Preemptivo extends Algoritmo {
 
+	int tempoCpuOciosa;
+	int tempoSimulacao;
+	int tempoEspera;
+	int tempoES;
+	long tempoESTotal;
+	long tempoComputacao;
+	long tempoComputacaoTotal;
+
 	public Preemptivo(List<Processo> processos) {
 		super(processos);
 		// TODO Auto-generated constructor stub
@@ -29,37 +37,58 @@ public class Preemptivo extends Algoritmo {
 		while (!prontos.isEmpty()) {
 			Collections.sort(prontos, comparator);
 
-			executando = prontos.remove(0); // pega o proximo processo pronto
-			executando.setEstado(EstadoProcesso.EXECUTANDO);
+			atual = prontos.remove(0);
 
-			if (executando.vaiFazerES()) { // vai fazer es?
-				executando.setEstado(EstadoProcesso.BLOQUEADO);
-				executando.tempos.bloqueado += executando.getTempoES(); // incrementar
-				// de
-				// bloqueado
-
-				executando.setEstado(EstadoProcesso.PRONTO); // recoloca o
-				// processo
-				// na lista
-				// de
-				// prontos
-				prontos.add(executando);
-
-				continue; // coloca o próximo processo da fila como
-				// executando enquanto o atual está bloqueado
-
+			if (atual != null) {
+				//if (atual.getPid() != executando.getPid()) {
+					if (executando != null) {
+						executando.setEstado(EstadoProcesso.PRONTO);
+						prontos.add(executando);
+					}
+					executando = atual;
+					executando.setEstado(EstadoProcesso.EXECUTANDO);
+				//}
+			} else {
+				System.out.println("CPU OCIOSA!");
+				executando = null;
+				tempoCpuOciosa++;
 			}
 
-			// tempo
-			// de
-			// executando.
-			executando.setEstado(EstadoProcesso.TERMINADO); // termina!
+			tempoSimulacao++;
 			terminados.add(executando);
+			
+			for (Processo p : processos) {
+				switch (p.getEstado()) {
+				case PRONTO:
+					p.tempos.tempoEspera++;
+					break;
+				case BLOQUEADO:
+					p.tempos.tempoES++;
+					tempoESTotal = p.getTempoES() - p.tempos.tempoES;
+					if (tempoESTotal == 0) {
+						prontos.add(executando);
+						p.setEstado(EstadoProcesso.PRONTO);
+						
+					}
+					break;
+				case EXECUTANDO:
+					p.tempos.tempoComputacao++;
+					tempoComputacaoTotal = p.getTempoComputacao()
+							- p.tempos.tempoComputacao;
+					if (tempoComputacaoTotal == 0) {
+						processos.remove(0);
+					}
+					break;
+				}
+			}
+			
+			if (executando.vaiFazerES()){
+				executando.setEstado(EstadoProcesso.BLOQUEADO);
+				executando.tempos.bloqueado = executando.getTempoES();
+				executando = null;
+			}
+		}
 
-		}
-		terminados.get(0).tempos.pronto = 0;
-		for (int i = 1; i < processos.size(); i++) {
-			terminados.get(i).tempos.pronto = terminados.get(i - 1).getTempoComputacao() + terminados.get(i-1).tempos.pronto;
-		}
 	}
+
 }

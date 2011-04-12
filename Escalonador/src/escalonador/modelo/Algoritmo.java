@@ -42,8 +42,7 @@ public abstract class Algoritmo implements Runnable {
 	 * na CPU.
 	 * */
 	protected Processo executando;
-	
-	
+	protected Processo atual;
 	
 	
 	public Algoritmo(List<Processo> processos) {
@@ -96,7 +95,5 @@ public abstract class Algoritmo implements Runnable {
 	
 	public List<Processo> getTerminados() {
 		return terminados;
-	}
-	
-	
+	}	
 }
