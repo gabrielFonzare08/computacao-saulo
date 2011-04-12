@@ -35,40 +35,35 @@ public class Preemptivo extends Algoritmo {
 
 		ProcessComparator comparator = new ProcessComparator();
 		while (!prontos.isEmpty()) {
+
 			Collections.sort(prontos, comparator);
 
-			atual = prontos.remove(0);
+			executando = prontos.remove(0);
 
-			if (atual != null) {
-				//if (atual.getPid() != executando.getPid()) {
-					if (executando != null) {
-						executando.setEstado(EstadoProcesso.PRONTO);
-						prontos.add(executando);
-					}
-					executando = atual;
-					executando.setEstado(EstadoProcesso.EXECUTANDO);
-				//}
-			} else {
-				System.out.println("CPU OCIOSA!");
+			if (executando.vaiFazerES()) {
+				executando.setEstado(EstadoProcesso.BLOQUEADO);
 				executando = null;
-				tempoCpuOciosa++;
+				
 			}
-
-			tempoSimulacao++;
-			terminados.add(executando);
 			
+			
+			tempoSimulacao++;
 			for (Processo p : processos) {
 				switch (p.getEstado()) {
 				case PRONTO:
 					p.tempos.tempoEspera++;
 					break;
+			
+			
+			terminados.add(executando);
+
 				case BLOQUEADO:
 					p.tempos.tempoES++;
 					tempoESTotal = p.getTempoES() - p.tempos.tempoES;
 					if (tempoESTotal == 0) {
 						prontos.add(executando);
 						p.setEstado(EstadoProcesso.PRONTO);
-						
+
 					}
 					break;
 				case EXECUTANDO:
@@ -81,8 +76,8 @@ public class Preemptivo extends Algoritmo {
 					break;
 				}
 			}
-			
-			if (executando.vaiFazerES()){
+
+			if (executando.vaiFazerES()) {
 				executando.setEstado(EstadoProcesso.BLOQUEADO);
 				executando.tempos.bloqueado = executando.getTempoES();
 				executando = null;
