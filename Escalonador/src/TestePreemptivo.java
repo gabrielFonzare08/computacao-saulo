@@ -22,6 +22,7 @@ public class TestePreemptivo {
 		p.setSolicitacaoES(.09f);
 		p.setTempoComputacao(10);
 		p.setTempoES(1);
+		p.setTempoEStemp(1);
 		p.setPrioridade(3);
 		
 		processos.add(p);
@@ -30,7 +31,8 @@ public class TestePreemptivo {
 		p.setPid(2);
 		p.setSolicitacaoES(.59f);
 		p.setTempoComputacao(4);
-		p.setTempoES(2);		
+		p.setTempoES(2);
+		p.setTempoEStemp(2);
 		p.setPrioridade(5);
 		
 		processos.add(p);
@@ -40,6 +42,7 @@ public class TestePreemptivo {
 		p.setSolicitacaoES(.3f);
 		p.setTempoComputacao(5);
 		p.setTempoES(7);
+		p.setTempoEStemp(7);
 		p.setPrioridade(0);
 		
 		processos.add(p);
@@ -49,6 +52,7 @@ public class TestePreemptivo {
 		p.setSolicitacaoES(1f);
 		p.setTempoComputacao(1);
 		p.setTempoES(1);
+		p.setTempoEStemp(1);
 		p.setPrioridade(1);
 		
 		processos.add(p);
@@ -75,10 +79,9 @@ public class TestePreemptivo {
 
 		
 		*/
+		
 		preemptivo.escalonar();
-		for(Processo p_ : preemptivo.getTerminados()) {
-			System.out.println(p_);
-		}
+		
 		
 		//service.shutdown();
 		//System.out.println(processos);
