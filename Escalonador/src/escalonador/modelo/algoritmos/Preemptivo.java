@@ -34,56 +34,60 @@ public class Preemptivo extends Algoritmo {
 	public void escalonar() {
 
 		ProcessComparator comparator = new ProcessComparator();
-		while (!prontos.isEmpty()) {
 
+		while (!processos.isEmpty()) {
 			Collections.sort(prontos, comparator);
 
-			executando = prontos.remove(0);
+			try {
+				executando = prontos.remove(0);
 
-			if (executando.vaiFazerES()) {
-				executando.setEstado(EstadoProcesso.BLOQUEADO);
-				executando = null;
-				
-			}
-			
-			
-			tempoSimulacao++;
-			for (Processo p : processos) {
-				switch (p.getEstado()) {
-				case PRONTO:
-					p.tempos.tempoEspera++;
-					break;
-			
-			
-			terminados.add(executando);
+			} catch (Exception e) {
+				// TODO: handle exception
+				System.out.println("Nao existe processos na lista de prontos");
+			} finally {
 
-				case BLOQUEADO:
-					p.tempos.tempoES++;
-					tempoESTotal = p.getTempoES() - p.tempos.tempoES;
-					if (tempoESTotal == 0) {
-						prontos.add(executando);
-						p.setEstado(EstadoProcesso.PRONTO);
+				tempoSimulacao++;
 
-					}
-					break;
-				case EXECUTANDO:
-					p.tempos.tempoComputacao++;
-					tempoComputacaoTotal = p.getTempoComputacao()
-							- p.tempos.tempoComputacao;
-					if (tempoComputacaoTotal == 0) {
-						processos.remove(0);
-					}
-					break;
+				if (executando.vaiFazerES()) {
+					executando.setEstado(EstadoProcesso.BLOQUEADO);
+				} else {
+					executando.setEstado(EstadoProcesso.EXECUTANDO);
 				}
-			}
 
-			if (executando.vaiFazerES()) {
-				executando.setEstado(EstadoProcesso.BLOQUEADO);
-				executando.tempos.bloqueado = executando.getTempoES();
-				executando = null;
+				for (Processo p : processos) {
+					switch (p.getEstado()) {
+					case PRONTO:
+						p.tempos.tempoEspera++;
+						System.out.println("Processos: " + p.getPid()
+								+ " Esperando");
+						break;
+
+					case BLOQUEADO:
+						p.decrementaTempoEStemp();
+						System.out.println("Processo: " + p.getPid()
+								+ " Bloqueado");
+						if (p.getTempoEStemp() == 0) {
+							p.setEstado(EstadoProcesso.PRONTO);
+							System.out.println("Processo: " + p.getPid()
+									+ "ficou pronto");
+							prontos.add(executando);
+						}
+						break;
+
+					case EXECUTANDO:
+						p.decrementarTempoComputacao();
+						System.out.println("Processo " + p.getPid()
+								+ " executando");
+						if (p.tempos.tempoComputacao == 0) {
+							System.out.println("tempo de computação no fim");
+							System.out.println("Processo " + p.getPid() + "terminou");
+							terminados.add(p);
+						}
+						break;
+					}
+				}
+
 			}
 		}
-
 	}
-
 }

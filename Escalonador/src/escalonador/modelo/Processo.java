@@ -23,6 +23,14 @@ public class Processo {
 	public void setTempoEStemp(int tempoEStemp) {
 		this.tempoEStemp = tempoEStemp;
 	}
+	
+	public void decrementaTempoEStemp(){
+		this.tempoEStemp--;
+	}
+	
+	public void decrementarTempoComputacao(){
+		this.tempoComputacao--;
+	}
 
 	
 	public Processo() {
