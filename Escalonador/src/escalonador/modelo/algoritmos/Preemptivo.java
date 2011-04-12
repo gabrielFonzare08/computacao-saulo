@@ -39,7 +39,7 @@ public class Preemptivo extends Algoritmo {
 			Collections.sort(prontos, comparator);
 
 			try {
-				executando = prontos.remove(0);
+				executando = prontos.remove(0); // pode n ter elementos na lista #1
 
 			} catch (Exception e) {
 				// TODO: handle exception
@@ -48,21 +48,22 @@ public class Preemptivo extends Algoritmo {
 
 				tempoSimulacao++;
 
-				if (executando.vaiFazerES()) {
+				if (executando.vaiFazerES()) { // se n tiver provavelmente n vai funcionar #1
 					executando.setEstado(EstadoProcesso.BLOQUEADO);
 				} else {
 					executando.setEstado(EstadoProcesso.EXECUTANDO);
 				}
 
+				// n precisa dessse for assim
 				for (Processo p : processos) {
 					switch (p.getEstado()) {
-					case PRONTO:
+					case PRONTO: /// aqui pode ser o for na lista de prontos #2
 						p.tempos.tempoEspera++;
 						System.out.println("Processos: " + p.getPid()
 								+ " Esperando");
 						break;
 
-					case BLOQUEADO:
+					case BLOQUEADO: // aqui o for na lista de block #3
 						p.decrementaTempoEStemp();
 						System.out.println("Processo: " + p.getPid()
 								+ " Bloqueado");
