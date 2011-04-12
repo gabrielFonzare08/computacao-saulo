@@ -1,6 +1,8 @@
 package escalonador.visao.paineis;
 
 import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
 
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
@@ -15,75 +17,72 @@ import escalonador.visao.Painel;
 public class PainelRelatorio extends Painel {
 	
 	private static final long serialVersionUID = 1L;
-	private JLabel label1;
-	private JLabel label2;
-	private JLabel label3;
-	private JTextField textField1;
-	private JTextField textField2;
-	private JTextField textField3;
-	private JScrollPane scrollPane1;
-	private JList dataList1;
-
-	private JPanel panel1;
-
 	
+	private JList processos;
+	
+	private JTextField pid;
+	private JTextField prioridade;
+	private JTextField tempoComputacao;
+	private JTextField quantum;
+	private JTextField taxaES;
+	private JTextField tempoES;
+	
+	private JTextField tempoPronto;
+	private JTextField tempoExecutando;
+	private JTextField tempoBloqueado;
+		
 	public PainelRelatorio(Janela janela) {
 		super(janela);
-		// TODO Auto-generated constructor stub
+		janela.setResizable(!false);
 	}
 
 	@Override
 	public void initComponents() {
-		// TODO Auto-generated method stub
-		setSize(600, 480);
-		setLayout(null);
-
-		label1 = new JLabel();
-		label2 = new JLabel();
-		label3 = new JLabel();
-		textField1 = new JTextField();
-		textField2 = new JTextField();
-		textField3 = new JTextField();
-
-		dataList1 = new JList();
-		scrollPane1 = new JScrollPane(dataList1);
-
-		panel1 = new JPanel();
-
-		label1.setBounds(40, 30, 100, 100);
-		label1.setText("Running time:");
-
-		textField1.setBounds(160, 72, 40, 20);
-		textField1.setEnabled(false);
-
-		label2.setBounds(40, 80, 100, 100);
-		label2.setText("Blocked Time:");
-
-		textField2.setBounds(160, 122, 40, 20);
-		textField2.setEnabled(false);
-
-		label3.setBounds(40, 130, 100, 100);
-		label3.setText("Ready Time:");
-
-		textField3.setBounds(160, 172, 40, 20);
-		textField3.setEnabled(false);
-
-		scrollPane1.setBounds(400, 40, 140, 380);
-
-		panel1.setBounds(20, 40, 220, 200);
-		panel1.setBorder(BorderFactory.createLineBorder(Color.GRAY));
-		panel1.setLayout(null);
-
-		add(label1);
-		add(label2);
-		add(label3);
-		add(textField1);
-		add(textField2);
-		add(textField3);
-
-		add(scrollPane1);
-
-		add(panel1);
+		setLayout(new FlowLayout(FlowLayout.CENTER));
+		setPreferredSize(new Dimension(620, 420));
+		
+		
+		pid = new JTextField();
+		prioridade = new JTextField();
+		tempoComputacao = new JTextField();
+		quantum = new JTextField();
+		taxaES = new JTextField();
+		tempoES = new JTextField();
+		
+		tempoPronto = new JTextField();
+		tempoExecutando = new JTextField();
+		tempoBloqueado = new JTextField();
+		
+		processos = new JList();
+		
+		JTextField [] campos = {
+			pid, prioridade, tempoComputacao, quantum, taxaES,
+			tempoES, tempoPronto, tempoExecutando, tempoBloqueado
+		};
+		
+		String [] rotulos = {
+			"PID", "Prioridade", "Tempo de Computação",
+			"Quantum", "Taxa de ES", "Tempo de ES",
+			"Tempo de Pronto", "Tempo Executando", "Tempo bloqueado"
+		};
+		
+		Dimension dimensaoCampoTexto = new Dimension(180, 32);
+		Dimension dimensaoRotulo = new Dimension(180, 32);
+		
+		JScrollPane jScrollPane = new JScrollPane(processos);
+		jScrollPane.setPreferredSize(new Dimension(200, 420));
+		add(jScrollPane);
+		
+		for( int i = 0; i < rotulos.length; i++ ) {
+			JLabel jLabel = new JLabel(rotulos[i]);
+			jLabel.setPreferredSize(dimensaoRotulo);
+			
+			campos[i].setPreferredSize(dimensaoCampoTexto);
+			
+			//add(jLabel);
+			add(campos[i]);			
+		}
+		
 	}
 
 	@Override

@@ -6,9 +6,11 @@ import javax.swing.JOptionPane;
 
 import escalonador.modelo.EstadoProcesso;
 import escalonador.modelo.Processo;
+import escalonador.modelo.algoritmos.RoundRobin;
+import escalonador.modelo.algoritmos.ShortJobFirst;
 import escalonador.visao.paineis.PainelCriacaoProcesso;
 
-public class ControladorPainelCriacaoProcesso {
+public class ControladorPainelCriacaoProcesso extends Controlador {
 	
 	private static ControladorPainelCriacaoProcesso instance;
 	private static int pid = 0;
@@ -75,4 +77,12 @@ public class ControladorPainelCriacaoProcesso {
 			atualizarLista(indice -1);
 		}
 	}
-}
+	
+	public void simular() {
+		painel.getJanela().trocarPainel(1);		
+		
+		System.out.println(painel.getAlgoritmoId());
+		ControladorSimulacao.getInstance(painel.getJanela().getPainelSimulacao(), painel.getAlgoritmoId()).simular(processos);
+				
+	}
+ }
