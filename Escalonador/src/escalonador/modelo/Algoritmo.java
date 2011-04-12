@@ -52,7 +52,7 @@ public abstract class Algoritmo implements Runnable {
 		this.terminados = new ArrayList<Processo>();
 		
 		for(Processo processo : processos) {
-			processo.setEstado(EstadoProcesso.EXECUTANDO);
+			processo.setEstado(EstadoProcesso.PRONTO);
 			this.processos.add(processo);
 			this.prontos.add(processo);
 		}
@@ -75,6 +75,7 @@ public abstract class Algoritmo implements Runnable {
 	 * A implementa&ccedil;&atilde;o do algoritmo deve-se
 	 * dar nesse método.
 	 * */
+	
 	public abstract void escalonar();
 	
 	public Processo getExecutando() {

@@ -13,7 +13,17 @@ public class Processo {
 	private int quantum;
 	private float solicitacaoES;
 	private int tempoES;
+	private int tempoEStemp;
 	public Tempos tempos;
+	
+	public int getTempoEStemp() {
+		return tempoEStemp;
+	}
+
+	public void setTempoEStemp(int tempoEStemp) {
+		this.tempoEStemp = tempoEStemp;
+	}
+
 	
 	public Processo() {
 		tempos = new Tempos();

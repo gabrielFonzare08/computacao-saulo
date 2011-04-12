@@ -4,7 +4,8 @@ public class Tempos {
 
 	public long bloqueado;
 	public long executando;
-	public long pronto;
+	public long tempoEspera;
+	
 	
 	@Override
 	public String toString() {
