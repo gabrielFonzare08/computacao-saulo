@@ -40,7 +40,7 @@ public class PainelCriacaoProcesso extends Painel {
 	
 	@Override
 	public void initComponents() {
-		setPreferredSize(new Dimension(440, 450));
+		
 		setLayout(new FlowLayout(FlowLayout.CENTER));
 		
 		prioridade		= new JTextField();
@@ -59,7 +59,7 @@ public class PainelCriacaoProcesso extends Painel {
 		jScrollPane.setPreferredSize(new Dimension(430, 180));
 		
 		String [] nomeAlgoritmos = {
-			"Round Robin", "Short Job First", "Preemptivo"
+				"Preemptivo", "Round Robin", "Short Job First" 
 		};
 		
 		algoritmos = new JComboBox(nomeAlgoritmos);
@@ -108,7 +108,6 @@ public class PainelCriacaoProcesso extends Painel {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("w");
 				controlador.adicionarNovoProcesso();
 			}
 		});
@@ -122,7 +121,14 @@ public class PainelCriacaoProcesso extends Painel {
 				
 			}
 		});
-
+		
+		simular.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				controlador.simular();
+			}
+		});
 	}
 	
 	public JList getListaProcessos() {
@@ -151,5 +157,9 @@ public class PainelCriacaoProcesso extends Painel {
 	
 	public String getAlgoritmo() {
 		return algoritmos.getSelectedItem().toString();
+	}
+	
+	public int getAlgoritmoId() {
+		return algoritmos.getSelectedIndex();
 	}
 }

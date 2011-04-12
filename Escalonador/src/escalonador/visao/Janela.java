@@ -11,18 +11,20 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 
 import escalonador.visao.paineis.PainelCriacaoProcesso;
+import escalonador.visao.paineis.PainelRelatorio;
+import escalonador.visao.paineis.PainelSimulacao;
 
 public class Janela extends JFrame {
 	
 	private static final long serialVersionUID = 6259000253167182868L;
 	private PainelCriacaoProcesso painelCriacaoProcesso;
+	private PainelSimulacao painelSimulacao;
+	private PainelRelatorio painelRelatorio;
+	
+	private Painel [] paineis;
 
 	public Janela() {
 		super("Simulador de Escalonador de Processos");
-		setSize(640, 500);
-		setResizable(false);
-		setLocationRelativeTo(null);
-		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		
 		initComponents();
 		addEvents();
@@ -31,6 +33,11 @@ public class Janela extends JFrame {
 	}
 	
 	private void initComponents() {
+		setSize(640, 500);
+		setResizable(false);
+		setLocationRelativeTo(null);
+		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		
 		setJMenuBar(new JMenuBar());
 		
 		getJMenuBar().add(new JMenu("Arquivo"));
@@ -42,12 +49,39 @@ public class Janela extends JFrame {
 		setLayout(new FlowLayout(FlowLayout.CENTER));
 		
 		painelCriacaoProcesso = new PainelCriacaoProcesso(this);
+		painelSimulacao = new PainelSimulacao(this);
+		painelRelatorio = new PainelRelatorio(this);
+		
 		add(painelCriacaoProcesso);
+		add(painelSimulacao);
+		add(painelRelatorio);
+		
+		paineis = new Painel[] {
+			painelCriacaoProcesso,
+			painelSimulacao,
+			painelRelatorio
+		};
 	}
 	
 	public PainelCriacaoProcesso getPainelCriacaoProcesso() {
 		return painelCriacaoProcesso;
-	}	
+	}
+	
+	public PainelSimulacao getPainelSimulacao() {
+		return painelSimulacao;
+	}
+	
+	public PainelRelatorio getPainelRelatorio() {
+		return painelRelatorio;
+	}
+	
+	public void trocarPainel(int i) {
+		for(Painel painel : paineis) {
+			painel.setVisible(false);
+		}
+		
+		paineis[i].setVisible(true);
+	}
 	
 	private void addEvents() {
 		getJMenuBar().getMenu(0).getItem(0).addActionListener(new ActionListener() {
