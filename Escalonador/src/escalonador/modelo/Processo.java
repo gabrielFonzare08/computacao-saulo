@@ -35,15 +35,13 @@ public class Processo {
 		return estado == EstadoProcesso.TERMINADO;
 	}
 	
-	
-	
-	
 	/**
 	 * Indica se o processo vai ou n&atilde;o fazer opera&ccedil;&atilde;o de ES.
 	 * @return boolean indicando se vai ou n&atilde;o realizar ES.
-	 * */
+	 **/
+	
 	public boolean vaiFazerES() {
-		return random.nextInt(100) >= (solicitacaoES * 100);
+		return Math.random() <= solicitacaoES;
 	}
 	
 	public int getQuantum() {
@@ -102,18 +100,6 @@ public class Processo {
 		this.tempoES = tempoES;
 	}
 	
-	public void bloquear() {
-		estado = EstadoProcesso.BLOQUEADO;
-	}
-	
-	public void aprontar() {
-		estado = EstadoProcesso.PRONTO;
-	}
-	
-	public void comecarExecutar() {
-		estado = EstadoProcesso.EXECUTANDO;
-	}
-	
 	@Override
 	public String toString() {
 		return "Processo [pid=" + pid + ", prioridade=" + prioridade
@@ -122,6 +108,4 @@ public class Processo {
 				+ ", solicitacaoES=" + solicitacaoES + ", tempoES=" + tempoES
 				+ ", tempos=" + tempos + "]";
 	}
-	
-
 }

@@ -56,7 +56,7 @@ public class TestePreemptivo {
 		Preemptivo preemptivo = new Preemptivo(processos);
 		
 		
-		
+		/*
 		ExecutorService service = Executors.newFixedThreadPool(1);
 		service.execute(new Escalonador(preemptivo));
 		
@@ -72,13 +72,15 @@ public class TestePreemptivo {
 			}
 		}
 		
+
 		
-		
+		*/
+		preemptivo.escalonar();
 		for(Processo p_ : preemptivo.getTerminados()) {
 			System.out.println(p_);
 		}
 		
-		service.shutdown();
+		//service.shutdown();
 		//System.out.println(processos);
 	}
 }
