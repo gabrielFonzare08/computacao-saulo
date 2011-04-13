@@ -13,7 +13,7 @@ import java.util.List;
  * <li>{@linkplain Preemptive}</li>
  * </ul>
  * */
-public abstract class Algoritmo implements Runnable {
+public abstract class Algoritmo {
 	
 	public int tempoCpuOciosa;
 	
@@ -47,31 +47,15 @@ public abstract class Algoritmo implements Runnable {
 	protected Processo executando;
 	protected Processo atual;
 	
-	
 	public Algoritmo(List<Processo> processos) {
-		this.processos = new ArrayList<Processo>();	
-		this.prontos = new ArrayList<Processo>();
+		this.processos = new ArrayList<Processo>(processos);	
+		this.prontos = new ArrayList<Processo>(processos);
 		this.bloqueados = new ArrayList<Processo>();
 		this.terminados = new ArrayList<Processo>();
 		
-		for(Processo processo : processos) {
-			processo.setEstado(EstadoProcesso.PRONTO);
-			this.processos.add(processo);
-			this.prontos.add(processo);
+		for(Processo processo : prontos) {			
+			processo.setEstado(EstadoProcesso.PRONTO);			
 		}
-	}
-	
-	@Override
-	public void run() {
-		synchronized (this) {
-			try {
-				this.wait();
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-		escalonar();
 	}
 	
 	/**
@@ -99,5 +83,5 @@ public abstract class Algoritmo implements Runnable {
 	
 	public List<Processo> getTerminados() {
 		return terminados;
-	}	
+	}
 }

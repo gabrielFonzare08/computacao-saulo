@@ -5,6 +5,7 @@ import java.util.List;
 public class Escalonador implements Runnable {
 	
 	private Algoritmo algoritmo;
+	private boolean terminado;
 	
 	public Escalonador(Algoritmo algoritmo) {
 		this.algoritmo = algoritmo;
@@ -26,8 +27,14 @@ public class Escalonador implements Runnable {
 		return algoritmo.executando;
 	}
 	
+	public boolean isTerminado() {
+		return terminado;
+	}
+	
 	@Override
 	public void run() {
-		algoritmo.run();
+		terminado = false;
+		algoritmo.escalonar();
+		terminado = true;
 	}
 }
