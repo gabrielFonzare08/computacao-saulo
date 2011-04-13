@@ -1,7 +1,6 @@
 import java.util.ArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-
 import escalonador.modelo.Algoritmo;
 import escalonador.modelo.Escalonador;
 import escalonador.modelo.EstadoProcesso;
@@ -10,12 +9,9 @@ import escalonador.modelo.algoritmos.Preemptivo;
 import escalonador.modelo.algoritmos.ShortJobFirst;
 import escalonador.visao.Janela;
 
-
 public class TestePreemptivo {
 
 	public static void main(String[] args) {
-		//new Janela();
-		
 		ArrayList<Processo> processos = new ArrayList<Processo>();
 		
 		Processo p = new Processo();
@@ -42,11 +38,11 @@ public class TestePreemptivo {
 		
 		p = new Processo();
 		p.setPid(3);
-		p.setSolicitacaoES(.9f);
+		p.setSolicitacaoES(.1f);
 		p.setTempoComputacao(5);
 		p.setTempoES(7);
 		
-		p.setPrioridade(0);
+		p.setPrioridade(4);
 		p.setEstado(EstadoProcesso.PRONTO);
 		
 		processos.add(p);
@@ -63,31 +59,6 @@ public class TestePreemptivo {
 		
 		Preemptivo preemptivo = new Preemptivo(processos);
 		
-		
-		/*
-		ExecutorService service = Executors.newFixedThreadPool(1);
-		service.execute(new Escalonador(preemptivo));
-		
-		while(!preemptivo.getProntos().isEmpty()) {
-			synchronized (preemptivo) {
-				preemptivo.notify();
-				try {
-					preemptivo.wait(200);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-		}
-		
-
-		
-		*/
-		
 		preemptivo.escalonar();
-		
-		
-		//service.shutdown();
-		//System.out.println(processos);
 	}
 }
