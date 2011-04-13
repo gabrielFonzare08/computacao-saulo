@@ -9,8 +9,7 @@ import escalonador.modelo.EstadoProcesso;
 import escalonador.modelo.Processo;
 
 public class Preemptivo extends Algoritmo {
-
-	int tempoCpuOciosa;
+	
 	int tempoSimulacao;
 	int tempoEspera;
 	int tempoES;
@@ -35,59 +34,83 @@ public class Preemptivo extends Algoritmo {
 
 		ProcessComparator comparator = new ProcessComparator();
 
-		while (!processos.isEmpty()) {
-			Collections.sort(prontos, comparator);
+		while (processos.size() != terminados.size()) {
 
+			Collections.sort(prontos, comparator);
 			try {
-				executando = prontos.remove(0); // pode n ter elementos na lista #1
+				atual = prontos.get(0);
 
 			} catch (Exception e) {
 				// TODO: handle exception
-				System.out.println("Nao existe processos na lista de prontos");
+				System.out.println("Lista de prontos vazia");
 			} finally {
+				try {
+					if (executando == null) {
+						executando = prontos.remove(0);
+						executando.setEstado(EstadoProcesso.EXECUTANDO);
+					}
 
-				tempoSimulacao++;
+					if (executando.getPrioridade() < atual.getPrioridade()) {
+						prontos.add(executando);
+						executando = atual;
+						prontos.remove(atual);
+					}
 
-				if (executando.vaiFazerES()) { // se n tiver provavelmente n vai funcionar #1
-					executando.setEstado(EstadoProcesso.BLOQUEADO);
-				} else {
-					executando.setEstado(EstadoProcesso.EXECUTANDO);
-				}
+					if (executando.vaiFazerES()) {
+						bloqueados.add(executando);
+						System.out.println("Executando bloqueou");
+						executando = null;
+						continue;
+					}
 
-				// n precisa dessse for assim
-				for (Processo p : processos) {
-					switch (p.getEstado()) {
-					case PRONTO: /// aqui pode ser o for na lista de prontos #2
-						p.tempos.tempoEspera++;
-						System.out.println("Processos: " + p.getPid()
-								+ " Esperando");
-						break;
+					System.out.println("processo " + executando.getPid()
+							+ " executando");
+					executando.decrementarTempoComputacao();
+					System.out.println("processo possui"
+							+ executando.getTempoComputacao()
+							+ " ciclos restantes");
 
-					case BLOQUEADO: // aqui o for na lista de block #3
-						p.decrementaTempoEStemp();
-						System.out.println("Processo: " + p.getPid()
-								+ " Bloqueado");
-						if (p.getTempoEStemp() == 0) {
-							p.setEstado(EstadoProcesso.PRONTO);
-							System.out.println("Processo: " + p.getPid()
-									+ "ficou pronto");
-							prontos.add(executando);
-						}
-						break;
-
-					case EXECUTANDO:
-						p.decrementarTempoComputacao();
-						System.out.println("Processo " + p.getPid()
-								+ " executando");
-						if (p.tempos.tempoComputacao == 0) {
-							System.out.println("tempo de computação no fim");
-							System.out.println("Processo " + p.getPid() + "terminou");
-							terminados.add(p);
-						}
-						break;
+					if (executando.getTempoComputacao() <= 0) {
+						System.out.println("processo " + executando.getPid()
+								+ "terminou");
+						prontos.remove(executando);
+					//	processos.remove(executando);
+						terminados.add(executando);
+						executando = null;
 					}
 				}
 
+				catch (Exception e) {
+
+					System.out
+							.println("Nao existe processos na lista de prontos");
+					
+					
+				} finally {
+					tempoSimulacao++;
+					// n precisa dessse for assim
+					for (Processo p : prontos) {
+						p.tempos.tempoEspera++;
+						System.out.println("Processos: " + p.getPid()
+								+ " Esperando");
+					}
+
+					for (int i = 0; i < bloqueados.size(); i++) {
+						System.out.println("Processo: "
+								+ bloqueados.get(i).getPid() + " Bloqueado");
+						bloqueados.get(i).decrementaTempoEStemp();
+						System.out.println(bloqueados.get(i).getTempoEStemp());
+						if (bloqueados.get(i).getTempoEStemp() == 0) {
+							prontos.add(bloqueados.get(i));
+							System.out.println("Processo: "
+									+ bloqueados.get(i).getPid()
+									+ "ficou pronto");
+							bloqueados.get(i).setTempoEStemp(
+									bloqueados.get(i).getTempoES());
+							bloqueados.remove(i);
+						}
+					}
+				}
 			}
 		}
 	}
