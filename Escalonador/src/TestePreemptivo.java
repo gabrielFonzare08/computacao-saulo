@@ -4,6 +4,7 @@ import java.util.concurrent.Executors;
 
 import escalonador.modelo.Algoritmo;
 import escalonador.modelo.Escalonador;
+import escalonador.modelo.EstadoProcesso;
 import escalonador.modelo.Processo;
 import escalonador.modelo.algoritmos.Preemptivo;
 import escalonador.modelo.algoritmos.ShortJobFirst;
@@ -24,6 +25,7 @@ public class TestePreemptivo {
 		p.setTempoES(1);
 		p.setTempoEStemp(1);
 		p.setPrioridade(3);
+		p.setEstado(EstadoProcesso.PRONTO);
 		
 		processos.add(p);
 		
@@ -34,27 +36,29 @@ public class TestePreemptivo {
 		p.setTempoES(2);
 		p.setTempoEStemp(2);
 		p.setPrioridade(5);
+		p.setEstado(EstadoProcesso.PRONTO);
 		
 		processos.add(p);
 		
 		p = new Processo();
 		p.setPid(3);
-		p.setSolicitacaoES(.3f);
+		p.setSolicitacaoES(.9f);
 		p.setTempoComputacao(5);
 		p.setTempoES(7);
 		p.setTempoEStemp(7);
 		p.setPrioridade(0);
+		p.setEstado(EstadoProcesso.PRONTO);
 		
 		processos.add(p);
 		
 		p = new Processo();
 		p.setPid(4);
-		p.setSolicitacaoES(1f);
+		p.setSolicitacaoES(0.4f);
 		p.setTempoComputacao(1);
-		p.setTempoES(1);
-		p.setTempoEStemp(1);
+		p.setTempoES(2);
+		p.setTempoEStemp(2);
 		p.setPrioridade(1);
-		
+		p.setEstado(EstadoProcesso.PRONTO);
 		processos.add(p);
 		
 		Preemptivo preemptivo = new Preemptivo(processos);

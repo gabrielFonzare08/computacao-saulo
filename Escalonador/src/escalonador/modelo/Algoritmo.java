@@ -15,6 +15,9 @@ import java.util.List;
  * */
 public abstract class Algoritmo implements Runnable {
 	
+	public int tempoCpuOciosa;
+	
+	
 	/**
 	 * Lista que cont&eacute;m todos os processos.
 	 * Independente do seu estado.
