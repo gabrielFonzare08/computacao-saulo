@@ -9,8 +9,7 @@ import escalonador.modelo.EstadoProcesso;
 import escalonador.modelo.Processo;
 
 public class Preemptivo extends Algoritmo {
-	
-	int tempoSimulacao;
+
 	int tempoEspera;
 	int tempoES;
 	long tempoESTotal;
@@ -19,7 +18,9 @@ public class Preemptivo extends Algoritmo {
 
 	public Preemptivo(List<Processo> processos) {
 		super(processos);
-		// TODO Auto-generated constructor stub
+		for (Processo p: processos){
+			p.tempos.setTempoEStemp(p.getTempoES());
+		}
 	}
 
 	class ProcessComparator implements Comparator<Processo> {
@@ -47,6 +48,10 @@ public class Preemptivo extends Algoritmo {
 				try {
 					if (executando == null) {
 						executando = prontos.remove(0);
+						if (executando.tempos.resposta == -1) {
+							executando.tempos.resposta = executando.tempos.pronto;
+						}
+						
 						executando.setEstado(EstadoProcesso.EXECUTANDO);
 					}
 
@@ -74,7 +79,7 @@ public class Preemptivo extends Algoritmo {
 						System.out.println("processo " + executando.getPid()
 								+ "terminou");
 						prontos.remove(executando);
-					//	processos.remove(executando);
+						// processos.remove(executando);
 						terminados.add(executando);
 						executando = null;
 					}
@@ -84,29 +89,30 @@ public class Preemptivo extends Algoritmo {
 
 					System.out
 							.println("Nao existe processos na lista de prontos");
-					
-					
+					incrementaTempoCpuOciosa();
+
 				} finally {
-					tempoSimulacao++;
-					// n precisa dessse for assim
+
 					for (Processo p : prontos) {
 						p.tempos.tempoEspera++;
 						System.out.println("Processos: " + p.getPid()
 								+ " Esperando");
+
 					}
 
 					for (int i = 0; i < bloqueados.size(); i++) {
 						System.out.println("Processo: "
 								+ bloqueados.get(i).getPid() + " Bloqueado");
-						bloqueados.get(i).decrementaTempoEStemp();
-						System.out.println(bloqueados.get(i).getTempoEStemp());
-						if (bloqueados.get(i).getTempoEStemp() == 0) {
+						bloqueados.get(i).tempos.decrementaTempoEStemp();
+						System.out.println(bloqueados.get(i).tempos
+								.getTempoEStemp());
+						if (bloqueados.get(i).tempos.getTempoEStemp() == 0) {
 							prontos.add(bloqueados.get(i));
 							System.out.println("Processo: "
 									+ bloqueados.get(i).getPid()
 									+ "ficou pronto");
-							bloqueados.get(i).setTempoEStemp(
-									bloqueados.get(i).getTempoES());
+							bloqueados.get(i).tempos.setTempoEStemp(bloqueados
+									.get(i).getTempoES());
 							bloqueados.remove(i);
 						}
 					}
