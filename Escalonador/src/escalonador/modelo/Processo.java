@@ -10,29 +10,15 @@ public class Processo {
 	private int prioridade;
 	private EstadoProcesso estado;
 	private int tempoComputacao;
+	private int tempoES;
 	private int quantum;
 	private float solicitacaoES;
-	private int tempoES;
-	private int tempoEStemp;
 	public Tempos tempos;
-	
-	public int getTempoEStemp() {
-		return tempoEStemp;
-	}
 
-	public void setTempoEStemp(int tempoEStemp) {
-		this.tempoEStemp = tempoEStemp;
-	}
-	
-	public void decrementaTempoEStemp(){
-		this.tempoEStemp--;
-	}
-	
 	public void decrementarTempoComputacao(){
 		this.tempoComputacao--;
 	}
-
-	
+		
 	public Processo() {
 		tempos = new Tempos();
 	}
@@ -109,7 +95,7 @@ public class Processo {
 	public void setSolicitacaoES(float solicitacaoES) {
 		this.solicitacaoES = solicitacaoES;
 	}
-
+	
 	public int getTempoES() {
 		return tempoES;
 	}
@@ -117,7 +103,9 @@ public class Processo {
 	public void setTempoES(int tempoES) {
 		this.tempoES = tempoES;
 	}
-	
+
+
+		
 	@Override
 	public String toString() {
 		return "Processo [pid=" + pid + ", prioridade=" + prioridade
