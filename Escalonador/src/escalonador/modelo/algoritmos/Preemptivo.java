@@ -10,15 +10,9 @@ import escalonador.modelo.Processo;
 
 public class Preemptivo extends Algoritmo {
 
-	int tempoEspera;
-	int tempoES;
-	long tempoESTotal;
-	long tempoComputacao;
-	long tempoComputacaoTotal;
-
 	public Preemptivo(List<Processo> processos) {
 		super(processos);
-		for (Processo p: processos){
+		for (Processo p : processos) {
 			p.tempos.setTempoEStemp(p.getTempoES());
 		}
 	}
@@ -51,7 +45,7 @@ public class Preemptivo extends Algoritmo {
 						if (executando.tempos.resposta == -1) {
 							executando.tempos.resposta = executando.tempos.pronto;
 						}
-						
+
 						executando.setEstado(EstadoProcesso.EXECUTANDO);
 					}
 
