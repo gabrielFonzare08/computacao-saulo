@@ -1,9 +1,13 @@
 package escalonador.controle;
 
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import escalonador.modelo.Algoritmo;
+import escalonador.modelo.Escalonador;
 import escalonador.modelo.Processo;
+import escalonador.modelo.algoritmos.Preemptivo;
 import escalonador.modelo.algoritmos.RoundRobin;
 import escalonador.modelo.algoritmos.ShortJobFirst;
 import escalonador.visao.paineis.PainelSimulacao;
@@ -28,9 +32,11 @@ public class ControladorSimulacao extends Controlador {
 	}
 	
 	public static ControladorSimulacao getInstance(PainelSimulacao painelSimulacao, int algoritmo) {
+		
 		if(instance == null) {
 			instance = new ControladorSimulacao(painelSimulacao, algoritmo);
 		}
+		instance.algoritmo = algoritmo;
 		return instance;
 	}
 	
@@ -50,29 +56,26 @@ public class ControladorSimulacao extends Controlador {
 				algoritmo = new RoundRobin(processos);
 				break;
 	
-			default: algoritmo = new RoundRobin(processos);
+			default: algoritmo = new Preemptivo(processos);
 		}
 		
-		new Thread(algoritmo).start();
+		Escalonador escalonador = new Escalonador(algoritmo);
 		
-		synchronized (algoritmo) {
-			algoritmo.notify();
-		}
-		while (!algoritmo.getProntos().isEmpty()) {
-			painelSimulacao.setExecutando(algoritmo.getExecutando().getPid() + "");
-			painelSimulacao.setProcessosProntos(algoritmo.getProntos().toArray());
-			painelSimulacao.setProcessosTerminados(algoritmo.getTerminados().toArray());
-			painelSimulacao.setProcessosBloqueados(algoritmo.getBloqueados().toArray());
-			
-			try {
-				if(!terminar) {
-					Thread.sleep(10);					
+		for(int i = 0; i < 33; i++) {
+			Thread t = 	new Thread(escalonador);
+			t.start();
+			while (!escalonador.isTerminado()) {
+				if(algoritmo.getExecutando() != null) {
+					painelSimulacao.setExecutando(algoritmo.getExecutando().getPid() + "");				
 				}
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}			
-		}		
-		
+				
+				painelSimulacao.setProcessosProntos(algoritmo.getProntos().toArray());
+				painelSimulacao.setProcessosTerminados(algoritmo.getTerminados().toArray());
+				painelSimulacao.setProcessosBloqueados(algoritmo.getBloqueados().toArray());
+				
+			}
+			
+			t = null;
+		}
 	}
-
 }

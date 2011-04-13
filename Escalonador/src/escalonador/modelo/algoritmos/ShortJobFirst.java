@@ -42,32 +42,32 @@ public class ShortJobFirst extends Algoritmo {
 	
 		ProcessComparator comparator = new ProcessComparator();
 		
-		Collections.sort(prontos, comparator); // reorganiza-os
+		Collections.sort(processos, comparator); // reorganiza-os
 		
 		while(!prontos.isEmpty()) {
+			
 			try {
-				Thread.sleep(1000);
+				Thread.sleep(200);
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
-			}			
+			}
+			
 			executando = prontos.remove(0); // pega o proximo processo pronto
 			executando.setEstado(EstadoProcesso.EXECUTANDO);
 			
 			if(executando.vaiFazerES()) { // vai fazer es?
 				executando.setEstado(EstadoProcesso.BLOQUEADO);				
+				bloqueados.add(executando);
 				executando.tempos.bloqueado += executando.getTempoES(); // incrementar tempo de bloqueado
-				
+				bloqueados.remove(executando);
 			}
-			
-			executando.tempos.executando += executando.getTempoComputacao(); // somar tempo de executando.
-			executando.setEstado(EstadoProcesso.TERMINADO); // termina!
-			terminados.add(executando);
 			
 			for(Processo p : prontos) {
-				p.tempos.pronto += executando.getTempoComputacao() + executando.tempos.bloqueado; // incrementar tempo de pronto em um ciclo; 
+				p.tempos.tempoEspera += executando.getTempoComputacao() + executando.tempos.bloqueado; // incrementar tempo de pronto em um ciclo; 
 			}
+			
+			executando.setEstado(EstadoProcesso.TERMINADO);
+			terminados.add(executando);
 		}
-	}
-	
+	}	
 }

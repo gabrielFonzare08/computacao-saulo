@@ -1,6 +1,6 @@
 package escalonador.modelo.algoritmos;
 
-import java.util.ArrayList;
+
 import java.util.List;
 
 import escalonador.modelo.Algoritmo;
@@ -19,45 +19,77 @@ import escalonador.modelo.Processo;
  * 
  * */
 public class RoundRobin extends Algoritmo {
+	public int ciclo = 0;
+	public int cpuOciosa = 0;
 	
 	public RoundRobin(List<Processo> processos) {
 		super(processos);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
 	public void escalonar() {
-
-		while(!prontos.isEmpty()) {
-			executando = prontos.remove(0);
-			executando.setEstado(EstadoProcesso.EXECUTANDO);
+		while(terminados.size() < processos.size()) {
 			
-			// testar ES
-			if(executando.vaiFazerES()) {				
-				executando.setEstado(EstadoProcesso.BLOQUEADO);
-				executando.tempos.bloqueado += executando.getTempoES();
+			try {
+				executando = prontos.remove(0);
+				executando.setEstado(EstadoProcesso.EXECUTANDO);
 				
-				// voltar pro fim da lista de prontos
-				executando.setEstado(EstadoProcesso.PRONTO); // #1
-				prontos.add(executando);
-				continue;
-			}
-							
-			executando.tempos.executando += executando.getQuantum();
-			
-			if(executando.tempos.executando >= executando.getTempoComputacao()) {
-				executando.setEstado(EstadoProcesso.TERMINADO); // termina!
-				terminados.add(executando);
-			}
+				if(executando.tempos.resposta == -1) {
+					executando.tempos.resposta = executando.tempos.pronto;
+				}
 				
-			for(Processo processo : prontos) {
-				processo.tempos.pronto += executando.getQuantum();
+				if(executando.vaiFazerES()) {
+					executando.setEstado(EstadoProcesso.BLOQUEADO);
+					executando.tempos.bloqueado += executando.getTempoES();
+					executando.tempos.timeoutBloqueado = executando.getTempoES();
+					bloqueados.add(executando);
+					
+				} else {
+					executando.tempos.executando += executando.getQuantum();
+					
+					// terminpu de computar
+					if(executando.tempos.executando >= executando.getTempoComputacao()) {
+						executando.setEstado(EstadoProcesso.TERMINADO);
+						terminados.add(executando);
+					}
+					
+					// atualizar os tempos de pronto
+					for(int i = 0; i < prontos.size(); i++) {
+						Processo pronto = prontos.get(i);
+						pronto.tempos.pronto += executando.getQuantum();					
+					}
+					
+					// se n terminou, volta pros prontos
+					if(!executando.isTerminado()) {
+						prontos.add(executando);						
+					}
+				}				
+			}
+			catch (Exception e) { 
+				cpuOciosa++;
+			}
+			finally {
+				
+				// atualiza todos os processos bloqueados
+				for(int i = 0; i < bloqueados.size(); i++) {
+					Processo bloqueado = bloqueados.get(i);
+					bloqueado.tempos.timeoutBloqueado -= (executando == null) ? 1 : executando.getQuantum();
+					
+					// se ele estiver terminado ES voltar para pronto!
+					if(bloqueado.tempos.timeoutBloqueado <= 0) {
+						bloqueado.tempos.timeoutBloqueado = 0;
+						bloqueados.remove(i);
+						bloqueado.setEstado(EstadoProcesso.PRONTO);
+						prontos.add(bloqueado);
+					}
+				}				
 			}
 			
-			if(!executando.isTerminado()) {
-				executando.setEstado(EstadoProcesso.PRONTO);
-				prontos.add(executando);
-			}
+			executando = null;
+			
 		}
+		
+		ciclo++;
+		System.out.println();
 	}	
 }
