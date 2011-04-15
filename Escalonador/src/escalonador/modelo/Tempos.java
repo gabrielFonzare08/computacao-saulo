@@ -1,24 +1,28 @@
 package escalonador.modelo;
 
+/**
+ * Classe usada para fins estat&iacute;sticos do relat&oacute;rio
+ * do escalonamento.
+ * */
 public class Tempos {
 
 	public long bloqueado;
 	public long executando;
 	public long pronto;
 	public long resposta = -1;
+	
 	public long timeoutBloqueado;
 	public long tempoEspera;
 		
 	/**
-	 * Atributos necessários para o algoritmo preemptivo baseado em 
+	 * Atributos necess&aacute;rios para o algoritmo preemptivo baseado em 
 	 * prioridades. 
 	 */
 	
-	private int tempoES;
 	private int tempoEStemp;
 	
 	/**
-	 * Métodos necessários para o algoritmo preemptivo baseado em 
+	 * M&eacute;todos necess&aacute;rios para o algoritmo preemptivo baseado em 
 	 * prioridades.
 	 */
 	
