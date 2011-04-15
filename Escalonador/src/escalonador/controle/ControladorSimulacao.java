@@ -69,6 +69,8 @@ public class ControladorSimulacao extends Controlador {
 		while (!escalonador.isTerminado()) {
 			if (algoritmo.getExecutando() != null) {
 				painelSimulacao.setExecutando(algoritmo.getExecutando().getPid() + "");
+			} else {
+				painelSimulacao.setExecutando("");
 			}
 
 			painelSimulacao.setProcessosProntos(algoritmo.getProntos().toArray());

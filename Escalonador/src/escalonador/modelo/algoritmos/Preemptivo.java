@@ -33,6 +33,7 @@ public class Preemptivo extends Algoritmo {
 		while (processos.size() != terminados.size()) {
 
 			Collections.sort(prontos, COMPARADOR);
+			esperar();
 			try {
 				atual = prontos.get(0);
 
