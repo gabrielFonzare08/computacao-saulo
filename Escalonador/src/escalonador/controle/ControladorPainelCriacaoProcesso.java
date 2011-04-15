@@ -48,14 +48,14 @@ public class ControladorPainelCriacaoProcesso extends Controlador {
 			processo.setQuantum(quantum);			
 			processo.setSolicitacaoES(taxaES);			
 			processo.setTempoES(tempoES);
+			processos.add(processo);
+			atualizarLista(processos.size() - 1);		
 			
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, "Valor inválido: " + e.getLocalizedMessage(), "Erro ao adicionar novo processo", JOptionPane.ERROR_MESSAGE);
 			return;
 		}
 		
-		processos.add(processo);
-		atualizarLista(processos.size() - 1);		
 	}
 	
 	private void atualizarLista(int indice) {
