@@ -5,8 +5,6 @@ import java.util.concurrent.Executors;
 import escalonador.modelo.Escalonador;
 import escalonador.modelo.Processo;
 import escalonador.modelo.algoritmos.ShortJobFirst;
-import escalonador.visao.Janela;
-
 
 public class TesteSJF {
 

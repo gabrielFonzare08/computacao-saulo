@@ -57,11 +57,10 @@ public class PainelSimulacao extends Painel {
 		Dimension dimensaoRotulo = new Dimension(200, 32);
 		
 		executando.setPreferredSize(new Dimension(200, 32));
-		executando.setEnabled(false);
+		executando.setEditable(false);
 		
 		JLabel jLabel = new JLabel("Processo executando na CPU");
 		
-		//jLabel.setPreferredSize(new Dimension(250, 32));
 		add(jLabel);
 		add(executando);
 		
