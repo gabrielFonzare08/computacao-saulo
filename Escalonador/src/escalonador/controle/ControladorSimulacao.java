@@ -59,6 +59,8 @@ public class ControladorSimulacao extends Controlador {
 		default:
 			algoritmo = new Preemptivo(processos);
 		}
+		
+		System.out.println(algoritmo.getClass());
 
 		Escalonador escalonador = new Escalonador(algoritmo);
 		ExecutorService executorService = Executors.newSingleThreadExecutor();
@@ -74,6 +76,11 @@ public class ControladorSimulacao extends Controlador {
 			painelSimulacao.setProcessosBloqueados(algoritmo.getBloqueados().toArray());
 
 		}
+		
+		painelSimulacao.setExecutando("");
+		painelSimulacao.setProcessosProntos(algoritmo.getProntos().toArray());
+		painelSimulacao.setProcessosTerminados(algoritmo.getTerminados().toArray());
+		painelSimulacao.setProcessosBloqueados(algoritmo.getBloqueados().toArray());
 		
 		executorService.shutdown();
 	}

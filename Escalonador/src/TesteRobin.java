@@ -1,3 +1,4 @@
+
 import java.util.ArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -5,13 +6,11 @@ import java.util.concurrent.Executors;
 import escalonador.modelo.Escalonador;
 import escalonador.modelo.Processo;
 import escalonador.modelo.algoritmos.RoundRobin;
-import escalonador.modelo.algoritmos.ShortJobFirst;
-
 
 public class TesteRobin {
 	
 	public static void main(String[] args) throws InterruptedException {
-ArrayList<Processo> processos = new ArrayList<Processo>();
+		ArrayList<Processo> processos = new ArrayList<Processo>();
 		
 		Processo p = new Processo();
 		p.setQuantum(2);
