@@ -1,6 +1,5 @@
 package escalonador.controle;
 
-
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -80,6 +79,7 @@ public class ControladorSimulacao extends Controlador {
 			} else {
 				painel.setExecutando("");
 			}
+				
 
 			painel.setProcessosProntos(algoritmo.getProntos().toArray());
 			painel.setProcessosTerminados(algoritmo.getTerminados().toArray());
@@ -87,7 +87,6 @@ public class ControladorSimulacao extends Controlador {
 
 		}
 		
-		painel.setExecutando("");
 		painel.setProcessosProntos(algoritmo.getProntos().toArray());
 		painel.setProcessosTerminados(algoritmo.getTerminados().toArray());
 		painel.setProcessosBloqueados(algoritmo.getBloqueados().toArray());

@@ -68,9 +68,11 @@ public class RoundRobin extends Algoritmo {
 					}
 				}				
 			}
+			
 			catch (Exception e) { 
 				incrementaTempoCpuOciosa();
 			}
+			
 			finally {
 				
 				// atualiza todos os processos bloqueados
