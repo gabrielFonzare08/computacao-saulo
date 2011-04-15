@@ -1,16 +1,19 @@
 package escalonador.visao.paineis;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 
-import javax.swing.BorderFactory;
-import javax.swing.JLabel;
+//import javax.swing.JButton;
+//import javax.swing.JComboBox;
+//import javax.swing.JLabel;
 import javax.swing.JList;
-import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTextField;
+import javax.swing.JTextArea;
+//import javax.swing.JTextField;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
+import escalonador.controle.ControladorRelatorio;
 import escalonador.visao.Janela;
 import escalonador.visao.Painel;
 
@@ -18,18 +21,20 @@ public class PainelRelatorio extends Painel {
 	
 	private static final long serialVersionUID = 1L;
 	
-	private JList processos;
+	private JList listaProcessos;
+//	
+//	private JTextField pid;
+//	private JTextField prioridade;
+//	private JTextField tempoComputacao;
+//	private JTextField quantum;
+//	private JTextField taxaES;
+//	private JTextField tempoES;
 	
-	private JTextField pid;
-	private JTextField prioridade;
-	private JTextField tempoComputacao;
-	private JTextField quantum;
-	private JTextField taxaES;
-	private JTextField tempoES;
+	private JTextArea tempos;
 	
-	private JTextField tempoPronto;
-	private JTextField tempoExecutando;
-	private JTextField tempoBloqueado;
+//	private JTextField tempoPronto;
+//	private JTextField tempoExecutando;
+//	private JTextField tempoBloqueado;
 		
 	public PainelRelatorio(Janela janela) {
 		super(janela);
@@ -39,56 +44,66 @@ public class PainelRelatorio extends Painel {
 	@Override
 	public void initComponents() {
 		setLayout(new FlowLayout(FlowLayout.CENTER));
-		setPreferredSize(new Dimension(620, 420));
+//		
+//		pid				= new JTextField();
+//		prioridade		= new JTextField();
+//		tempoComputacao	= new JTextField();
+//		quantum			= new JTextField();
+//		taxaES			= new JTextField();
+//		tempoES			= new JTextField();
 		
+		tempos			= new JTextArea("", 5, 8);
 		
-		pid = new JTextField();
-		prioridade = new JTextField();
-		tempoComputacao = new JTextField();
-		quantum = new JTextField();
-		taxaES = new JTextField();
-		tempoES = new JTextField();
+		listaProcessos	= new JList();
 		
-		tempoPronto = new JTextField();
-		tempoExecutando = new JTextField();
-		tempoBloqueado = new JTextField();
+		JScrollPane jScrollPane = new JScrollPane(listaProcessos);
+		jScrollPane.setPreferredSize(new Dimension(430, 130));
 		
-		processos = new JList();
+//		JTextField [] campos = {
+//			pid, prioridade, tempoComputacao, quantum, taxaES, tempoES
+//		};
+//		
+//		String [] rotulos = {
+//			"PID", "Prioridade", "Tempo de Computação", "Quantum*", "Taxa de E/S", "Tempo de E/S"	
+//		};
+//		
+//		Dimension dimensaoCampoTexto = new Dimension(250, 32);
+//		Dimension dimensaoRotulo = new Dimension(180, 32);
 		
-		JTextField [] campos = {
-			pid, prioridade, tempoComputacao, quantum, taxaES,
-			tempoES, tempoPronto, tempoExecutando, tempoBloqueado
-		};
+//		for(int i = 0; i < campos.length; i++) {
+//			JLabel jLabel = new JLabel(rotulos[i]);
+//			//add(jLabel);
+//			//add(campos[i]);
+//			
+//			jLabel.setPreferredSize(dimensaoRotulo);
+//			campos[i].setPreferredSize(dimensaoCampoTexto);
+//		}
 		
-		String [] rotulos = {
-			"PID", "Prioridade", "Tempo de Computação",
-			"Quantum", "Taxa de ES", "Tempo de ES",
-			"Tempo de Pronto", "Tempo Executando", "Tempo bloqueado"
-		};
+		JScrollPane jScrollPane2 = new JScrollPane(tempos);
+		jScrollPane2.setPreferredSize(new Dimension(430, 200));
 		
-		Dimension dimensaoCampoTexto = new Dimension(180, 32);
-		Dimension dimensaoRotulo = new Dimension(180, 32);
-		
-		JScrollPane jScrollPane = new JScrollPane(processos);
-		jScrollPane.setPreferredSize(new Dimension(200, 420));
 		add(jScrollPane);
+		add(jScrollPane2);
 		
-		for( int i = 0; i < rotulos.length; i++ ) {
-			JLabel jLabel = new JLabel(rotulos[i]);
-			jLabel.setPreferredSize(dimensaoRotulo);
-			
-			campos[i].setPreferredSize(dimensaoCampoTexto);
-			
-			//add(jLabel);
-			add(campos[i]);			
-		}
+	}
+	
+	public void setProcesso(String s) {
 		
+		
+		tempos.setText(s);
+	}
+	
+	public void setListaProcessos(Object [] objs) {
+		listaProcessos.setListData(objs);
 	}
 
 	@Override
-	public void addEvents() {
-		// TODO Auto-generated method stub
-
+	public void addEvents() {		
+		listaProcessos.addListSelectionListener(new ListSelectionListener() {			
+			@Override
+			public void valueChanged(ListSelectionEvent e) {
+				ControladorRelatorio.getInstance(PainelRelatorio.this).mostrarProcesso(listaProcessos.getSelectedIndex());
+			}
+		});
 	}
-
 }

@@ -7,10 +7,5 @@ import escalonador.modelo.Processo;
 
 
 public abstract class Controlador {
-	
-	protected static List<Processo> processos;
-	
-	static {
-		processos = new ArrayList<Processo>();
-	}
+	protected static List<Processo> processos = new ArrayList<Processo>();
 }

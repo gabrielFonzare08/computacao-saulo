@@ -2,7 +2,8 @@ package escalonador.visao.paineis;
 
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.List;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -10,6 +11,7 @@ import javax.swing.JList;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
+import escalonador.controle.ControladorSimulacao;
 import escalonador.visao.Janela;
 import escalonador.visao.Painel;
 
@@ -100,8 +102,13 @@ public class PainelSimulacao extends Painel {
 	
 	@Override
 	public void addEvents() {
-		// TODO Auto-generated method stub
-
+		fim.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				ControladorSimulacao.getInstance(PainelSimulacao.this, -1).terminar();
+			}
+		});
 	}
 
 }

@@ -13,6 +13,8 @@ import java.util.List;
  * </ul>
  * */
 public abstract class Algoritmo {
+	
+	static int TIMEOUT = 1000;
 
 	private int tempoCpuOciosa;
 	private int tempoSimulacao;
@@ -90,7 +92,7 @@ public abstract class Algoritmo {
 	
 	public final void esperar() {
 		try {
-			Thread.sleep(1000);
+			Thread.sleep(TIMEOUT);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}

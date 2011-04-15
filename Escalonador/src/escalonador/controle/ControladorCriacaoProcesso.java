@@ -1,8 +1,8 @@
 package escalonador.controle;
 
-import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JList;
 import javax.swing.JOptionPane;
 
 import escalonador.modelo.EstadoProcesso;
@@ -10,25 +10,27 @@ import escalonador.modelo.Processo;
 import escalonador.visao.paineis.PainelCriacaoProcesso;
 import escalonador.visao.paineis.PainelSimulacao;
 
-public class ControladorPainelCriacaoProcesso extends Controlador {
+public class ControladorCriacaoProcesso extends Controlador {
 	
-	private static ControladorPainelCriacaoProcesso instance;
+	private static ControladorCriacaoProcesso instance;
 	
 	private PainelCriacaoProcesso painel;
-	private ArrayList<Processo> processos;
 	
-	public ControladorPainelCriacaoProcesso(PainelCriacaoProcesso painel) {
+	public ControladorCriacaoProcesso(PainelCriacaoProcesso painel) {
 		this.painel = painel;
-		this.processos = new ArrayList<Processo>();
 	}
 	
-	public static ControladorPainelCriacaoProcesso getInstance(PainelCriacaoProcesso painel) {
+	public static ControladorCriacaoProcesso getInstance(PainelCriacaoProcesso painel) {
 		if(instance == null) {
-			instance = new ControladorPainelCriacaoProcesso(painel);
+			instance = new ControladorCriacaoProcesso(painel);
 		}
 		return instance;
 	}
 	
+	/**
+	 * Captura os dados da GUI e os converte em 
+	 * objetos do tipo {@link Processo}. 
+	 * */
 	public void adicionarNovoProcesso() {
 		Processo processo = null;
 		
@@ -58,10 +60,18 @@ public class ControladorPainelCriacaoProcesso extends Controlador {
 		
 	}
 	
+	/**
+	 * Atualiza o {@link JList} que contem os processos.
+	 * @param indice deixa o &uacute;ltimo processo selecionado.
+	 * */
 	private void atualizarLista(int indice) {
 		painel.getListaProcessos().setListData(processos.toArray());
 		painel.getListaProcessos().setSelectedIndex(indice);
 	}
+	
+	/**
+	 * Remove o processo em foco da lista de processos. 
+	 * */
 	
 	public void removerProcessoSelecionado() {
 		if(!processos.isEmpty()) {
@@ -72,11 +82,11 @@ public class ControladorPainelCriacaoProcesso extends Controlador {
 		}
 	}
 	
-	public List<Processo> getProcessos() {
-		return processos;
-	}
-	
-	public void simular() {
+	/**
+	 * Passa o trabalho para o {@link ControladorSimulacao}
+	 * e p&otilde;e o painel de simulação para frente da GUI.
+	 * */
+	public void notificarSimulacao() {
 		
 		PainelSimulacao painelSimulacao = painel.getJanela().getPainelSimulacao();
 		painelSimulacao.porEmFoco();

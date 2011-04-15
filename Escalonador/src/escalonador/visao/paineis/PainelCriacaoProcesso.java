@@ -12,7 +12,7 @@ import javax.swing.JList;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
-import escalonador.controle.ControladorPainelCriacaoProcesso;
+import escalonador.controle.ControladorCriacaoProcesso;
 import escalonador.visao.Janela;
 import escalonador.visao.Painel;
 
@@ -103,7 +103,7 @@ public class PainelCriacaoProcesso extends Painel {
 	@Override
 	public void addEvents() {
 		
-		final ControladorPainelCriacaoProcesso controlador = ControladorPainelCriacaoProcesso.getInstance(PainelCriacaoProcesso.this);
+		final ControladorCriacaoProcesso controlador = ControladorCriacaoProcesso.getInstance(PainelCriacaoProcesso.this);
 		
 		adicionar.addActionListener(new ActionListener() {
 			
@@ -127,7 +127,7 @@ public class PainelCriacaoProcesso extends Painel {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				controlador.simular();
+				controlador.notificarSimulacao();
 			}
 		});
 	}

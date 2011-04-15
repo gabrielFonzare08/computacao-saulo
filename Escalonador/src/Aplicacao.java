@@ -1,5 +1,5 @@
 
-import escalonador.controle.ControladorPainelCriacaoProcesso;
+import escalonador.controle.ControladorCriacaoProcesso;
 import escalonador.controle.ControladorSimulacao;
 import escalonador.visao.Janela;
 
@@ -9,16 +9,14 @@ public class Aplicacao {
 		Janela janela = new Janela();
 		janela.setVisible(true);
 		
-		ControladorPainelCriacaoProcesso criacaoProcesso = ControladorPainelCriacaoProcesso.getInstance(janela.getPainelCriacaoProcesso());
+		ControladorCriacaoProcesso.getInstance(janela.getPainelCriacaoProcesso());
 		ControladorSimulacao controladorSimulacao = ControladorSimulacao.getInstance(janela.getPainelSimulacao(), 0);
 		
 		synchronized (controladorSimulacao) {
 			controladorSimulacao.wait();
 		}
 		
-		controladorSimulacao.simular(criacaoProcesso.getProcessos());
-		
-		
+		controladorSimulacao.simular();
 		
 	}
 }
