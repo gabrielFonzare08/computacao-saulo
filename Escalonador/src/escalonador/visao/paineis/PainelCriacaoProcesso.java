@@ -56,7 +56,7 @@ public class PainelCriacaoProcesso extends Painel {
 		listaProcessos	= new JList();
 		
 		JScrollPane jScrollPane = new JScrollPane(listaProcessos);
-		jScrollPane.setPreferredSize(new Dimension(430, 180));
+		jScrollPane.setPreferredSize(new Dimension(430, 130));
 		
 		String [] nomeAlgoritmos = {
 				"Preemptivo", "Round Robin", "Short Job First", "Escolha um algoritmo" 
