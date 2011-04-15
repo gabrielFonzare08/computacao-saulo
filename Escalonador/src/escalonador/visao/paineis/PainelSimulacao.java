@@ -91,12 +91,7 @@ public class PainelSimulacao extends Painel {
 	}
 	
 	public void setProcessosTerminados(Object [] processos) {
-		terminados.repaint();
-		if(terminados.getComponentCount() == 0) {
-			terminados.setListData(processos);
-			
-		}
-		//terminados = new JLremoveAll();
+		terminados.setListData(processos);
 	}
 	
 	

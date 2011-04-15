@@ -19,9 +19,6 @@ import escalonador.modelo.Processo;
  * 
  * */
 public class RoundRobin extends Algoritmo {
-	public int ciclo = 0;
-	public int cpuOciosa = 0;
-	
 	public RoundRobin(List<Processo> processos) {
 		super(processos);
 	}

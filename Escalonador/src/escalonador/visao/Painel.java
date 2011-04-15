@@ -13,7 +13,7 @@ public abstract class Painel extends JPanel {
 	public Painel(final Janela janela) {
 		this.janela = janela;
 		
-		setPreferredSize(new Dimension(440, 450));
+		setPreferredSize(new Dimension(440, 460));
 		initComponents();
 		addEvents();
 		
