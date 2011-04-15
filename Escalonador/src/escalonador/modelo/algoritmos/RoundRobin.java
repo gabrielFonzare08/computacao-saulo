@@ -43,13 +43,16 @@ public class RoundRobin extends Algoritmo {
 					executando.tempos.timeoutBloqueado = executando.getTempoES();
 					bloqueados.add(executando);
 					
+					executando = null;
+					
 				} else {
 					executando.tempos.executando += executando.getQuantum();
 					
-					// terminpu de computar
+					// terminou de computar
 					if(executando.tempos.executando >= executando.getTempoComputacao()) {
 						executando.setEstado(EstadoProcesso.TERMINADO);
 						terminados.add(executando);
+						executando = null;
 					}
 					
 					// atualizar os tempos de pronto
@@ -86,10 +89,6 @@ public class RoundRobin extends Algoritmo {
 			
 			executando = null;
 			incrementaTempoSimulacao();
-		}
-		
-		
-		
-		
+		}		
 	}	
 }
