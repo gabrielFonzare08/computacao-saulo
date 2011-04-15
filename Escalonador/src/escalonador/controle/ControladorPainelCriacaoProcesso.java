@@ -7,16 +7,12 @@ import javax.swing.JOptionPane;
 
 import escalonador.modelo.EstadoProcesso;
 import escalonador.modelo.Processo;
-import escalonador.modelo.algoritmos.RoundRobin;
-import escalonador.modelo.algoritmos.ShortJobFirst;
-import escalonador.visao.Janela;
 import escalonador.visao.paineis.PainelCriacaoProcesso;
 import escalonador.visao.paineis.PainelSimulacao;
 
 public class ControladorPainelCriacaoProcesso extends Controlador {
 	
 	private static ControladorPainelCriacaoProcesso instance;
-	private static int pid = 0;
 	
 	private PainelCriacaoProcesso painel;
 	private ArrayList<Processo> processos;
@@ -38,8 +34,6 @@ public class ControladorPainelCriacaoProcesso extends Controlador {
 		
 		try {		
 			
-			
-			processo.setPid(++pid);
 			processo.setEstado(EstadoProcesso.PRONTO);
 			
 			int prioridade = Integer.parseInt(painel.getPrioridadeProcesso());
@@ -59,7 +53,7 @@ public class ControladorPainelCriacaoProcesso extends Controlador {
 			
 		} catch (Exception e) {
 			//e.printStackTrace();
-			JOptionPane.showMessageDialog(null, e.toString(), "Erro ao adicionar novo processo", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Valor inválido: " + e.getLocalizedMessage(), "Erro ao adicionar novo processo", JOptionPane.ERROR_MESSAGE);
 			return;
 		}
 		

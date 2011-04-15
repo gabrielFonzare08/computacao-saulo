@@ -15,7 +15,6 @@ public class TestePreemptivo {
 		ArrayList<Processo> processos = new ArrayList<Processo>();
 		
 		Processo p = new Processo();
-		p.setPid(1);
 		p.setSolicitacaoES(.09f);
 		p.setTempoComputacao(10);
 		p.setTempoES(1);
@@ -26,7 +25,6 @@ public class TestePreemptivo {
 		processos.add(p);
 		
 		p = new Processo();
-		p.setPid(2);
 		p.setSolicitacaoES(.59f);
 		p.setTempoComputacao(4);
 		p.setTempoES(2);
@@ -37,7 +35,6 @@ public class TestePreemptivo {
 		processos.add(p);
 		
 		p = new Processo();
-		p.setPid(3);
 		p.setSolicitacaoES(.1f);
 		p.setTempoComputacao(5);
 		p.setTempoES(7);
@@ -48,7 +45,6 @@ public class TestePreemptivo {
 		processos.add(p);
 		
 		p = new Processo();
-		p.setPid(4);
 		p.setSolicitacaoES(0.4f);
 		p.setTempoComputacao(1);
 		p.setTempoES(2);
