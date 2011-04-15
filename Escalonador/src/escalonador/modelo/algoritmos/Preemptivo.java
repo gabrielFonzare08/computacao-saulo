@@ -8,7 +8,15 @@ import escalonador.modelo.Algoritmo;
 import escalonador.modelo.EstadoProcesso;
 import escalonador.modelo.Processo;
 
+class ComparadorProcessoPrioridade implements Comparator<Processo> {
+	@Override
+	public int compare(Processo p1, Processo p2) {
+		return p2.getPrioridade() - p1.getPrioridade();
+	}
+}
+
 public class Preemptivo extends Algoritmo {
+	private static final ComparadorProcessoPrioridade COMPARADOR = new ComparadorProcessoPrioridade();
 
 	public Preemptivo(List<Processo> processos) {
 		super(processos);
@@ -17,21 +25,14 @@ public class Preemptivo extends Algoritmo {
 		}
 	}
 
-	class ProcessComparator implements Comparator<Processo> {
-		@Override
-		public int compare(Processo p1, Processo p2) {
-			return p2.getPrioridade() - p1.getPrioridade();
-		}
-	}
 
 	@Override
 	public void escalonar() {
 
-		ProcessComparator comparator = new ProcessComparator();
 
 		while (processos.size() != terminados.size()) {
 
-			Collections.sort(prontos, comparator);
+			Collections.sort(prontos, COMPARADOR);
 			try {
 				atual = prontos.get(0);
 
