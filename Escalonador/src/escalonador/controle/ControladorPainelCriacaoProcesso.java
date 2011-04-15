@@ -30,29 +30,26 @@ public class ControladorPainelCriacaoProcesso extends Controlador {
 	}
 	
 	public void adicionarNovoProcesso() {
-		Processo processo = new Processo();
+		Processo processo = null;
 		
 		try {		
 			
-			processo.setEstado(EstadoProcesso.PRONTO);
-			
 			int prioridade = Integer.parseInt(painel.getPrioridadeProcesso());
-			processo.setPrioridade(prioridade);
-
 			int tempoComputacao = Integer.parseInt(painel.getTempoComputacaoProcesso());
-			processo.setTempoComputacao(tempoComputacao);
-			
 			int quantum = Integer.parseInt(painel.getQuantumProcesso());
-			processo.setQuantum(quantum);
-			
 			float taxaES = Float.parseFloat(painel.getTaxaESProcesso());
-			processo.setSolicitacaoES(taxaES);
-			
 			int tempoES = Integer.parseInt(painel.getTempoESProcesso());
+			
+			
+			processo = new Processo();
+			processo.setEstado(EstadoProcesso.PRONTO);			
+			processo.setPrioridade(prioridade);
+			processo.setTempoComputacao(tempoComputacao);			
+			processo.setQuantum(quantum);			
+			processo.setSolicitacaoES(taxaES);			
 			processo.setTempoES(tempoES);
 			
 		} catch (Exception e) {
-			//e.printStackTrace();
 			JOptionPane.showMessageDialog(null, "Valor inválido: " + e.getLocalizedMessage(), "Erro ao adicionar novo processo", JOptionPane.ERROR_MESSAGE);
 			return;
 		}
