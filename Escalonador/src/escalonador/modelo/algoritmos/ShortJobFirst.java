@@ -13,7 +13,7 @@ import escalonador.modelo.Processo;
  * Implementa&ccedil;&atilde;o da classe {@link Comparator} para tratar com processos no algoritmo {@link ShortJobFirst}. <br />
  * O algoritmo simplemente compara os {@link Processo#getComputingTime()} de cada processo.
  * */
-class ProcessComparator implements Comparator<Processo> {
+class ComparadorProcessoTempoComputacao implements Comparator<Processo> {
 	@Override
 	public int compare(Processo p1, Processo p2) {
 		return p1.getTempoComputacao() - p2.getTempoComputacao();
@@ -33,6 +33,7 @@ class ProcessComparator implements Comparator<Processo> {
 
 public class ShortJobFirst extends Algoritmo {
 	
+	private static final ComparadorProcessoTempoComputacao COMPARADOR = new ComparadorProcessoTempoComputacao();
 	public ShortJobFirst(List<Processo> processos) {
 		super(processos);
 	}
@@ -40,9 +41,8 @@ public class ShortJobFirst extends Algoritmo {
 	@Override
 	public void escalonar() {
 	
-		ProcessComparator comparator = new ProcessComparator();
 		
-		Collections.sort(processos, comparator); // reorganiza-os
+		Collections.sort(processos, COMPARADOR); // reorganiza-os
 		
 		while(!prontos.isEmpty()) {
 			esperar();
