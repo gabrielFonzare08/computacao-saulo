@@ -59,7 +59,7 @@ public class PainelCriacaoProcesso extends Painel {
 		jScrollPane.setPreferredSize(new Dimension(430, 130));
 		
 		String [] nomeAlgoritmos = {
-				"Preemptivo", "Round Robin", "Short Job First", "Escolha um algoritmo" 
+				"Preemptivo", "Round Robin", "Short Job First"
 		};
 		
 		algoritmos = new JComboBox(nomeAlgoritmos);
