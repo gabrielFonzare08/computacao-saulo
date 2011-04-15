@@ -1,7 +1,5 @@
 package escalonador.controle;
 
-import java.util.List;
-
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 

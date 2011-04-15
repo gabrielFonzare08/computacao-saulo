@@ -90,7 +90,6 @@ public class RoundRobin extends Algoritmo {
 				}				
 			}
 			
-			executando = null;
 			incrementaTempoSimulacao();
 		}		
 	}	
