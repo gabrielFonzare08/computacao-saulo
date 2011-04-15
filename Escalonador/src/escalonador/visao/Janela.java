@@ -80,7 +80,7 @@ public class Janela extends JFrame {
 			painel.setVisible(false);
 		}
 		
-		paineis[i].setVisible(true);
+		painelCriacaoProcesso.setVisible(true);
 	}
 	
 	private void addEvents() {

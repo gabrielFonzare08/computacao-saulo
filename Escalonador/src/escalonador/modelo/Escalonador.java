@@ -11,6 +11,10 @@ public class Escalonador implements Runnable {
 		this.algoritmo = algoritmo;
 	}
 	
+	public void forcarTermino() {
+		Algoritmo.TIMEOUT = 1; 
+	}
+	
 	public List<Processo> getTodosProcessos() {
 		return algoritmo.processos;
 	}

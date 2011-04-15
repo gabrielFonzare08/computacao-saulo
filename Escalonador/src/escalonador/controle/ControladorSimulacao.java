@@ -1,12 +1,11 @@
 package escalonador.controle;
 
-import java.util.List;
+
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import escalonador.modelo.Algoritmo;
 import escalonador.modelo.Escalonador;
-import escalonador.modelo.Processo;
 import escalonador.modelo.algoritmos.Preemptivo;
 import escalonador.modelo.algoritmos.RoundRobin;
 import escalonador.modelo.algoritmos.ShortJobFirst;
@@ -18,15 +17,14 @@ public class ControladorSimulacao extends Controlador {
 	public static final int ROUND_ROBIN = 1;
 	public static final int SHORT_JOB_FIRST = 2;
 
-	public static final int TIMEOUT = 1000;
-	public int algoritmo;
+	private int algoritmo;
 
 	private static ControladorSimulacao instance;
-	private PainelSimulacao painelSimulacao;
+	private PainelSimulacao painel;
 	private boolean terminar = false;
 
 	private ControladorSimulacao(PainelSimulacao painelSimulacao, int algoritmo) {
-		this.painelSimulacao = painelSimulacao;
+		this.painel = painelSimulacao;
 		this.algoritmo = algoritmo;
 	}
 
@@ -44,7 +42,7 @@ public class ControladorSimulacao extends Controlador {
 		terminar = true;
 	}
 
-	public void simular(List<Processo> processos) {
+	public void simular() {
 		Algoritmo algoritmo = null;
 
 		switch (this.algoritmo) {
@@ -60,30 +58,43 @@ public class ControladorSimulacao extends Controlador {
 			algoritmo = new Preemptivo(processos);
 		}
 		
-		System.out.println(algoritmo.getClass());
-
 		Escalonador escalonador = new Escalonador(algoritmo);
 		ExecutorService executorService = Executors.newSingleThreadExecutor();
 		executorService.execute(escalonador);
 
+		int timeout = 200;
 		while (!escalonador.isTerminado()) {
+			if(terminar) {
+				timeout = 1;
+				escalonador.forcarTermino();
+			}
+			
+			try {					
+				Thread.sleep(timeout);
+			} catch (Exception e) { }
+						
+			
+			
 			if (algoritmo.getExecutando() != null) {
-				painelSimulacao.setExecutando(algoritmo.getExecutando().getPid() + "");
+				painel.setExecutando(algoritmo.getExecutando().getPid() + "");
 			} else {
-				painelSimulacao.setExecutando("");
+				painel.setExecutando("");
 			}
 
-			painelSimulacao.setProcessosProntos(algoritmo.getProntos().toArray());
-			painelSimulacao.setProcessosTerminados(algoritmo.getTerminados().toArray());
-			painelSimulacao.setProcessosBloqueados(algoritmo.getBloqueados().toArray());
+			painel.setProcessosProntos(algoritmo.getProntos().toArray());
+			painel.setProcessosTerminados(algoritmo.getTerminados().toArray());
+			painel.setProcessosBloqueados(algoritmo.getBloqueados().toArray());
 
 		}
 		
-		painelSimulacao.setExecutando("");
-		painelSimulacao.setProcessosProntos(algoritmo.getProntos().toArray());
-		painelSimulacao.setProcessosTerminados(algoritmo.getTerminados().toArray());
-		painelSimulacao.setProcessosBloqueados(algoritmo.getBloqueados().toArray());
+		painel.setExecutando("");
+		painel.setProcessosProntos(algoritmo.getProntos().toArray());
+		painel.setProcessosTerminados(algoritmo.getTerminados().toArray());
+		painel.setProcessosBloqueados(algoritmo.getBloqueados().toArray());
 		
 		executorService.shutdown();
+		
+		ControladorRelatorio.getInstance(painel.getJanela().getPainelRelatorio()).setProcessos();
+		painel.getJanela().getPainelRelatorio().porEmFoco();
 	}
 }
