@@ -87,6 +87,14 @@ public abstract class Algoritmo {
 	 * */
 
 	public abstract void escalonar();
+	
+	public final void esperar() {
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+	}
 
 	public Processo getExecutando() {
 		return executando;

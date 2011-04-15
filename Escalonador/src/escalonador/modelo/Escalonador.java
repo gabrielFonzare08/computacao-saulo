@@ -34,7 +34,9 @@ public class Escalonador implements Runnable {
 	@Override
 	public void run() {
 		terminado = false;
-		algoritmo.escalonar();
+		algoritmo.escalonar();			
+		
+		
 		terminado = true;
 	}
 }

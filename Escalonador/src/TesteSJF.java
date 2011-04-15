@@ -41,37 +41,44 @@ public class TesteSJF {
 		
 		p = new Processo();
 		p.setPid(4);
-		p.setSolicitacaoES(1f);
+		p.setSolicitacaoES(0.9f);
 		p.setTempoComputacao(1);
 		p.setTempoES(1);
 		
 		processos.add(p);
 		
 		ShortJobFirst shortJobFirst = new ShortJobFirst(processos);
-		
+		Escalonador escalonador = new Escalonador(shortJobFirst);
 		
 		
 		ExecutorService service = Executors.newFixedThreadPool(1);
-		service.execute(new Escalonador(shortJobFirst));
+		service.execute(escalonador);
 		
-		while(!shortJobFirst.getProntos().isEmpty()) {
-			synchronized (shortJobFirst) {
-				shortJobFirst.notify();
+		while(!escalonador.isTerminado()) {
+			synchronized (escalonador) {
 				try {
-					shortJobFirst.wait(200);
+					escalonador.wait(500);
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
+				
+				System.out.println("-------------");				
+				for(Processo processo : shortJobFirst.getProcessos()) {
+					System.out.println(processo);
+				}
+				
+				System.out.println("-------------");
+				System.out.println();
+				
 			}
 		}
 		
 		
-		for(Processo p_ : shortJobFirst.getTerminados()) {
-			System.out.println(p_);
+		for(Processo processo : shortJobFirst.getTerminados()) {
+			System.out.println(processo);
 		}
 		
 		service.shutdown();
-		//System.out.println(processos);
 	}
 }

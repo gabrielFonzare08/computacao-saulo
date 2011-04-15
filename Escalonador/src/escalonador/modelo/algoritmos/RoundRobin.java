@@ -30,6 +30,8 @@ public class RoundRobin extends Algoritmo {
 	public void escalonar() {
 		while(terminados.size() < processos.size()) {
 			
+			esperar();
+			
 			try {
 				executando = prontos.remove(0);
 				executando.setEstado(EstadoProcesso.EXECUTANDO);
@@ -66,7 +68,7 @@ public class RoundRobin extends Algoritmo {
 				}				
 			}
 			catch (Exception e) { 
-				cpuOciosa++;
+				incrementaTempoCpuOciosa();
 			}
 			finally {
 				
@@ -86,10 +88,11 @@ public class RoundRobin extends Algoritmo {
 			}
 			
 			executando = null;
-			
+			incrementaTempoSimulacao();
 		}
 		
-		ciclo++;
-		System.out.println();
+		
+		
+		
 	}	
 }

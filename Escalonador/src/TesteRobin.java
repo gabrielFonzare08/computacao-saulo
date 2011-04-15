@@ -1,6 +1,11 @@
 import java.util.ArrayList;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
+import escalonador.modelo.Escalonador;
 import escalonador.modelo.Processo;
 import escalonador.modelo.algoritmos.RoundRobin;
+import escalonador.modelo.algoritmos.ShortJobFirst;
 
 
 public class TesteRobin {
@@ -45,10 +50,33 @@ ArrayList<Processo> processos = new ArrayList<Processo>();
 		processos.add(p);
 		
 		RoundRobin roundRobin = new RoundRobin(processos);
-		roundRobin.escalonar();
+		Escalonador escalonador = new Escalonador(roundRobin);
 		
 		
-		System.out.println("Resultado:");
+		ExecutorService service = Executors.newFixedThreadPool(1);
+		service.execute(escalonador);
+		
+		while(!escalonador.isTerminado()) {
+			synchronized (escalonador) {
+				try {
+					escalonador.wait(500);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+//				System.out.println("-------------");				
+//				for(Processo processo : roundRobin.getProcessos()) {
+//					System.out.println(processo);
+//				}
+//				
+//				System.out.println("-------------");
+//				System.out.println();
+				
+			}
+		}
+		
+		
 		for(Processo processo : roundRobin.getTerminados()) {
 			System.out.println(processo);
 		}
