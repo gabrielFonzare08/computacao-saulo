@@ -31,7 +31,6 @@ public class RoundRobin extends Algoritmo {
 			
 			try {
 				executando = prontos.remove(0);
-				executando.setEstado(EstadoProcesso.EXECUTANDO);
 				
 				if(executando.tempos.resposta == -1) {
 					executando.tempos.resposta = executando.tempos.pronto;
@@ -46,6 +45,8 @@ public class RoundRobin extends Algoritmo {
 					executando = null;
 					
 				} else {
+					
+					executando.setEstado(EstadoProcesso.EXECUTANDO);
 					executando.tempos.executando += executando.getQuantum();
 					
 					// terminou de computar
