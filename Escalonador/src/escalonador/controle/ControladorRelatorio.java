@@ -37,7 +37,10 @@ public class ControladorRelatorio extends Controlador {
 			}
 
 			while ((indice = stringBuffer.indexOf(",")) > 0) {
-				stringBuffer.setCharAt(indice, '\n');
+				stringBuffer.delete(indice, indice +1);
+				stringBuffer.insert(indice, '\t');
+				stringBuffer.insert(indice, '\n');
+				
 			}
 
 			painel.setProcesso(stringBuffer.toString());

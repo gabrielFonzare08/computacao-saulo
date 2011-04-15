@@ -56,6 +56,7 @@ public class ShortJobFirst extends Algoritmo {
 				executando.setEstado(EstadoProcesso.BLOQUEADO);				
 				executando.tempos.bloqueado += executando.getTempoES(); // incrementar tempo de bloqueado
 				incrementaTempoCpuOciosa();
+				esperar();
 			}
 			
 			
