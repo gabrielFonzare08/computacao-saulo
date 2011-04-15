@@ -2,6 +2,7 @@ package escalonador.visao.paineis;
 
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.List;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -41,6 +42,7 @@ public class PainelSimulacao extends Painel {
 		bloqueados = new JList();
 		terminados = new JList();
 		
+		
 		JScrollPane [] jScrollPanes = {
 				new JScrollPane(prontos),
 				new JScrollPane(bloqueados),
@@ -79,15 +81,22 @@ public class PainelSimulacao extends Painel {
 	}
 	
 	public void setProcessosProntos(Object [] processos) {
+		prontos.removeAll();
 		prontos.setListData(processos);
 	}
 	
 	public void setProcessosBloqueados(Object [] processos) {
+		bloqueados.removeAll();
 		bloqueados.setListData(processos);
 	}
 	
 	public void setProcessosTerminados(Object [] processos) {
-		terminados.setListData(processos);
+		terminados.repaint();
+		if(terminados.getComponentCount() == 0) {
+			terminados.setListData(processos);
+			
+		}
+		//terminados = new JLremoveAll();
 	}
 	
 	

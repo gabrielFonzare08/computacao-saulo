@@ -1,6 +1,7 @@
 package escalonador.controle;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JOptionPane;
 
@@ -8,7 +9,9 @@ import escalonador.modelo.EstadoProcesso;
 import escalonador.modelo.Processo;
 import escalonador.modelo.algoritmos.RoundRobin;
 import escalonador.modelo.algoritmos.ShortJobFirst;
+import escalonador.visao.Janela;
 import escalonador.visao.paineis.PainelCriacaoProcesso;
+import escalonador.visao.paineis.PainelSimulacao;
 
 public class ControladorPainelCriacaoProcesso extends Controlador {
 	
@@ -78,11 +81,20 @@ public class ControladorPainelCriacaoProcesso extends Controlador {
 		}
 	}
 	
+	public List<Processo> getProcessos() {
+		return processos;
+	}
+	
 	public void simular() {
-		painel.getJanela().trocarPainel(1);		
 		
-		System.out.println(painel.getAlgoritmoId());
-		ControladorSimulacao.getInstance(painel.getJanela().getPainelSimulacao(), painel.getAlgoritmoId()).simular(processos);
+		PainelSimulacao painelSimulacao = painel.getJanela().getPainelSimulacao();
+		painelSimulacao.porEmFoco();
+		
+		ControladorSimulacao simulacao = ControladorSimulacao.getInstance(painelSimulacao, painel.getAlgoritmoId());
+		
+		synchronized (simulacao) {
+			simulacao.notify();
+		}
 				
 	}
  }
