@@ -1,7 +1,6 @@
 package escalonador.controle;
 
 import java.io.File;
-import java.io.FileReader;
 import java.io.PrintWriter;
 import java.util.Calendar;
 import java.util.List;
@@ -74,13 +73,15 @@ public class ControladorRelatorio extends Controlador {
 			pw.println("---------------------------------");
 			pw.println("Métricas: ");
 			
-			float cpuMedia = 0;
 			
 			List<Processo> processos = algoritmo.getProcessos(); 
 			
+			float cpuMedia = 0;
 			for(Processo p : processos) {
-				//cpuMedia += (p.tempos.executando / p.tempos.resposta);
+				cpuMedia += (p.tempos.executando / ( p.tempos.resposta  == 0 ? 1 : p.tempos.resposta) );
 			}
+			
+			
 			
 			float esperaMedia = 0;
 			for(Processo p : processos) {
@@ -145,7 +146,7 @@ public class ControladorRelatorio extends Controlador {
 			String str = "";
 			
 			while(scanner.hasNext()) {
-				str +=scanner.nextLine() + "\n";
+				str += scanner.nextLine() + "\n";
 			}
 			
 			painel.setProcesso(str);
