@@ -13,6 +13,7 @@ public class Tempos {
 	public long timeoutBloqueado;
 	public long tempoEspera;
 	public long tempoRetorno;
+	public long tempoComputacaoaux;
 	
 	
 	/**

@@ -36,6 +36,7 @@ public class RoundRobin extends Algoritmo {
 					executando = prontos.remove(0);
 
 				}
+				
 				if (executando.tempos.resposta == -1) {
 					executando.tempos.resposta = executando.tempos.pronto;
 				}
@@ -50,22 +51,23 @@ public class RoundRobin extends Algoritmo {
 					}
 				} else {
 					executando.tempos.incrementarTempoComputacaotemp();
+					executando.tempos.tempoComputacaoaux++;
 				}
 
-				executando.tempos.tempoRetorno++;
 
-				if (executando.tempos.getTempoComputacaotemp() >= executando
+				if (executando.tempos.tempoComputacaoaux == executando.getTempoComputacao()) {
+					terminados.add(executando);
+					executando.setEstado(EstadoProcesso.TERMINADO);
+				}
+
+				if (executando.tempos.getTempoComputacaotemp() == executando
 						.getQuantum()) {
 					executando = null;
 					continue;
 				}
 
-				if (executando.tempos.getTempoComputacaotemp() <= 0) {
-					terminados.add(executando);
-					executando.setEstado(EstadoProcesso.TERMINADO);
-					executando = null;
-				}
-
+				executando.tempos.tempoRetorno++;
+				
 				for (Processo p : prontos) {
 					p.tempos.pronto++;
 					p.tempos.tempoRetorno++;
