@@ -35,7 +35,6 @@ public class Preemptivo extends Algoritmo {
 				atual = prontos.get(0);
 			} catch (Exception e) {
 				// TODO: handle exception
-				System.out.println("Lista de prontos vazia");
 			} finally {
 				try {
 					if (executando == null) {
@@ -43,30 +42,22 @@ public class Preemptivo extends Algoritmo {
 						if (executando.tempos.resposta == -1) {
 							executando.tempos.resposta = executando.tempos.pronto;
 						}
-
 						executando.setEstado(EstadoProcesso.EXECUTANDO);
-
 					}
-
 					if (executando.vaiFazerES()) {
 						bloqueados.add(executando);
 						esperar();
-
 						executando = null;
 						for (Processo p : prontos) {
 							p.tempos.pronto++;
-							p.tempos.tempoEspera++;
 							p.tempos.tempoRetorno++;
 						}
-
 						for (int i = 0; i < bloqueados.size(); i++) {
 							bloqueados.get(i).tempos.tempoRetorno++;
 							bloqueados.get(i).tempos.decrementaTempoEStemp();
-						
 							bloqueados.get(i).tempos.bloqueado++;
 							if (bloqueados.get(i).tempos.getTempoEStemp() == 0) {
 								prontos.add(bloqueados.get(i));
-							
 								bloqueados.get(i).tempos
 										.setTempoEStemp(bloqueados.get(i)
 												.getTempoES());
@@ -75,7 +66,6 @@ public class Preemptivo extends Algoritmo {
 						}
 						continue;
 					}
-
 					if (executando.getPrioridade() < atual.getPrioridade()) {
 						prontos.add(executando);
 						executando = atual;
@@ -83,26 +73,20 @@ public class Preemptivo extends Algoritmo {
 					}
 					executando.tempos.tempoRetorno++;
 					executando.tempos.executando++;
-					
 					executando.tempos.decrementarTempoComputacaotemp();
-					
 					if (executando.tempos.getTempoComputacaotemp() <= 0) {
 						terminados.add(executando);
 						executando.setEstado(EstadoProcesso.TERMINADO);
 						executando = null;
 					}
 				}
-
 				catch (Exception e) {
 					incrementaTempoCpuOciosa();
 				} finally {
-
 					for (Processo p : prontos) {
 						p.tempos.tempoRetorno++;
 						p.tempos.pronto++;
-						p.tempos.tempoEspera++;
 					}
-
 					for (int i = 0; i < bloqueados.size(); i++) {
 						bloqueados.get(i).tempos.tempoRetorno++;
 						bloqueados.get(i).tempos.decrementaTempoEStemp();
@@ -114,7 +98,6 @@ public class Preemptivo extends Algoritmo {
 							bloqueados.remove(i);
 						}
 					}
-
 				}
 			}
 		}

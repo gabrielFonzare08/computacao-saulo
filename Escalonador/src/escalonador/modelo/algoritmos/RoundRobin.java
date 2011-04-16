@@ -1,6 +1,7 @@
 package escalonador.modelo.algoritmos;
 
 
+import java.util.Collections;
 import java.util.List;
 
 import escalonador.modelo.Algoritmo;
@@ -25,76 +26,71 @@ public class RoundRobin extends Algoritmo {
 	
 	@Override
 	public void escalonar() {
-		while(terminados.size() < processos.size()) {
-			executando = null;
+		while (processos.size() != terminados.size()) {
 			esperar();
-			
-			try {
-				executando = prontos.remove(0);
-				
-				if(executando.tempos.resposta == -1) {
-					executando.tempos.resposta = executando.tempos.pronto;
-				}				
-				
-				if(executando.vaiFazerES()) {
-					executando.setEstado(EstadoProcesso.BLOQUEADO);
-					executando.tempos.bloqueado += executando.getTempoES();
-					executando.tempos.timeoutBloqueado = executando.getTempoES();
-					bloqueados.add(executando);
-					esperar();
-					
-				} else {
-					
-					executando.setEstado(EstadoProcesso.EXECUTANDO);
-					executando.tempos.executando += executando.getQuantum();
-					
-					// terminou de computar
-					if(executando.tempos.executando >= executando.getTempoComputacao()) {
-						executando.setEstado(EstadoProcesso.TERMINADO);
+				try {
+					if (executando == null ) {
+						executando = prontos.remove(0);
+						if (executando.tempos.resposta == -1) {
+							executando.tempos.resposta = executando.tempos.pronto;
+						}
+						executando.setEstado(EstadoProcesso.EXECUTANDO);
+					}
+					if (executando.vaiFazerES()) {
+						bloqueados.add(executando);
+						esperar();
+						executando = null;
+						for (Processo p : prontos) {
+							p.tempos.pronto++;
+							p.tempos.tempoRetorno++;
+						}
+						for (int i = 0; i < bloqueados.size(); i++) {
+							bloqueados.get(i).tempos.tempoRetorno++;
+							bloqueados.get(i).tempos.decrementaTempoEStemp();
+							bloqueados.get(i).tempos.bloqueado++;
+							if (bloqueados.get(i).tempos.getTempoEStemp() == 0) {
+								prontos.add(bloqueados.get(i));
+								bloqueados.get(i).tempos
+										.setTempoEStemp(bloqueados.get(i)
+												.getTempoES());
+								bloqueados.remove(i);
+							}
+						}
+						continue;
+					}
+					if (executando.getPrioridade() < atual.getPrioridade()) {
+						prontos.add(executando);
+						executando = atual;
+						prontos.remove(atual);
+					}
+					executando.tempos.tempoRetorno++;
+					executando.tempos.executando++;
+					executando.tempos.decrementarTempoComputacaotemp();
+					if (executando.tempos.getTempoComputacaotemp() <= 0) {
 						terminados.add(executando);
+						executando.setEstado(EstadoProcesso.TERMINADO);
 						executando = null;
 					}
-					
-					// atualizar os tempos de pronto
-					for(int i = 0; i < prontos.size(); i++) {
-						Processo pronto = prontos.get(i);
-						pronto.tempos.pronto += executando.getQuantum();					
+				}
+				catch (Exception e) {
+					incrementaTempoCpuOciosa();
+				} finally {
+					for (Processo p : prontos) {
+						p.tempos.tempoRetorno++;
+						p.tempos.pronto++;
 					}
-					
-					// se n terminou, volta pros prontos
-					if(!executando.isTerminado()) {
-						prontos.add(executando);						
+					for (int i = 0; i < bloqueados.size(); i++) {
+						bloqueados.get(i).tempos.tempoRetorno++;
+						bloqueados.get(i).tempos.decrementaTempoEStemp();
+						bloqueados.get(i).tempos.bloqueado++;
+						if (bloqueados.get(i).tempos.getTempoEStemp() == 0) {
+							prontos.add(bloqueados.get(i));
+							bloqueados.get(i).tempos.setTempoEStemp(bloqueados
+									.get(i).getTempoES());
+							bloqueados.remove(i);
+						}
 					}
 				}
 			}
-			
-			catch (Exception e) { 
-				incrementaTempoCpuOciosa();
-			}
-			
-			finally {
-				
-				// atualiza todos os processos bloqueados
-				for(int i = 0; i < bloqueados.size(); i++) {
-					Processo bloqueado = bloqueados.get(i);
-					bloqueado.tempos.timeoutBloqueado -= (executando == null) ? 1 : executando.getQuantum();
-					
-					// se ele estiver terminado ES voltar para pronto!
-					if(bloqueado.tempos.timeoutBloqueado <= 0) {
-						bloqueado.tempos.timeoutBloqueado = 0;
-						bloqueados.remove(i);
-						bloqueado.setEstado(EstadoProcesso.PRONTO);
-						prontos.add(bloqueado);
-					}
-				}				
-			}
-			
-			for(Processo p : prontos) {
-				p.tempos.tempoRetorno = p.tempos.executando + p.tempos.bloqueado + p.tempos.pronto;
-			}
-			
-			incrementaTempoSimulacao();			
 		}
-		
-	}	
-}
+	}
