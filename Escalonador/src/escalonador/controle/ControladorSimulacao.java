@@ -33,12 +33,25 @@ public class ControladorSimulacao extends Controlador {
 		if (instance == null) {
 			instance = new ControladorSimulacao(painelSimulacao, algoritmo);
 		}
-		instance.algoritmo = algoritmo;
+		if(algoritmo != -1) {
+			instance.algoritmo = algoritmo;			
+		}
 		return instance;
 	}
 
 	public void terminar() {
 		terminar = true;
+	}
+	
+	public String getNomeAlgoritmo() {
+		switch (this.algoritmo) {
+		case SHORT_JOB_FIRST:
+			return "Short Job First";
+		case ROUND_ROBIN:
+			return "Round Robin";
+		default:
+			return "Preemptivo por Prioridades";
+		}
 	}
 
 	public void simular() {
