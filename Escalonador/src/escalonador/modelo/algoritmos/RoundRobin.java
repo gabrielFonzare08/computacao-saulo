@@ -22,27 +22,31 @@ public class RoundRobin extends Algoritmo {
 	public RoundRobin(List<Processo> processos) {
 		super(processos);
 	}
+	
+	@Override
+	public String getNome() {
+		return "Rou";
+	}
 
 	@Override
 	public void escalonar() {
 		while(terminados.size() < processos.size()) {
 			
-			esperar();
 			
 			try {
 				executando = prontos.remove(0);
+				esperar();					
 				
 				if(executando.tempos.resposta == -1) {
 					executando.tempos.resposta = executando.tempos.pronto;
 				}
+				
 				
 				if(executando.vaiFazerES()) {
 					executando.setEstado(EstadoProcesso.BLOQUEADO);
 					executando.tempos.bloqueado += executando.getTempoES();
 					executando.tempos.timeoutBloqueado = executando.getTempoES();
 					bloqueados.add(executando);
-					
-					executando = null;
 					
 				} else {
 					
