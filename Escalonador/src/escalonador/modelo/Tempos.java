@@ -10,21 +10,41 @@ public class Tempos {
 	public long executando;
 	public long pronto;
 	public long resposta = -1;
-	
 	public long timeoutBloqueado;
 	public long tempoEspera;
-		
+	public long tempoRetorno;
+	
+	
 	/**
 	 * Atributos necess&aacute;rios para o algoritmo preemptivo baseado em 
 	 * prioridades. 
 	 */
 	
 	private int tempoEStemp;
+	private int tempoComputacaotemp;
 	
 	/**
 	 * M&eacute;todos necess&aacute;rios para o algoritmo preemptivo baseado em 
 	 * prioridades.
 	 */
+	
+		
+	public void decrementarTempoComputacaotemp(){
+		this.tempoComputacaotemp--;
+	}
+	
+	public void incrementarTempoComputacaotemp(){
+		this.tempoComputacaotemp++;
+	}
+		
+	public int getTempoComputacaotemp() {
+		return tempoComputacaotemp;
+	}
+
+	public void setTempoComputacaotemp(int tempoComputacaotemp) {
+		this.tempoComputacaotemp = tempoComputacaotemp;
+	}
+
 	
 	public int getTempoEStemp() {
 		return tempoEStemp;

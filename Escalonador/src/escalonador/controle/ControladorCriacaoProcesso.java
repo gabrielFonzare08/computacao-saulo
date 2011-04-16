@@ -40,7 +40,6 @@ public class ControladorCriacaoProcesso extends Controlador {
 			float taxaES = Float.parseFloat(painel.getTaxaESProcesso());
 			int tempoES = Integer.parseInt(painel.getTempoESProcesso());
 			
-			
 			processo = new Processo();
 			processo.setEstado(EstadoProcesso.PRONTO);			
 			processo.setPrioridade(prioridade);
@@ -93,7 +92,6 @@ public class ControladorCriacaoProcesso extends Controlador {
 		
 		synchronized (simulacao) {
 			simulacao.notify();
-		}
-				
+		}	
 	}
  }

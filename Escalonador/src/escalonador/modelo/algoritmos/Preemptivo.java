@@ -22,21 +22,17 @@ public class Preemptivo extends Algoritmo {
 		super(processos);
 		for (Processo p : processos) {
 			p.tempos.setTempoEStemp(p.getTempoES());
+			p.tempos.setTempoComputacaotemp(p.getTempoComputacao());
 		}
 	}
 
-
 	@Override
 	public void escalonar() {
-
-
 		while (processos.size() != terminados.size()) {
-
 			Collections.sort(prontos, COMPARADOR);
 			esperar();
 			try {
 				atual = prontos.get(0);
-
 			} catch (Exception e) {
 				// TODO: handle exception
 				System.out.println("Lista de prontos vazia");
@@ -49,6 +45,42 @@ public class Preemptivo extends Algoritmo {
 						}
 
 						executando.setEstado(EstadoProcesso.EXECUTANDO);
+
+					}
+
+					if (executando.vaiFazerES()) {
+						bloqueados.add(executando);
+						esperar();
+						System.out.println("Executando bloqueou");
+						executando = null;
+						for (Processo p : prontos) {
+							p.tempos.pronto++;
+							p.tempos.tempoEspera++;
+							System.out.println("Processos: " + p.getPid()
+									+ " Esperando");
+						}
+
+						for (int i = 0; i < bloqueados.size(); i++) {
+							System.out
+									.println("Processo: "
+											+ bloqueados.get(i).getPid()
+											+ " Bloqueado");
+							bloqueados.get(i).tempos.decrementaTempoEStemp();
+							System.out.println(bloqueados.get(i).tempos
+									.getTempoEStemp());
+							bloqueados.get(i).tempos.bloqueado++;
+							if (bloqueados.get(i).tempos.getTempoEStemp() == 0) {
+								prontos.add(bloqueados.get(i));
+								System.out.println("Processo: "
+										+ bloqueados.get(i).getPid()
+										+ "ficou pronto");
+								bloqueados.get(i).tempos
+										.setTempoEStemp(bloqueados.get(i)
+												.getTempoES());
+								bloqueados.remove(i);
+							}
+						}
+						continue;
 					}
 
 					if (executando.getPrioridade() < atual.getPrioridade()) {
@@ -57,43 +89,34 @@ public class Preemptivo extends Algoritmo {
 						prontos.remove(atual);
 					}
 
-					if (executando.vaiFazerES()) {
-						bloqueados.add(executando);
-						System.out.println("Executando bloqueou");
-						executando = null;
-						continue;
-					}
-
+					executando.tempos.executando++;
 					System.out.println("processo " + executando.getPid()
 							+ " executando");
-					executando.decrementarTempoComputacao();
-					System.out.println("processo possui"
-							+ executando.getTempoComputacao()
+					executando.tempos.decrementarTempoComputacaotemp();
+					System.out.println("processo possui "
+							+ executando.tempos.getTempoComputacaotemp()
 							+ " ciclos restantes");
 
-					if (executando.getTempoComputacao() <= 0) {
+					if (executando.tempos.getTempoComputacaotemp() <= 0) {
 						System.out.println("processo " + executando.getPid()
 								+ "terminou");
-						prontos.remove(executando);
-						// processos.remove(executando);
 						terminados.add(executando);
+						executando.setEstado(EstadoProcesso.TERMINADO);
 						executando = null;
 					}
 				}
 
 				catch (Exception e) {
-
 					System.out
 							.println("Nao existe processos na lista de prontos");
 					incrementaTempoCpuOciosa();
-
 				} finally {
 
 					for (Processo p : prontos) {
+						p.tempos.pronto++;
 						p.tempos.tempoEspera++;
 						System.out.println("Processos: " + p.getPid()
 								+ " Esperando");
-
 					}
 
 					for (int i = 0; i < bloqueados.size(); i++) {
@@ -102,6 +125,7 @@ public class Preemptivo extends Algoritmo {
 						bloqueados.get(i).tempos.decrementaTempoEStemp();
 						System.out.println(bloqueados.get(i).tempos
 								.getTempoEStemp());
+						bloqueados.get(i).tempos.bloqueado++;
 						if (bloqueados.get(i).tempos.getTempoEStemp() == 0) {
 							prontos.add(bloqueados.get(i));
 							System.out.println("Processo: "
@@ -112,6 +136,7 @@ public class Preemptivo extends Algoritmo {
 							bloqueados.remove(i);
 						}
 					}
+
 				}
 			}
 		}
