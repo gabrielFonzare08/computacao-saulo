@@ -45,6 +45,7 @@ public class Preemptivo extends Algoritmo {
 						executando.setEstado(EstadoProcesso.EXECUTANDO);
 					}
 					if (executando.vaiFazerES()) {
+						executando.setEstado(EstadoProcesso.BLOQUEADO);
 						bloqueados.add(executando);
 						esperar();
 						executando = null;
