@@ -134,7 +134,7 @@ public class Processo {
 	public void setTempoES(int tempoES) {
 		this.tempoES = tempoES;
 	}
-		
+	
 	@Override
 	public String toString() {
 		return "Processo [pid=" + pid + ", prioridade=" + prioridade

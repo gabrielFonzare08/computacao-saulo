@@ -90,6 +90,10 @@ public abstract class Algoritmo {
 
 	public abstract void escalonar();
 	
+	public String getNome() {
+		return getClass().getSimpleName();
+	}
+	
 	public final void esperar() {
 		try {
 			Thread.sleep(TIMEOUT);

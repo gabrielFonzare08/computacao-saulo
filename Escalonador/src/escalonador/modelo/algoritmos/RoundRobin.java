@@ -24,29 +24,24 @@ public class RoundRobin extends Algoritmo {
 	}
 	
 	@Override
-	public String getNome() {
-		return "Rou";
-	}
-
-	@Override
 	public void escalonar() {
 		while(terminados.size() < processos.size()) {
-			
+			executando = null;
+			esperar();
 			
 			try {
 				executando = prontos.remove(0);
-				esperar();					
 				
 				if(executando.tempos.resposta == -1) {
 					executando.tempos.resposta = executando.tempos.pronto;
-				}
-				
+				}				
 				
 				if(executando.vaiFazerES()) {
 					executando.setEstado(EstadoProcesso.BLOQUEADO);
 					executando.tempos.bloqueado += executando.getTempoES();
 					executando.tempos.timeoutBloqueado = executando.getTempoES();
 					bloqueados.add(executando);
+					esperar();
 					
 				} else {
 					
@@ -70,7 +65,7 @@ public class RoundRobin extends Algoritmo {
 					if(!executando.isTerminado()) {
 						prontos.add(executando);						
 					}
-				}				
+				}
 			}
 			
 			catch (Exception e) { 
@@ -94,7 +89,11 @@ public class RoundRobin extends Algoritmo {
 				}				
 			}
 			
-			incrementaTempoSimulacao();
-		}		
+			incrementaTempoSimulacao();			
+		}
+		
+		for(Processo p : prontos) {
+			p.tempos.tempoRetorno = p.tempos.executando + p.tempos.bloqueado + p.tempos.pronto; 
+		}
 	}	
 }
