@@ -6,10 +6,6 @@ import java.awt.FlowLayout;
 import javax.swing.JList;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
-
-import escalonador.controle.ControladorRelatorio;
 import escalonador.visao.Janela;
 import escalonador.visao.Painel;
 
