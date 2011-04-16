@@ -109,10 +109,10 @@ public class ControladorRelatorio extends Controlador {
 			});
 			
 			pw.println("Vazão: "			+ (terminados.get(0).tempos.tempoRetorno / processos.size())); // fazendo
-			pw.println("CPU média: "		+ cpuMedia);
-			pw.println("Espera média: "		+ (esperaMedia / processos.size()));
-			pw.println("Retorno média: "	+ (retornoMedia / processos.size()));
-			pw.println("Resposta média: "	+ (prontos / processos.size()));
+			pw.println("CPU médio: "		+ cpuMedia);
+			pw.println("Espera médio: "		+ (esperaMedia / processos.size()));
+			pw.println("Retorno médio: "	+ (retornoMedia / processos.size()));
+			pw.println("Resposta médio: "	+ (prontos / processos.size()));
 			
 			pw.println();
 			
