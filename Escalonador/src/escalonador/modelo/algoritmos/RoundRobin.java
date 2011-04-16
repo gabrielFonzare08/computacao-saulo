@@ -93,7 +93,7 @@ public class RoundRobin extends Algoritmo {
 		}
 		
 		for(Processo p : prontos) {
-			p.tempos.tempoRetorno = p.tempos.executando + p.tempos.bloqueado + p.tempos.pronto; 
+			p.tempos.tempoRetorno = p.tempos.executando + p.tempos.bloqueado + p.tempos.pronto;
 		}
 	}	
 }
