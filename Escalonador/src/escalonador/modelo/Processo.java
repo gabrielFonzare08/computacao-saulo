@@ -35,6 +35,7 @@ public class Processo {
 	 * */
 	private int tempoComputacao;
 	
+
 	/**
 	 * Tempo que o processo demora para realiza ES.
 	 * */
@@ -51,10 +52,7 @@ public class Processo {
 	private float solicitacaoES;
 	public Tempos tempos;
 
-	public void decrementarTempoComputacao(){
-		this.tempoComputacao--;
-	}
-		
+	
 	public Processo() {
 		pid = ++PID_ATUAL;
 		tempos = new Tempos();

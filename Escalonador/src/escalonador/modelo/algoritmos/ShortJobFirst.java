@@ -8,67 +8,94 @@ import escalonador.modelo.Algoritmo;
 import escalonador.modelo.EstadoProcesso;
 import escalonador.modelo.Processo;
 
-
-/**
- * Implementa&ccedil;&atilde;o da classe {@link Comparator} para tratar com processos no algoritmo {@link ShortJobFirst}. <br />
- * O algoritmo simplemente compara os {@link Processo#getComputingTime()} de cada processo.
- * */
 class ComparadorProcessoTempoComputacao implements Comparator<Processo> {
 	@Override
 	public int compare(Processo p1, Processo p2) {
 		return p1.getTempoComputacao() - p2.getTempoComputacao();
-	}		
+	}
 }
 
-/**
- * Implementa&ccedil;&atilde;o do algoritmo ShortJobFirst.
- * O algoritmo deve obedecer as seguintes regras:
- * <ul>
- * 	<li>Fila priorizada pelo tempo de execu&ccedil;&atilde;o das tarefas.</li>
- *	<li>O tempo de execu&ccedil;&atilde;o deve ser conhecido previamente.</li>
- *	<li>Outra caracter&iacute;stica &eacute; que o algoritmo &eacute; n&atilde;o preemptivo.</li>
- * </ul>
- * 
- * */
-
 public class ShortJobFirst extends Algoritmo {
-	
+
 	private static final ComparadorProcessoTempoComputacao COMPARADOR = new ComparadorProcessoTempoComputacao();
+
 	public ShortJobFirst(List<Processo> processos) {
 		super(processos);
+		for (Processo p : processos) {
+			p.tempos.setTempoEStemp(p.getTempoES());
+			p.tempos.setTempoComputacaotemp(p.getTempoComputacao());
+		}
 	}
-	
+
+	boolean bloqueado;
+
 	@Override
 	public void escalonar() {
-	
-		
-		Collections.sort(processos, COMPARADOR); // reorganiza-os
-		
-		while(!prontos.isEmpty()) {
+
+		Collections.sort(prontos, COMPARADOR); // reorganiza-os
+
+		while (terminados.size() < processos.size()) {
 			esperar();
-			
-			
-			executando = prontos.remove(0); // pega o proximo processo pronto
-			executando.setEstado(EstadoProcesso.EXECUTANDO);
-			executando.tempos.resposta = executando.tempos.pronto;
-			
-			if(executando.vaiFazerES()) { // vai fazer es?
-				executando.setEstado(EstadoProcesso.BLOQUEADO);				
-				executando.tempos.bloqueado += executando.getTempoES(); // incrementar tempo de bloqueado
-				incrementaTempoCpuOciosa();
+
+			if (executando == null) {
+				executando = prontos.remove(0); // pega o proximo processo
+				executando.setEstado(EstadoProcesso.EXECUTANDO);
+				bloqueado = false;
+				if (executando.tempos.resposta == -1) {
+					executando.tempos.resposta = executando.tempos.pronto;
+				}
 				esperar();
 			}
-			
-			
-			executando.tempos.executando += executando.getTempoComputacao();
-			
-			for(Processo p : prontos) {
-				p.tempos.pronto += executando.getTempoComputacao() + executando.tempos.bloqueado; // incrementar tempo de pronto em um ciclo; 
+
+			if (executando.vaiFazerES() && bloqueado == false) {
+				bloqueados.add(executando);
+				bloqueado = true;
+				System.out.println("Executando bloqueou");
+				executando.setEstado(EstadoProcesso.BLOQUEADO);
 			}
-			
-			executando.setEstado(EstadoProcesso.TERMINADO);
-			terminados.add(executando);
-			incrementaTempoSimulacao();
+
+			if (!bloqueado) {
+				System.out.println("processo " + executando.getPid()
+						+ " executando");
+				executando.tempos.executando++;
+				executando.tempos.decrementarTempoComputacaotemp();
+				System.out
+						.println("processo possui"
+								+ executando.getTempoComputacao()
+								+ " ciclos restantes");
+			}
+
+			if (executando.tempos.getTempoComputacaotemp() <= 0) {
+				System.out.println("processo " + executando.getPid()
+						+ "terminou");
+				executando.setEstado(EstadoProcesso.TERMINADO);
+				terminados.add(executando);
+				bloqueados.remove(executando);
+				executando = null;
+			}
+
+			for (Processo p : prontos) {
+				p.tempos.tempoEspera++;
+				p.tempos.pronto++;
+				System.out.println("Processos: " + p.getPid() + " Esperando");
+			}
+
+			for (int i = 0; i < bloqueados.size(); i++) {
+				System.out.println("Processo: " + bloqueados.get(i).getPid()
+						+ " Bloqueado");
+				bloqueados.get(i).tempos.bloqueado++;
+				bloqueados.get(i).tempos.decrementaTempoEStemp();
+				incrementaTempoCpuOciosa();
+				System.out.println(bloqueados.get(i).tempos.getTempoEStemp());
+				if (bloqueados.get(i).tempos.getTempoEStemp() == 0) {
+					bloqueado = false;
+					System.out.println("Processo: "
+							+ bloqueados.get(i).getPid() + "ficou pronto");
+					bloqueados.get(i).tempos.setTempoEStemp(bloqueados.get(i)
+							.getTempoES());
+					bloqueados.remove(i);
+				}
+			}
 		}
-	}	
+	}
 }

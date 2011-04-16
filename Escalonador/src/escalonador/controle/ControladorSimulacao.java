@@ -5,6 +5,7 @@ import java.util.concurrent.Executors;
 
 import escalonador.modelo.Algoritmo;
 import escalonador.modelo.Escalonador;
+import escalonador.modelo.EstadoProcesso;
 import escalonador.modelo.algoritmos.Preemptivo;
 import escalonador.modelo.algoritmos.RoundRobin;
 import escalonador.modelo.algoritmos.ShortJobFirst;
@@ -85,15 +86,16 @@ public class ControladorSimulacao extends Controlador {
 				Thread.sleep(timeout);
 			} catch (Exception e) { }
 						
-			
-			
+				
 			if (algoritmo.getExecutando() != null) {
 				painel.setExecutando(algoritmo.getExecutando().getPid() + "");
 			} else {
 				painel.setExecutando("");
 			}
+			
 				
-
+			
+			//painel.setExecutando("");
 			painel.setProcessosProntos(algoritmo.getProntos().toArray());
 			painel.setProcessosTerminados(algoritmo.getTerminados().toArray());
 			painel.setProcessosBloqueados(algoritmo.getBloqueados().toArray());
