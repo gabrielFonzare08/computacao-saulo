@@ -5,7 +5,6 @@ import java.util.concurrent.Executors;
 
 import escalonador.modelo.Algoritmo;
 import escalonador.modelo.Escalonador;
-import escalonador.modelo.EstadoProcesso;
 import escalonador.modelo.algoritmos.Preemptivo;
 import escalonador.modelo.algoritmos.RoundRobin;
 import escalonador.modelo.algoritmos.ShortJobFirst;
@@ -108,7 +107,11 @@ public class ControladorSimulacao extends Controlador {
 		
 		executorService.shutdown();
 		
-		ControladorRelatorio.getInstance(painel.getJanela().getPainelRelatorio()).setProcessos();
+		ControladorRelatorio controladorRelatorio = ControladorRelatorio.getInstance(painel.getJanela().getPainelRelatorio());
+		controladorRelatorio.setProcessos();
 		painel.getJanela().getPainelRelatorio().porEmFoco();
+		
+		controladorRelatorio.gerarArquivo(algoritmo);
+		
 	}
 }

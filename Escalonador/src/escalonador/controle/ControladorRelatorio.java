@@ -2,10 +2,12 @@ package escalonador.controle;
 
 import java.io.PrintWriter;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Locale;
 
 import javax.swing.JOptionPane;
 
+import escalonador.modelo.Algoritmo;
 import escalonador.modelo.Processo;
 import escalonador.visao.paineis.PainelRelatorio;
 
@@ -56,7 +58,7 @@ public class ControladorRelatorio extends Controlador {
 		}
 	}
 	
-	public void gerarArquivo() {
+	public void gerarArquivo(Algoritmo algoritmo) {
 		try {
 			PrintWriter pw = new PrintWriter("relatorio" + System.currentTimeMillis() +  ".txt");
 			
@@ -64,22 +66,50 @@ public class ControladorRelatorio extends Controlador {
 			pw.println("Algoritmo: " + ControladorSimulacao.getInstance(null, -1).getNomeAlgoritmo());
 			
 			pw.println("---------------------------------");
+			pw.println("Métricas: ");
+			
+			float cpuMedia = 0;
+			
+			List<Processo> processos = algoritmo.getProcessos(); 
+			
+			for(Processo p : processos) {
+				cpuMedia += (p.tempos.executando / p.tempos.resposta);
+			}
+			
+			float esperaMedia = 0;
+			for(Processo p : processos) {
+				esperaMedia += p.tempos.resposta;
+			}
+			
+			float retornoMedia = 0;
+			for(Processo p : processos) {
+				retornoMedia += p.tempos.tempoRetorno;
+			}
+			
+			float prontos = 0;
+			for(Processo p : processos) {
+				prontos += p.tempos.pronto;
+			}
+			
+			pw.println("Vazão: "			+ "??"); // fazendo
+			pw.println("CPU média: "		+ cpuMedia);
+			pw.println("Espera média: "		+ (esperaMedia / processos.size()));
+			pw.println("Retorno média: "	+ (retornoMedia / processos.size()));
+			pw.println("Resposta média: "	+ (prontos / processos.size()));
+			
+			pw.println();
+			
 			pw.println("---------------------------------");
 			
 			for(Processo processo : processos) {
 				pw.println("---------------------------------");
 				
-				pw.println("PID: " + processo.getPid());
-				
-				pw.format("Prioridade: %d", processo.getPrioridade());
-				pw.println();
-				
-				pw.println("Tempo de Computação: " + processo.getTempoComputacao());
-				
-				pw.println("Quantum: "		+ processo.getQuantum());				
-				pw.println("Taxa de E/S: "	+ processo.getSolicitacaoES());
-				
-				pw.format("Tempo de E/S: %d", processo.getTempoES());
+				pw.println("PID: "					+ processo.getPid());				
+				pw.println("Prioridade: "			+ processo.getPrioridade());
+				pw.println("Tempo de Computação: "	+ processo.getTempoComputacao());
+				pw.println("Quantum: "				+ processo.getQuantum());				
+				pw.println("Taxa de E/S: " 			+ processo.getSolicitacaoES());
+				pw.println("Tempo de E/S: "			+ processo.getTempoES());
 				
 				pw.println();
 				pw.println();
@@ -110,9 +140,5 @@ public class ControladorRelatorio extends Controlador {
 			JOptionPane.showMessageDialog(null, e.toString(), "Erro ao gerar Relatório", JOptionPane.ERROR_MESSAGE);
 			e.printStackTrace();
 		}
-	}
-	
-	public static void main(String[] args) {
-		new ControladorRelatorio(null).gerarArquivo();
 	}
 }
