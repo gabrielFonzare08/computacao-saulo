@@ -1,9 +1,12 @@
 package escalonador.controle;
 
+import java.io.File;
+import java.io.FileReader;
 import java.io.PrintWriter;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
+import java.util.Scanner;
 
 import javax.swing.JOptionPane;
 
@@ -59,8 +62,11 @@ public class ControladorRelatorio extends Controlador {
 	}
 	
 	public void gerarArquivo(Algoritmo algoritmo) {
+		
+		String arquivo = "relatorio" + System.currentTimeMillis() +  ".txt";
+		
 		try {
-			PrintWriter pw = new PrintWriter("relatorio" + System.currentTimeMillis() +  ".txt");
+			PrintWriter pw = new PrintWriter(arquivo);
 			
 			pw.println("Simulação em: " + Calendar.getInstance(Locale.getDefault()).getTime().toString());
 			pw.println("Algoritmo: " + ControladorSimulacao.getInstance(null, -1).getNomeAlgoritmo());
@@ -73,7 +79,7 @@ public class ControladorRelatorio extends Controlador {
 			List<Processo> processos = algoritmo.getProcessos(); 
 			
 			for(Processo p : processos) {
-				cpuMedia += (p.tempos.executando / p.tempos.resposta);
+				//cpuMedia += (p.tempos.executando / p.tempos.resposta);
 			}
 			
 			float esperaMedia = 0;
@@ -114,19 +120,10 @@ public class ControladorRelatorio extends Controlador {
 				pw.println();
 				pw.println();
 				
-				pw.println("Tempo resposta: "	+ processo.tempos.resposta);
-				pw.println("Tempo bloqueado: "	+ processo.tempos.bloqueado);
+				pw.println("Tempo Resposta: "	+ processo.tempos.resposta);
+				pw.println("Tempo Bloqueado: "	+ processo.tempos.bloqueado);
 				pw.println("Tempo Executando: "	+ processo.tempos.executando);
 				pw.println("Tempo Pronto: "		+ processo.tempos.pronto);
-				
-				pw.format("Tempo bloqueado: %d", processo.tempos.bloqueado);
-				pw.println("Tempo resposta: " + processo.tempos.resposta);
-				pw.println("Tempo bloqueado: " + processo.tempos.bloqueado);
-				pw.format("Tempo bloqueado: %d", processo.tempos.bloqueado);
-				pw.format("Tempo bloqueado: %d", processo.tempos.bloqueado);
-				pw.format("Tempo bloqueado: %d", processo.tempos.bloqueado);
-				
-				
 				
 				pw.println("---------------------------------");
 				
@@ -135,10 +132,28 @@ public class ControladorRelatorio extends Controlador {
 			}
 			
 			pw.flush();
-			pw.close();			
+			pw.close();	
+			
+			
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, e.toString(), "Erro ao gerar Relatório", JOptionPane.ERROR_MESSAGE);
 			e.printStackTrace();
 		}
+		
+		try {
+			Scanner scanner = new Scanner(new File(arquivo));
+			String str = "";
+			
+			while(scanner.hasNext()) {
+				str +=scanner.nextLine() + "\n";
+			}
+			
+			painel.setProcesso(str);
+			scanner.close();
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, e.toString(), "Erro ao gerar Relatório", JOptionPane.ERROR_MESSAGE);
+			e.printStackTrace();
+		}
+		
 	}
 }
