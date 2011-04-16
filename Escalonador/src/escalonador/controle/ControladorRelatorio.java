@@ -3,6 +3,8 @@ package escalonador.controle;
 import java.io.File;
 import java.io.PrintWriter;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Scanner;
@@ -65,6 +67,7 @@ public class ControladorRelatorio extends Controlador {
 		String arquivo = "relatorio" + System.currentTimeMillis() +  ".txt";
 		
 		try {
+			
 			PrintWriter pw = new PrintWriter(arquivo);
 			
 			pw.println("Simulação em: " + Calendar.getInstance(Locale.getDefault()).getTime().toString());
@@ -81,8 +84,6 @@ public class ControladorRelatorio extends Controlador {
 				cpuMedia += (p.tempos.executando / ( p.tempos.resposta  == 0 ? 1 : p.tempos.resposta) );
 			}
 			
-			
-			
 			float esperaMedia = 0;
 			for(Processo p : processos) {
 				esperaMedia += p.tempos.resposta;
@@ -98,7 +99,16 @@ public class ControladorRelatorio extends Controlador {
 				prontos += p.tempos.pronto;
 			}
 			
-			pw.println("Vazão: "			+ "??"); // fazendo
+			List<Processo> terminados = algoritmo.getTerminados();
+			
+			Collections.sort(terminados, new Comparator<Processo>() {
+				@Override
+				public int compare(Processo o1, Processo o2) {
+					return (int) (o2.tempos.tempoRetorno - o1.tempos.tempoRetorno); 
+				}
+			});
+			
+			pw.println("Vazão: "			+ (terminados.get(0).tempos.tempoRetorno / processos.size())); // fazendo
 			pw.println("CPU média: "		+ cpuMedia);
 			pw.println("Espera média: "		+ (esperaMedia / processos.size()));
 			pw.println("Retorno média: "	+ (retornoMedia / processos.size()));
