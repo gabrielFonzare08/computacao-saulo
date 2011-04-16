@@ -56,11 +56,13 @@ public class Preemptivo extends Algoritmo {
 						for (Processo p : prontos) {
 							p.tempos.pronto++;
 							p.tempos.tempoEspera++;
+							p.tempos.tempoRetorno++;
 							System.out.println("Processos: " + p.getPid()
 									+ " Esperando");
 						}
 
 						for (int i = 0; i < bloqueados.size(); i++) {
+							bloqueados.get(i).tempos.tempoRetorno++;
 							System.out
 									.println("Processo: "
 											+ bloqueados.get(i).getPid()
@@ -88,7 +90,7 @@ public class Preemptivo extends Algoritmo {
 						executando = atual;
 						prontos.remove(atual);
 					}
-
+					executando.tempos.tempoRetorno++;
 					executando.tempos.executando++;
 					System.out.println("processo " + executando.getPid()
 							+ " executando");
@@ -113,6 +115,7 @@ public class Preemptivo extends Algoritmo {
 				} finally {
 
 					for (Processo p : prontos) {
+						p.tempos.tempoRetorno++;
 						p.tempos.pronto++;
 						p.tempos.tempoEspera++;
 						System.out.println("Processos: " + p.getPid()
@@ -120,6 +123,7 @@ public class Preemptivo extends Algoritmo {
 					}
 
 					for (int i = 0; i < bloqueados.size(); i++) {
+						bloqueados.get(i).tempos.tempoRetorno++;
 						System.out.println("Processo: "
 								+ bloqueados.get(i).getPid() + " Bloqueado");
 						bloqueados.get(i).tempos.decrementaTempoEStemp();
