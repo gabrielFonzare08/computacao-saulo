@@ -62,6 +62,6 @@ public class Tempos {
 	@Override
 	public String toString() {
 		return "Tempos [bloqueado=" + bloqueado + ", executando=" + executando
-				+ ", pronto=" + pronto + ", resposta= " +  resposta + "]";
+				+ ", espera=" + pronto + ", resposta= " +  resposta + ", retorno=" + tempoRetorno +"]";
 	}	
 }

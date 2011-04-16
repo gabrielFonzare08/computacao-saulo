@@ -58,6 +58,7 @@ public class ShortJobFirst extends Algoritmo {
 				System.out.println("processo " + executando.getPid()
 						+ " executando");
 				executando.tempos.executando++;
+				executando.tempos.tempoRetorno++;
 				executando.tempos.decrementarTempoComputacaotemp();
 				System.out
 						.println("processo possui"
@@ -77,12 +78,14 @@ public class ShortJobFirst extends Algoritmo {
 			for (Processo p : prontos) {
 				p.tempos.tempoEspera++;
 				p.tempos.pronto++;
+				p.tempos.tempoRetorno++;
 				System.out.println("Processos: " + p.getPid() + " Esperando");
 			}
 
 			for (int i = 0; i < bloqueados.size(); i++) {
 				System.out.println("Processo: " + bloqueados.get(i).getPid()
 						+ " Bloqueado");
+				bloqueados.get(i).tempos.tempoRetorno++;
 				bloqueados.get(i).tempos.bloqueado++;
 				bloqueados.get(i).tempos.decrementaTempoEStemp();
 				incrementaTempoCpuOciosa();
