@@ -12,21 +12,15 @@ public class Processo {
 	}
 	
 	public void gerarProcessoPequeno(Processo p){
-		p.setTamanho(2+(int)(Math.random()*2));
+		p.setTamanho(2+(int)Math.round((Math.random()*2)));
 	}
 	
 	public void gerarProcessoMedio(Processo p){
-		p.setTamanho(6+(int)(Math.random()*2));
+		p.setTamanho(6+(int)Math.round((Math.random()*2)));
 	}
 	
 	public void gerarProcessoGrande(Processo p){
-		p.setTamanho(12+(int)(Math.random()*10));
+		p.setTamanho(12+(int)Math.round((Math.random()*8)));
 	}
 	
-	public static void main(String[] args) {
-		Processo p = new Processo();
-		p.gerarProcessoPequeno(p);
-		System.out.println(p.getTamanho());
-		
-	}
 }
