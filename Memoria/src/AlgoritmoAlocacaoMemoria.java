@@ -15,7 +15,7 @@ public abstract class AlgoritmoAlocacaoMemoria {
 	public AlgoritmoAlocacaoMemoria() {
 		segmentos = new ArrayList<Segmento>();
 		
-		Segmento inicial = new Segmento();
+		Segmento inicial = new Segmento(-1);
 		inicial.setInicio(0);
 		inicial.setOcupado(false);
 		inicial.setOffset(MAXIMO_MEMORIA);
