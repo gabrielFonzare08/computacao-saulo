@@ -1,5 +1,10 @@
 import java.util.ArrayList;
 
+import javax.annotation.processing.Processor;
+
+class SemMemoriaException extends Exception {
+	
+}
 
 public abstract class AlgoritmoAlocacaoMemoria {
 	
@@ -17,5 +22,8 @@ public abstract class AlgoritmoAlocacaoMemoria {
 		
 		segmentos.add(inicial);
 	}
+	
+	public abstract void add(Processo processo) throws SemMemoriaException;
+	public abstract void remover(Processo processo)  throws SemMemoriaException;
 
 }

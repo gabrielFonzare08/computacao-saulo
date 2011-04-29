@@ -4,9 +4,10 @@ public class Segmento {
 	private boolean ocupado;
 	private int inicio;
 	private int offset;
+	private int idProcesso;
 	
-	public Segmento() {
-		// TODO Auto-generated constructor stub
+	public Segmento(int id) {
+		idProcesso  = id;
 	}
 
 	public boolean isOcupado() {
@@ -31,6 +32,23 @@ public class Segmento {
 
 	public void setOffset(int offset) {
 		this.offset = offset;
+	}
+	
+	public int getTamanho() {
+		return offset - inicio;
+	}
+	
+	public boolean isLivre() {
+		return !ocupado;
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if(obj instanceof Segmento) {
+			Segmento outro = (Segmento) obj;
+			return this.idProcesso == outro.idProcesso;
+		}
+		return false;
 	}
 	
 	
