@@ -115,4 +115,12 @@ private static final long serialVersionUID = -1337476581613013311L;
 	public int getTamanhoProcessos(){
 		return tamanhoProcessos.getSelectedIndex();
 	}
+
+	public JList getListaProcessos() {
+		return listaProcessos;
+	}
+
+	public void setListaProcessos(JList listaProcessos) {
+		this.listaProcessos = listaProcessos;
+	}
 }

@@ -2,7 +2,7 @@
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 
-public class ControladorInicioSimulacao {
+public class ControladorInicioSimulacao extends Controlador{
 	
 	private static ControladorInicioSimulacao instance;
 	
@@ -48,10 +48,10 @@ public class ControladorInicioSimulacao {
 	
 	public void notificarSimulacao() {
 		
-		PainelSimulacao painelSimulacao = painel.getJanela().getPainelSimulacao();
-		painelSimulacao.porEmFoco();
+		PainelInicioSimulacao painelInicioSimulacao = painel.getJanela().getPainelInicioSimulacao();
+		painelInicioSimulacao.porEmFoco();
 		
-		ControladorSimulacao simulacao = ControladorSimulacao.getInstance(painelSimulacao, painel.getAlgoritmoId());
+		ControladorInicioSimulacao simulacao = ControladorInicioSimulacao.getInstance(painelInicioSimulacao, painel.getAlgoritmos());
 		
 		synchronized (simulacao) {
 			simulacao.notify();
