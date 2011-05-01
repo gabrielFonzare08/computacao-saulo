@@ -10,16 +10,28 @@ public class WorstFit extends Algoritmo {
 	public boolean adicionarProcesso(Processo p) throws SemMemoria {
 		Segmento novo = new Segmento(p);
 
-		int melhor = novo.getTamanho();
+		int pior = novo.getTamanho();
 		int indiceSubstituicao = -1;
+		boolean espacoEncontrado = false;
 
 		for (int i = 0; i < memoria.size(); i++) {
 			Segmento atual = memoria.get(i);
 
-			if (atual.isLivre() && novo.getTamanho() <= atual.getTamanho() && melhor < atual.getTamanho()) {
-				melhor = atual.getTamanho();
-				indiceSubstituicao = i;				
+			if (atual.isLivre() && novo.getTamanho() <= atual.getTamanho()
+					&& pior <= atual.getTamanho()) {
+				if (pior == atual.getTamanho() && espacoEncontrado == false) {
+					pior = atual.getTamanho();
+					indiceSubstituicao = i;
+				}
+				if (pior < atual.getTamanho()) {
+					pior = atual.getTamanho();
+					indiceSubstituicao = i;
+					espacoEncontrado = true;
+				}
 			}
+		}
+
+		if (espacoEncontrado == false) {
 		}
 
 		if (indiceSubstituicao != -1) {

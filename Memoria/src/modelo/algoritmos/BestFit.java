@@ -18,9 +18,8 @@ public class BestFit extends Algoritmo {
 		for (int i = 0; i < memoria.size(); i++) {
 			Segmento atual = memoria.get(i);
 
-			if (atual.isLivre() && novo.getTamanho() <= atual.getTamanho()
-					&& melhor <= atual.getTamanho()) {
-				melhor = memoria.get(i).getTamanho();
+			if (atual.isLivre() && novo.getTamanho() <= atual.getTamanho() && melhor > atual.getTamanho()) {
+				melhor = atual.getTamanho();
 				indiceSubstituicao = i;
 
 				// ajuste encotrar a 1a
