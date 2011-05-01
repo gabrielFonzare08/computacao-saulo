@@ -25,6 +25,7 @@ public class NextFit extends Algoritmo {
 			if (indiceSubstituicao != -1) {
 
 				Segmento encontrado = memoria.get(indiceSubstituicao);
+				novo.setOcupado(true);
 
 				// mesmo tamanho so trocar com o segmento
 				if (novo.getTamanho() == encontrado.getTamanho()) {

@@ -4,7 +4,7 @@ package modelo;
 public class Segmento extends Processo {
 	
 	private boolean ocupado;
-	private int tempoExecucao;
+	private int tempoExecucaoS;
 		
 	public Segmento() {
 	}
@@ -18,7 +18,7 @@ public class Segmento extends Processo {
 		Segmento s = new Segmento();
 		s.ocupado = false;
 		s.setTamanho(tamanho);
-		s.tempoExecucao = 0; 
+		s.tempoExecucaoS = 0; 
 		return s;
 	}
 	
@@ -26,15 +26,15 @@ public class Segmento extends Processo {
 		setTamanho(processo.getTamanho());
 		setId(processo.getId());
 		setTempoExecucao(processo.getTempoExecucao());
-		tempoExecucao = processo.getTempoExecucao();
+		tempoExecucaoS = processo.getTempoExecucao();
 	}
 	
 	public boolean isTerminado() {
-		return tempoExecucao <= 0;
+		return tempoExecucaoS <= 0;
 	}
 	
 	public void decrementarTempoExecucao() {
-		tempoExecucao--;
+		tempoExecucaoS--;
 	}
 	
 	public boolean isOcupado() {
@@ -52,7 +52,7 @@ public class Segmento extends Processo {
 	@Override
 	public String toString() {
 		return "Segmento [ocupado=" + ocupado + ", tempoExecucao="
-				+ tempoExecucao + ", toString()=" + super.toString() + "]";
+				+ tempoExecucaoS + ", toString()=" + super.toString() + "]";
 	}
 	
 	

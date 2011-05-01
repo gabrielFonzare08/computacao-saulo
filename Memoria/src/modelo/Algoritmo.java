@@ -14,6 +14,10 @@ public abstract class Algoritmo {
 	protected ArrayList<Segmento> memoria;
 	protected ArrayList<Segmento> buffer;
 	
+	public double fragmentacao = 0.0;
+	public long ciclos = 0;
+	
+	
 	public Algoritmo() {
 		memoria = new ArrayList<Segmento>();
 		memoria.add(Segmento.vazio(128));
@@ -25,8 +29,19 @@ public abstract class Algoritmo {
 		return memoria;
 	}
 	
-	public ArrayList<Segmento> getBuffer() {
+	public ArrayList<Segmento> getTerminados() {
 		return buffer;
+	}
+	
+	public int segmentosOcupados() {
+		int contador = 0;
+		for(Segmento segmento : memoria) {
+			if(segmento.isLivre()) {
+				contador++;
+			}
+		}
+		
+		return contador;
 	}
 	
 	public abstract boolean adicionarProcesso(Processo p);
