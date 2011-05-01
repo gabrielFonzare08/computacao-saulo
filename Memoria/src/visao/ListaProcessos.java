@@ -6,6 +6,10 @@ import modelo.Processo;
 public class ListaProcessos {
 
 	private ArrayList<Processo> processos;
+	
+	public ArrayList<Processo> getProcessos() {
+		return processos;
+	}
 
 	public ListaProcessos(int qtdeProcessos, int tipoprocesso) {
 
@@ -58,8 +62,8 @@ public class ListaProcessos {
 		return p;
 	}
 	
-	public Object[]  toArray() {
-		return processos.toArray();
+	public Processo[]  toArray() {
+		return processos.toArray(new Processo[]{});
 	}
 	
 	public boolean isEmpty() {

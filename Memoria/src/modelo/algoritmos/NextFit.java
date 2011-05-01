@@ -9,7 +9,7 @@ public class NextFit extends Algoritmo {
 	private int cursor = 0;
 
 	@Override
-	public boolean adicionarProcesso(Processo p) throws SemMemoria {
+	public boolean adicionarProcesso(Processo p) {
 		int aux = cursor;
 		boolean ciclo = false;
 
