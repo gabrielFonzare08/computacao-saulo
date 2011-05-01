@@ -36,6 +36,12 @@ public class Processo {
 	}
 	
 	@Override
+	public String toString() {
+		return "Processo [tamanho=" + tamanho + ", id=" + id
+				+ ", tempoExecucao=" + tempoExecucao + "]";
+	}
+
+	@Override
 	public boolean equals(Object obj) {
 		if(obj instanceof Processo) {
 			Processo outro = (Processo) obj;

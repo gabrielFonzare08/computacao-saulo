@@ -89,6 +89,7 @@ private static final long serialVersionUID = -1337476581613013311L;
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				controlador.adicionarNovoProcesso();
+				System.out.println("sasas");
 			}
 		});
 		
