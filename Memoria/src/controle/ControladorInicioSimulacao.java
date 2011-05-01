@@ -1,11 +1,16 @@
+package controle;
+
+
+import java.util.ArrayList;
+
+import visao.PainelInicioSimulacao;
 
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 
 public class ControladorInicioSimulacao extends Controlador{
 	
-	private static ControladorInicioSimulacao instance;
-	
+	private static ControladorInicioSimulacao instance;	
 	private PainelInicioSimulacao painel;
 	
 	public ControladorInicioSimulacao(PainelInicioSimulacao painel) {
@@ -20,10 +25,9 @@ public class ControladorInicioSimulacao extends Controlador{
 	}
 	
 	public void adicionarNovoProcesso() {
-		ListaProcessos processos = null;
+		//ListaProcessos processos = null;
 		try {		
 			
-			processos = new ListaProcessos(Integer.parseInt(painel.getQuantidadeProcessos()), painel.getTamanhoProcessos());
 			
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, "Valor inválido: " + e.getLocalizedMessage(), "Erro ao adicionar novo processo", JOptionPane.ERROR_MESSAGE);
@@ -55,6 +59,6 @@ public class ControladorInicioSimulacao extends Controlador{
 		
 		synchronized (simulacao) {
 			simulacao.notify();
-		}	
+		}
 	}
  }
