@@ -1,9 +1,5 @@
 package modelo.algoritmos;
 
-import javax.swing.text.Segment;
-
-import org.omg.CORBA.portable.IndirectionException;
-
 import modelo.Algoritmo;
 import modelo.Processo;
 import modelo.Segmento;

@@ -57,4 +57,16 @@ public class ListaProcessos {
 		p.setTamanho(12 + (int) Math.round((Math.random() * 8)));
 		return p;
 	}
+	
+	public Object[]  toArray() {
+		return processos.toArray();
+	}
+	
+	public boolean isEmpty() {
+		return processos.isEmpty();
+	}
+	
+	public void remove(int i) {
+		processos.remove(i);
+	}
 }
