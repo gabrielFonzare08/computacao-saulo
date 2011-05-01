@@ -20,7 +20,7 @@ public abstract class Algoritmo {
 	
 	public Algoritmo() {
 		memoria = new ArrayList<Segmento>();
-		memoria.add(Segmento.vazio(128));
+		memoria.add(Segmento.vazio(20));
 		
 		buffer = new ArrayList<Segmento>();
 	}
@@ -33,9 +33,10 @@ public abstract class Algoritmo {
 		return buffer;
 	}
 	
-	public int segmentosOcupados() {
+	public int segmentosLivres() {
 		int contador = 0;
 		for(Segmento segmento : memoria) {
+			
 			if(segmento.isLivre()) {
 				contador++;
 			}
@@ -67,23 +68,47 @@ public abstract class Algoritmo {
 	 * @param indice atual para concatenacao com o segmento anterior.
 	 * */
 	protected final void concatenarEsquerda(int indice) {
-		if(indice <= 0 || indice > memoria.size() -1)  { // n existem mais segmentos
-			return;
+//		IF(INDICE <= 0 || INDICE > MEMORIA.SIZE() -1)  { // N EXISTEM MAIS SEGMENTOS
+//			RETURN;
+//		}
+//		
+//		SEGMENTO ANTERIOR = MEMORIA.GET(INDICE -1);
+//		SEGMENTO ATUAL = MEMORIA.GET(INDICE);
+//		
+//		IF(ANTERIOR.ISLIVRE() && ATUAL.ISLIVRE()) {
+//			ANTERIOR.SETTAMANHO(ANTERIOR.GETTAMANHO() + ATUAL.GETTAMANHO());
+//			MEMORIA.REMOVE(INDICE);
+//		}
+		
+		try {
+			
+			Segmento atual = memoria.get(indice);
+			Segmento anterior = memoria.get(indice -1);
+			
+			if(atual.isLivre() && anterior.isLivre()) {
+				anterior.setTamanho(anterior.getTamanho() + atual.getTamanho());
+				memoria.remove(indice);
+			}
+			
+		} catch (Exception e) {
+			// TODO: handle exception
 		}
 		
-		Segmento anterior = memoria.get(indice -1);
-		Segmento atual = memoria.get(indice);
-		
-		if(anterior.isLivre() && atual.isLivre()) {
-			anterior.setTamanho(anterior.getTamanho() + atual.getTamanho());
-			memoria.remove(indice);
-		}	
 	}
 	
 	protected final void concatenarDireita(int indice) {
-		if(indice <= 0 || indice >= memoria.size())  { // n existem mais segmentos
-			return;
+		
+		try {
+			Segmento atual = memoria.get(indice);
+			Segmento posterior = memoria.get(indice + 1);
+			
+			if(atual.isLivre() && posterior.isLivre()) {
+				atual.setTamanho(atual.getTamanho() + posterior.getTamanho());			
+				memoria.remove(indice + 1);				
+			}			
+			
+		} catch (Exception e) {
+			
 		}
-		concatenarEsquerda(indice + 1);
 	}
 }
