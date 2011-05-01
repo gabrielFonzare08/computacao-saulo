@@ -15,9 +15,14 @@ public class Main {
 			relatorioSimulacao.wait();
 		}
 		
+		janela.getPainelRelatorioSimulacao().porEmFoco();
+		
+		synchronized (relatorioSimulacao) {
+			relatorioSimulacao.wait(500);
+		}
+		
 		relatorioSimulacao.simular();
 		
-		janela.getPainelRelatorioSimulacao().porEmFoco();		
 		relatorioSimulacao.gerarRelatorio();
 	}
 

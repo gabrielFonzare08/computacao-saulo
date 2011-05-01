@@ -7,7 +7,7 @@ import modelo.Segmento;
 public class WorstFit extends Algoritmo {
 
 	@Override
-	public boolean adicionarProcesso(Processo p) throws SemMemoria {
+	public boolean adicionarProcesso(Processo p) {
 		Segmento novo = new Segmento(p);
 
 		int pior = novo.getTamanho();
