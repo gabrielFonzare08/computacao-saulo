@@ -7,8 +7,8 @@ public class Segmento extends Processo {
 	
 	
 	public Segmento() {
-		// TODO Auto-generated constructor stub
 	}
+	
 	/**
 	 * Cria um novo segmento livre com o tamanho passado
 	 * @param tamanho da memoria livre.
@@ -24,6 +24,7 @@ public class Segmento extends Processo {
 	public Segmento(Processo processo) {
 		setTamanho(processo.getTamanho());
 		setId(processo.getId());
+		setTempoExecucao(processo.getTempoExecucao());
 	}
 	
 	public boolean isOcupado() {
@@ -38,14 +39,6 @@ public class Segmento extends Processo {
 		this.ocupado = ocupado;
 	}
 	
-	@Override
-	public boolean equals(Object obj) {
-		if(obj instanceof Segmento) {
-			Segmento outro = (Segmento) obj;
-			return this.getId() == outro.getId();
-		}
-		
-		return false;
-	}
+	
 	
 }
