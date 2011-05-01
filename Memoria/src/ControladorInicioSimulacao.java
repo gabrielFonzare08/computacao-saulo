@@ -51,7 +51,7 @@ public class ControladorInicioSimulacao extends Controlador{
 		PainelInicioSimulacao painelInicioSimulacao = painel.getJanela().getPainelInicioSimulacao();
 		painelInicioSimulacao.porEmFoco();
 		
-		ControladorInicioSimulacao simulacao = ControladorInicioSimulacao.getInstance(painelInicioSimulacao, painel.getAlgoritmos());
+		ControladorInicioSimulacao simulacao = ControladorInicioSimulacao.getInstance(painelInicioSimulacao);
 		
 		synchronized (simulacao) {
 			simulacao.notify();

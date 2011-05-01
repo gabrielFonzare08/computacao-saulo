@@ -1,5 +1,7 @@
 import java.util.ArrayList;
 
+import modelo.Processo;
+
 public class ListaProcessos {
 
 	private ArrayList<Processo> processos;
