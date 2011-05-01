@@ -5,12 +5,6 @@ import visao.PainelInicioSimulacao;
 
 import javax.swing.JOptionPane;
 
-import modelo.Algoritmo;
-import modelo.algoritmos.BestFit;
-import modelo.algoritmos.FirstFit;
-import modelo.algoritmos.NextFit;
-import modelo.algoritmos.WorstFit;
-
 public class ControladorInicioSimulacao extends Controlador {
 
 	private static ControladorInicioSimulacao instance;
@@ -64,18 +58,6 @@ public class ControladorInicioSimulacao extends Controlador {
 
 	public void notificarSimulacao() {
 
-		switch (painel.getAlgoritmos()) {
-		case Algoritmo.BEST_FIT:
-			algoritmo = new BestFit();
-			break;
-			
-		case Algoritmo.FIRST_FIT: algoritmo = new FirstFit(); break;
-		case Algoritmo.NEXT_FIT: algoritmo = new NextFit(); break;
-		
-		default:
-			algoritmo = new WorstFit();
-			break;
-		}
 
 		ControladorRelatorioSimulacao relatorioSimulacao = ControladorRelatorioSimulacao
 				.getInstance();

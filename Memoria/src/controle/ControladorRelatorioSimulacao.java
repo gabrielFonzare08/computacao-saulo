@@ -34,6 +34,7 @@ public class ControladorRelatorioSimulacao extends Controlador {
 		return instance;
 	}
 	
+	@SuppressWarnings("unchecked")
 	public void simular() {
 		Algoritmo [] algoritmos = {
 			new BestFit(),
@@ -44,14 +45,29 @@ public class ControladorRelatorioSimulacao extends Controlador {
 		
 		ArrayList<Processo> lista = processos.getProcessos();
 				
-		for(Algoritmo algoritmo : algoritmos) {			
+		for(int j = 0; j < algoritmos.length; j++) {			
+			Algoritmo algoritmo = algoritmos[j];	
+			
+			//ArrayList<Processo> buffer = new ArrayList<Processo>(lista);
+			ArrayList<Processo> buffer = new ArrayList<Processo>(lista.size());
+			
+			for(Processo p: processos.getProcessos()) {
+				Processo aux = new Processo();
+				
+				aux.setId(p.getId());
+				aux.setTamanho(p.getTamanho());
+				aux.setTempoExecucao(p.getTempoExecucao());
+				buffer.add(aux);
+			}
 			
 			
-			ArrayList<Processo> buffer = new ArrayList<Processo>(lista);
+			algoritmo.fragmentacao = 0;
+			algoritmo.ciclos = 0;
 			
 			while(algoritmo.getTerminados().size() < lista.size()) {
-								
-				algoritmo.fragmentacao += algoritmo.segmentosOcupados() / algoritmo.getMemoria().size();
+//				System.out.println(algoritmo.getClass().getSimpleName() + "->" + algoritmo.fragmentacao);
+				
+				algoritmo.fragmentacao += algoritmo.segmentosLivres();
 				algoritmo.ciclos++;
 				
 				try {
@@ -70,6 +86,7 @@ public class ControladorRelatorioSimulacao extends Controlador {
 				
 				
 				
+				
 				for(int i = 0; i < algoritmo.getMemoria().size(); i++) {
 					Segmento segmento = algoritmo.getMemoria().get(i) ;
 					if(segmento.isOcupado()) {
@@ -82,7 +99,6 @@ public class ControladorRelatorioSimulacao extends Controlador {
 				}
 				
 			}
-			 
 		}
 		
 		gerarRelatorio(algoritmos);
@@ -90,6 +106,8 @@ public class ControladorRelatorioSimulacao extends Controlador {
 	}
 	
 	public void gerarRelatorio(Algoritmo [] algoritmos) {
+		
+		
 		painel.setListaProcessos(algoritmos[0].getTerminados().toArray());
 		
 		File file = new File("relatorio-memoria-" + System.currentTimeMillis() + ".txt");
@@ -98,8 +116,9 @@ public class ControladorRelatorioSimulacao extends Controlador {
 			
 			PrintWriter pw = new PrintWriter(file);
 			
-			
-			for(Algoritmo algoritmo : algoritmos) {
+			for(int i = 0; i < algoritmos.length; i++) {
+				
+				Algoritmo algoritmo = algoritmos[i];
 				pw.println("Algoritmo: " + algoritmo.getClass().getSimpleName());
 				pw.println("Número de iterações: " + algoritmo.ciclos);
 				pw.println("Fragmentação total: " + algoritmo.fragmentacao);
@@ -114,7 +133,6 @@ public class ControladorRelatorioSimulacao extends Controlador {
 			e.printStackTrace();
 		}
 		
-		System.out.println("lendo...");
 		Scanner sc;
 		try {
 			sc = new Scanner(file);

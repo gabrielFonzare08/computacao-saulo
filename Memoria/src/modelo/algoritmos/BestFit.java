@@ -30,6 +30,8 @@ public class BestFit extends Algoritmo {
 		}
 
 		if (indiceSubstituicao != -1) {
+			
+			
 
 			Segmento encontrado = memoria.get(indiceSubstituicao);
 			novo.setOcupado(true);
