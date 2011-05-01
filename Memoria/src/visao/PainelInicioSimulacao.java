@@ -1,3 +1,4 @@
+package visao;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
@@ -9,6 +10,8 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
+
+import controle.ControladorInicioSimulacao;
 
 public class PainelInicioSimulacao extends Painel{
 private static final long serialVersionUID = -1337476581613013311L;
@@ -66,6 +69,10 @@ private static final long serialVersionUID = -1337476581613013311L;
 		
 		JLabel escolhaQuantidade = new JLabel("Estipule a quantidade de processos: ");
 		add(escolhaQuantidade);
+		
+		quantidadeProcessos = new JTextField();
+		quantidadeProcessos.setPreferredSize(new Dimension(200, 32));
+		
 		add(quantidadeProcessos);
 		
 		add(simular);
@@ -75,7 +82,7 @@ private static final long serialVersionUID = -1337476581613013311L;
 	@Override
 	public void addEvents() {
 		
-		final ControladorInicioSimulacao controlador =  ControladorInicioSimulacao.getInstance(PainelInicioSimulacao.this);
+		final ControladorInicioSimulacao controlador =  ControladorInicioSimulacao.getInstance(this);
 		
 		adicionar.addActionListener(new ActionListener() {
 			
