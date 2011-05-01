@@ -40,6 +40,10 @@ private static final long serialVersionUID = 1L;
 		tempos.setText(s);
 	}
 	
+	public void appendTexto(String str) {
+		tempos.append(str + "\n");
+	}
+	
 	public void setListaProcessos(Object [] objs) {
 		listaProcessos.setListData(objs);
 	}

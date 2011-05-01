@@ -11,6 +11,8 @@ public class Main {
 		ControladorInicioSimulacao simulacao = ControladorInicioSimulacao.getInstance(janela.getPainelInicioSimulacao());
 		ControladorRelatorioSimulacao relatorioSimulacao = ControladorRelatorioSimulacao.getInstance();
 		
+		relatorioSimulacao.setPainel(janela.getPainelRelatorioSimulacao());
+		
 		synchronized (relatorioSimulacao) {
 			relatorioSimulacao.wait();
 		}
@@ -22,8 +24,6 @@ public class Main {
 		}
 		
 		relatorioSimulacao.simular();
-		
-		relatorioSimulacao.gerarRelatorio();
 	}
 
 }

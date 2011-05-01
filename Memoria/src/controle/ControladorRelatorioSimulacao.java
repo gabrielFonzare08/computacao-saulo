@@ -1,7 +1,11 @@
 package controle;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Scanner;
 
 import modelo.Algoritmo;
 import modelo.Processo;
@@ -12,10 +16,16 @@ import modelo.algoritmos.NextFit;
 import modelo.algoritmos.WorstFit;
 
 import visao.ListaProcessos;
+import visao.PainelRelatorioSimulacao;
 
 public class ControladorRelatorioSimulacao extends Controlador {
 	
 	private static ControladorRelatorioSimulacao instance;
+	private PainelRelatorioSimulacao painel;
+	
+	public void setPainel(PainelRelatorioSimulacao painel) {
+		this.painel = painel;
+	}
 	
 	public static ControladorRelatorioSimulacao getInstance() {
 		if(instance == null) {
@@ -33,63 +43,89 @@ public class ControladorRelatorioSimulacao extends Controlador {
 		};
 		
 		ArrayList<Processo> lista = processos.getProcessos();
-		
-//		for(Algoritmo algoritmo : algoritmos) {
-//			ArrayList<Processo> buffer = new ArrayList<Processo>(lista);
-//			
-//			while(!buffer.isEmpty()) {
-//				System.out.print(buffer.size() + " ");
-//				Processo p = buffer.remove(0);
-//				System.out.println(buffer.size());
-//				
-//				if(!algoritmo.adicionarProcesso(p)) {
-//					buffer.add(p);
-//				}
-//				
-//				for(Segmento segmento : algoritmo.getMemoria()) {
-//					if(segmento.isOcupado()) {
-//						segmento.decrementarTempoExecucao();
-//						
-//						if(segmento.isTerminado()) {
-//							algoritmo.removerProcesso(segmento);
-//						}
-//					}
-//				}	
-//			}
-//			
-//			
-//		}
-		
-		
-		ArrayList<Processo> buffer = processos.getProcessos();
-		Algoritmo algoritmo = new BestFit();
-		while(!buffer.isEmpty()) {
-			Processo p = buffer.remove(0);
+				
+		for(Algoritmo algoritmo : algoritmos) {			
 			
-			if(!algoritmo.adicionarProcesso(p)) {
-				buffer.add(p);
-			}
-			for(int i = 0; i < algoritmo.getMemoria().size(); i++) {
-				Segmento segmento = algoritmo.getMemoria().get(i) ;
-				if(segmento.isOcupado()) {
-					segmento.decrementarTempoExecucao();
+			
+			ArrayList<Processo> buffer = new ArrayList<Processo>(lista);
+			
+			while(algoritmo.getTerminados().size() < lista.size()) {
+								
+				algoritmo.fragmentacao += algoritmo.segmentosOcupados() / algoritmo.getMemoria().size();
+				algoritmo.ciclos++;
+				
+				try {
+					Thread.sleep(1);
+				} catch (InterruptedException e1) {
+					e1.printStackTrace();
+				}
+				
+				try {
+					Processo p = buffer.remove(0);
 					
-					if(segmento.isTerminado()) {
-						algoritmo.removerProcesso(segmento);
+					if(!algoritmo.adicionarProcesso(p)) {
+						buffer.add(p);
+					}					
+				} catch (Exception e) {}
+				
+				
+				
+				for(int i = 0; i < algoritmo.getMemoria().size(); i++) {
+					Segmento segmento = algoritmo.getMemoria().get(i) ;
+					if(segmento.isOcupado()) {
+						segmento.decrementarTempoExecucao();
+						
+						if(segmento.isTerminado()) {
+							algoritmo.removerProcesso(segmento);
+						}
 					}
 				}
-			}	
+				
+			}
+			 
 		}
 		
-		for(Segmento segmento: algoritmo.getBuffer()) {
-			System.out.println(segmento);		
-			
-		}
+		gerarRelatorio(algoritmos);
+		
 	}
 	
-	public void gerarRelatorio() {
-		System.out.println(algoritmo.getBuffer());
-		System.out.println("relatorio");
+	public void gerarRelatorio(Algoritmo [] algoritmos) {
+		painel.setListaProcessos(algoritmos[0].getTerminados().toArray());
+		
+		File file = new File("relatorio-memoria-" + System.currentTimeMillis() + ".txt");
+		
+		try {
+			
+			PrintWriter pw = new PrintWriter(file);
+			
+			
+			for(Algoritmo algoritmo : algoritmos) {
+				pw.println("Algoritmo: " + algoritmo.getClass().getSimpleName());
+				pw.println("Número de iterações: " + algoritmo.ciclos);
+				pw.println("Fragmentação total: " + algoritmo.fragmentacao);
+				pw.println("Fragmentação média: " + (algoritmo.fragmentacao / algoritmo.ciclos));
+				
+				pw.println();				
+			}
+			
+			pw.flush();
+			pw.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		
+		System.out.println("lendo...");
+		Scanner sc;
+		try {
+			sc = new Scanner(file);
+			while(sc.hasNext()) {
+				painel.appendTexto(sc.nextLine());
+			}
+			sc.close();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 }

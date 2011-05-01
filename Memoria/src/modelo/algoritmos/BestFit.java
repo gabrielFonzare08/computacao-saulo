@@ -32,11 +32,10 @@ public class BestFit extends Algoritmo {
 		if (indiceSubstituicao != -1) {
 
 			Segmento encontrado = memoria.get(indiceSubstituicao);
-
+			novo.setOcupado(true);
 			// mesmo tamanho so trocar com o segmento
 			if (novo.getTamanho() == encontrado.getTamanho()) {
 				memoria.set(indiceSubstituicao, novo);
-				novo.setOcupado(true);
 
 				return true; // termina
 			} else { // espaco maior!
