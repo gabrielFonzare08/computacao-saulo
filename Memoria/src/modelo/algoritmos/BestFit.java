@@ -8,30 +8,34 @@ public class BestFit extends Algoritmo {
 
 	@Override
 	public boolean adicionarProcesso(Processo p) {
-
 		Segmento novo = new Segmento(p);
 
 		int melhor = novo.getTamanho();
 		int indiceSubstituicao = -1;
+		boolean espacoEncontrado = false;
 
 		for (int i = 0; i < memoria.size(); i++) {
 			Segmento atual = memoria.get(i);
 
-			if (atual.isLivre() && novo.getTamanho() <= atual.getTamanho() && melhor <= atual.getTamanho()) {
-				
-				melhor = atual.getTamanho();
-				indiceSubstituicao = i;
-
-				// ajuste encotrar a 1a
-				if (novo.getTamanho() == atual.getTamanho()) {
-					break;
+			if (atual.isLivre() && novo.getTamanho() <= atual.getTamanho()
+					&& melhor >= atual.getTamanho()) {
+				if (melhor == atual.getTamanho()) {
+					melhor = atual.getTamanho();
+					indiceSubstituicao = i;
+					espacoEncontrado = true;
+					
+				}
+				if (melhor < atual.getTamanho() && espacoEncontrado == false) {
+					melhor = atual.getTamanho();
+					indiceSubstituicao = i;
 				}
 			}
 		}
 
+		if (espacoEncontrado == false) {
+		}
+
 		if (indiceSubstituicao != -1) {
-			
-			
 
 			Segmento encontrado = memoria.get(indiceSubstituicao);
 			novo.setOcupado(true);
@@ -48,8 +52,6 @@ public class BestFit extends Algoritmo {
 				return true;
 			}
 		}
-
 		return false;
 	}
-
 }

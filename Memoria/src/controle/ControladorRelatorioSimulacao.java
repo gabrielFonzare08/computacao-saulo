@@ -64,7 +64,7 @@ public class ControladorRelatorioSimulacao extends Controlador {
 			algoritmo.fragmentacao = 0;
 			algoritmo.ciclos = 0;
 			
-			while(algoritmo.getTerminados().size() < lista.size()) {
+			while(algoritmo.ciclos != 501) {
 //				System.out.println(algoritmo.getClass().getSimpleName() + "->" + algoritmo.fragmentacao);
 				
 				algoritmo.fragmentacao += algoritmo.segmentosLivres();
@@ -94,6 +94,7 @@ public class ControladorRelatorioSimulacao extends Controlador {
 						
 						if(segmento.isTerminado()) {
 							algoritmo.removerProcesso(segmento);
+							buffer.add(segmento);
 						}
 					}
 				}
