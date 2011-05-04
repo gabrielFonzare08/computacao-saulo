@@ -62,8 +62,8 @@ public class ControladorRelatorioSimulacao extends Controlador {
 			algoritmo.ciclos = 0;
 			
 			while(algoritmo.ciclos != 501) {
-				
-				algoritmo.fragmentacao += algoritmo.segmentosLivres();
+				// so pra forçar o double;
+				algoritmo.fragmentacao += ((algoritmo.segmentosLivres() + 0.0f) / algoritmo.getMemoria().size());
 				algoritmo.ciclos++;
 				
 				try {
