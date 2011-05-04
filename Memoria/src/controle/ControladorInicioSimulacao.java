@@ -25,8 +25,6 @@ public class ControladorInicioSimulacao extends Controlador {
 	public void adicionarNovoProcesso() {
 		// ListaProcessos processos = null;
 		try {
-			System.out
-					.println(Integer.parseInt(painel.getQuantidadeProcessos()));
 			int qtdeProcessos = Integer.parseInt(painel
 					.getQuantidadeProcessos());
 			int tipo = painel.getTamanhoProcessos();

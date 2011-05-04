@@ -1,10 +1,10 @@
 package controle;
 
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Scanner;
 
 import modelo.Algoritmo;
@@ -15,7 +15,6 @@ import modelo.algoritmos.FirstFit;
 import modelo.algoritmos.NextFit;
 import modelo.algoritmos.WorstFit;
 
-import visao.ListaProcessos;
 import visao.PainelRelatorioSimulacao;
 
 public class ControladorRelatorioSimulacao extends Controlador {
@@ -34,7 +33,6 @@ public class ControladorRelatorioSimulacao extends Controlador {
 		return instance;
 	}
 	
-	@SuppressWarnings("unchecked")
 	public void simular() {
 		Algoritmo [] algoritmos = {
 			new BestFit(),
@@ -48,7 +46,6 @@ public class ControladorRelatorioSimulacao extends Controlador {
 		for(int j = 0; j < algoritmos.length; j++) {			
 			Algoritmo algoritmo = algoritmos[j];	
 			
-			//ArrayList<Processo> buffer = new ArrayList<Processo>(lista);
 			ArrayList<Processo> buffer = new ArrayList<Processo>(lista.size());
 			
 			for(Processo p: processos.getProcessos()) {
@@ -65,7 +62,6 @@ public class ControladorRelatorioSimulacao extends Controlador {
 			algoritmo.ciclos = 0;
 			
 			while(algoritmo.ciclos != 501) {
-//				System.out.println(algoritmo.getClass().getSimpleName() + "->" + algoritmo.fragmentacao);
 				
 				algoritmo.fragmentacao += algoritmo.segmentosLivres();
 				algoritmo.ciclos++;

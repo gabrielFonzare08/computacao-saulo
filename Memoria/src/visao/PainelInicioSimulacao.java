@@ -23,7 +23,6 @@ private static final long serialVersionUID = -1337476581613013311L;
 	
 	private JList listaProcessos;
 	
-	private JComboBox algoritmos;
 	private JComboBox tamanhoProcessos;
 	
 	public PainelInicioSimulacao(Janela janela) {
@@ -44,12 +43,6 @@ private static final long serialVersionUID = -1337476581613013311L;
 		JScrollPane jScrollPane = new JScrollPane(listaProcessos);
 		jScrollPane.setPreferredSize(new Dimension(430, 130));
 		
-		String [] nomeAlgoritmos = {
-				"First-Fit", "Best-Fit", "Worst-Fit", "NextFit"
-		};
-		
-			
-		algoritmos = new JComboBox(nomeAlgoritmos);
 		tamanhoProcessos = new JComboBox(TipoProcesso.values());
 		
 		
@@ -58,10 +51,7 @@ private static final long serialVersionUID = -1337476581613013311L;
 		add(adicionar);
 		add(remover);		
 		
-		JLabel escolhaAlgoritmo = new JLabel("Escolha um algoritmo: ");
 		
-		add(escolhaAlgoritmo);
-		add(algoritmos);
 		
 		JLabel escolhaTamanho = new JLabel("Escolha o tamanho do processo: ");
 		add(escolhaTamanho);
@@ -89,7 +79,6 @@ private static final long serialVersionUID = -1337476581613013311L;
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				controlador.adicionarNovoProcesso();
-				System.out.println("sasas");
 			}
 		});
 		
@@ -110,10 +99,6 @@ private static final long serialVersionUID = -1337476581613013311L;
 				controlador.notificarSimulacao();
 			}
 		});
-	}
-	
-	public int getAlgoritmos() {
-		return algoritmos.getSelectedIndex();
 	}
 	
 	public String getQuantidadeProcessos() {
