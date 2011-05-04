@@ -15,6 +15,7 @@ public abstract class Algoritmo {
 	protected ArrayList<Segmento> buffer;
 	
 	public double fragmentacao = 0.0;
+	public long livres = 0;
 	public long ciclos = 0;
 	
 	
