@@ -67,7 +67,7 @@ public class ControladorRelatorioSimulacao extends Controlador {
 				// so pra forçar o double;				
 				algoritmo.fragmentacao += ((algoritmo.segmentosLivres() + 0.0f) / algoritmo.getMemoria().size());
 				algoritmo.ciclos++;
-				algoritmo.livres += algoritmo.segmentosLivres();
+				algoritmo.livres += (algoritmo.tamanhoSegmentosLivres() + 0.0f) / algoritmo.segmentosLivres();
 				
 				try {
 					Thread.sleep(1);
@@ -121,7 +121,7 @@ public class ControladorRelatorioSimulacao extends Controlador {
 				Algoritmo algoritmo = algoritmos[i];
 				pw.println("Algoritmo: " + algoritmo.getClass().getSimpleName());
 				pw.println("Número de iterações: " + algoritmo.ciclos);
-				pw.println("Fragmentos livres durante simulação: " + algoritmo.livres);
+				pw.println("Fragmentos livre: " + algoritmo.livres);
 				pw.println("Fragmentação total: " + algoritmo.fragmentacao);
 				pw.println("Fragmentação média: " + (algoritmo.fragmentacao / algoritmo.ciclos));
 				
