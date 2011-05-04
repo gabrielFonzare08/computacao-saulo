@@ -26,12 +26,31 @@ public abstract class Algoritmo {
 		buffer = new ArrayList<Segmento>();
 	}
 	
+	/**
+	 * Retorna uma lista contendo todos os segmentos,
+	 * livres e ocupados.
+	 * */
 	public ArrayList<Segmento> getMemoria() {
 		return memoria;
 	}
 	
 	public ArrayList<Segmento> getTerminados() {
 		return buffer;
+	}
+	
+	/**
+	 * Retorna a soma de todos os segmentos livres.
+	 * */
+	public long tamanhoSegmentosLivres() {
+		long tamanho = 0;
+		for(Segmento segmento : memoria) {
+			
+			if(segmento.isLivre()) {
+				tamanho += segmento.getTamanho();
+			}
+		}
+		
+		return tamanho;
 	}
 	
 	public int segmentosLivres() {
