@@ -29,6 +29,10 @@ public class Segmento extends Processo {
 		tempoExecucaoS = processo.getTempoExecucao();
 	}
 	
+	public boolean comporta(Segmento outro) {
+		return isLivre() && this.getTamanho() >= outro.getTamanho();
+	}
+	
 	public boolean isTerminado() {
 		return tempoExecucaoS <= 0;
 	}
