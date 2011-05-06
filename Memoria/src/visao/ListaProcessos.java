@@ -18,24 +18,30 @@ public class ListaProcessos {
 			switch (tipoprocesso) {
 			case 0:
 				processos.add(gerarProcessoPequeno());
+				processos.get(i).setId(i +1);
 				break;
 			case 1:
 				processos.add(gerarProcessoMedio());
+				processos.get(i).setId(i +1);
 				break;
 			case 2:
 				processos.add(gerarProcessoGrande());
+				processos.get(i).setId(i +1);
 				break;
 			case 3:
 				processos.add(gerarProcessoPequeno());
-				i++;
+				processos.get(i).setId(i +1);
+				++i;
 				if (i < qtdeProcessos)
 					break;
 				processos.add(gerarProcessoMedio());
-				i++;
+				processos.get(i).setId(i +1);
+				++i;
 				if (i < qtdeProcessos)
 					break;
 				processos.add(gerarProcessoGrande());
-				i++;
+				processos.get(i).setId(i +1);
+				++i;
 				break;
 			}
 		}
