@@ -40,18 +40,14 @@ private static final long serialVersionUID = -1337476581613013311L;
 		
 		listaProcessos	= new JList();
 		
-		JScrollPane jScrollPane = new JScrollPane(listaProcessos);
-		jScrollPane.setPreferredSize(new Dimension(430, 130));
+		JScrollPane jScrollPane = new JScrollPane(listaProcessos, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		jScrollPane.setPreferredSize(new Dimension(440, 250));
 		
-		tamanhoProcessos = new JComboBox(TipoProcesso.values());
-		
-		
+		tamanhoProcessos = new JComboBox(TipoProcesso.values());		
 		add(jScrollPane);
 		
 		add(adicionar);
-		add(remover);		
-		
-		
+		add(remover);
 		
 		JLabel escolhaTamanho = new JLabel("Escolha o tamanho do processo: ");
 		add(escolhaTamanho);
@@ -63,8 +59,7 @@ private static final long serialVersionUID = -1337476581613013311L;
 		quantidadeProcessos = new JTextField();
 		quantidadeProcessos.setPreferredSize(new Dimension(200, 32));
 		
-		add(quantidadeProcessos);
-		
+		add(quantidadeProcessos);		
 		add(simular);
 		
 	}

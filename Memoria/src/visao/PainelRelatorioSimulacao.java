@@ -1,8 +1,8 @@
 package visao;
+
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 
-import javax.swing.JList;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
@@ -11,43 +11,33 @@ import javax.swing.JTextArea;
 public class PainelRelatorioSimulacao extends Painel{
 private static final long serialVersionUID = 1L;
 	
-	private JList listaProcessos;
-	private JTextArea tempos;
+	private JTextArea relatorio;
 	
 	public PainelRelatorioSimulacao(Janela janela) {
 		super(janela);
-		janela.setResizable(!false);
+		setPreferredSize(new Dimension(600, 460));
 	}
 
 	@Override
 	public void initComponents() {
 		setLayout(new FlowLayout(FlowLayout.CENTER));
-		tempos			= new JTextArea("", 5, 8);
-		tempos.setEditable(false);
+		relatorio			= new JTextArea("");
+		relatorio.setEditable(false);
 		
-		listaProcessos	= new JList();
+		JScrollPane jScrollPane2 = new JScrollPane(relatorio, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		jScrollPane2.setPreferredSize(new Dimension(460, 400));
 		
-		JScrollPane jScrollPane = new JScrollPane(listaProcessos);
-		jScrollPane.setPreferredSize(new Dimension(430, 130));
-		JScrollPane jScrollPane2 = new JScrollPane(tempos);
-		jScrollPane2.setPreferredSize(new Dimension(430, 200));
-		
-		add(jScrollPane);
 		add(jScrollPane2);
 	}
 	
 	public void setProcesso(String s) {
-		tempos.setText(s);
+		relatorio.setText(s);
 	}
 	
 	public void appendTexto(String str) {
-		tempos.append(str + "\n");
+		relatorio.append(str + "\n");
 	}
 	
-	public void setListaProcessos(Object [] objs) {
-		listaProcessos.setListData(objs);
-	}
-
 	@Override
 	public void addEvents() {		
 	}
