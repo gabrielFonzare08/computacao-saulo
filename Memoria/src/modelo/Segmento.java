@@ -48,15 +48,4 @@ public class Segmento extends Processo {
 	public void setOcupado(boolean ocupado) {
 		this.ocupado = ocupado;
 	}
-
-	@Override
-	public String toString() {
-		return "Segmento [ocupado=" + ocupado + ", tempoExecucao="
-				+ tempoExecucaoS + ", toString()=" + super.toString() + "]";
-	}
-	
-	
-	
-	
-	
 }

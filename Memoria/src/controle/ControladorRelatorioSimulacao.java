@@ -61,6 +61,8 @@ public class ControladorRelatorioSimulacao extends Controlador {
 			algoritmo.fragmentacao = 0;
 			algoritmo.ciclos = 0;
 			
+			
+			
 			while(algoritmo.ciclos != 501) {
 				
 				
@@ -87,13 +89,14 @@ public class ControladorRelatorioSimulacao extends Controlador {
 				
 				
 				for(int i = 0; i < algoritmo.getMemoria().size(); i++) {
-					Segmento segmento = algoritmo.getMemoria().get(i) ;
+					Segmento segmento = algoritmo.getMemoria().get(i);
+					
 					if(segmento.isOcupado()) {
 						segmento.decrementarTempoExecucao();
 						
 						if(segmento.isTerminado()) {
 							algoritmo.removerProcesso(segmento);
-							buffer.add(segmento);
+							buffer.add(segmento);							
 						}
 					}
 				}
@@ -106,27 +109,34 @@ public class ControladorRelatorioSimulacao extends Controlador {
 	}
 	
 	public void gerarRelatorio(Algoritmo [] algoritmos) {
-		
-		
-		painel.setListaProcessos(algoritmos[0].getTerminados().toArray());
-		
 		File file = new File("relatorio-memoria-" + System.currentTimeMillis() + ".txt");
 		
 		try {
 			
 			PrintWriter pw = new PrintWriter(file);
 			
-			for(int i = 0; i < algoritmos.length; i++) {
+			for(Algoritmo algoritmo : algoritmos) {
 				
-				Algoritmo algoritmo = algoritmos[i];
 				pw.println("Algoritmo: " + algoritmo.getClass().getSimpleName());
 				pw.println("Número de iterações: " + algoritmo.ciclos);
 				pw.println("Fragmentos livre: " + algoritmo.livres);
 				pw.println("Fragmentação total: " + algoritmo.fragmentacao);
 				pw.println("Fragmentação média: " + (algoritmo.fragmentacao / algoritmo.ciclos));
 				
-				pw.println();				
+				pw.println();			
 			}
+			
+						
+			for(Algoritmo algoritmo : algoritmos) {
+				
+				pw.println("Algoritmo: " + algoritmo.getClass().getSimpleName());
+				for(Segmento segmento : algoritmo.getTerminados()) {
+					pw.println(segmento);
+				}
+				
+				pw.println();			
+				pw.flush();
+			}			
 			
 			pw.flush();
 			pw.close();

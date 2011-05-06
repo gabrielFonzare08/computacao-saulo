@@ -1,0 +1,24 @@
+Algoritmo: BestFit
+Número de iterações: 501
+Fragmentos livre: 10020
+Fragmentação total: 501.0
+Fragmentação média: 1.0
+
+Algoritmo: FirstFit
+Número de iterações: 501
+Fragmentos livre: 8
+Fragmentação total: 84.06150874495506
+Fragmentação média: 0.16778744260470072
+
+Algoritmo: NextFit
+Número de iterações: 501
+Fragmentos livre: 8853
+Fragmentação total: 454.6857146322727
+Fragmentação média: 0.9075563166312829
+
+Algoritmo: WorstFit
+Número de iterações: 501
+Fragmentos livre: 85
+Fragmentação total: 100.25912796705961
+Fragmentação média: 0.20011801989433056
+
