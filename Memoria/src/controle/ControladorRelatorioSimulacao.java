@@ -126,18 +126,6 @@ public class ControladorRelatorioSimulacao extends Controlador {
 				pw.println();			
 			}
 			
-						
-			for(Algoritmo algoritmo : algoritmos) {
-				
-				pw.println("Algoritmo: " + algoritmo.getClass().getSimpleName());
-				for(Segmento segmento : algoritmo.getTerminados()) {
-					pw.println(segmento);
-				}
-				
-				pw.println();			
-				pw.flush();
-			}			
-			
 			pw.flush();
 			pw.close();
 		} catch (FileNotFoundException e) {
